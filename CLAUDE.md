@@ -1,6 +1,6 @@
 # Project: Godwin Portfolio
 
-> Last updated: 2025-12-30 19:35 PST
+> **Progress tracking**: See [TODO.md](TODO.md) | **Release history**: See [CHANGELOG.md](CHANGELOG.md)
 >
 > **Quick Start**: See [QUICKSTART.md](QUICKSTART.md) for fast session onboarding
 
@@ -11,63 +11,76 @@ Claude acts as the **expert web developer** on this project and must:
 1. **Carefully follow instructions** - Read requirements thoroughly, execute precisely as requested
 2. **Thoroughly check work for correctness and quality** - Verify outputs, test assumptions, validate against requirements before marking complete
 3. **Make expert recommendations** - When presenting options, always include a clear technical recommendation with reasoning; don't just list choices - guide toward the best solution
+4. **Replicate layouts with precision** - When given reference images or webpages, meticulously match:
+   - Exact image sizes and max-widths (scrape HTML to extract original dimensions)
+   - Content flow and inline placement (images interspersed with text, not grouped)
+   - All media assets (images, videos, embedded content)
+   - Spacing, typography, and visual hierarchy
+   - Verify ALL assets are captured by cross-referencing scraped HTML against downloaded files
+
+5. **Follow modern web standards** - Apply current best practices for layout, typography, and accessibility
+
+## Design System
+
+**Source of truth:** [`src/app/globals.css`](src/app/globals.css)
+
+The design system contains CSS custom properties for:
+- **Colors** - `--color-*` (background, text hierarchy, accents, borders)
+- **Typography** - `--text-*`, `--font-*`, `--leading-*` (sizes, weights, line heights)
+- **Spacing** - `--space-*` (matched to original Adobe Portfolio: 10px/20px/40px pattern)
+- **Layout** - `--width-*` (content container, image max-widths)
+- **Animation** - `--duration-*`, `--ease-*` (transitions, easing)
+
+### Typography
+- **Font**: Jost (free alternative to Futura PT used in original Adobe Portfolio)
+- **Body text**: font-weight 400, line-height 1.5 (`leading-normal`)
+- **Bold labels** (Why:, Goals:, etc.): font-weight 700 (`font-bold`)
+- **Intro text**: font-weight 500 (`font-medium`), 24px (`text-2xl`), centered
+- **Section titles**: font-weight 700 (`font-bold`), 24px (`text-2xl`)
+
+### Key Design Principles
+- **No rounded corners** on case study images (matches original portfolio)
+- **Spacing from original**: paragraphs 20px bottom, images 10px top/20px bottom, grids 40px bottom
+- **Confidential notice**: `#e01414` red, 24px, medium weight
+- **Image grids**: 2-col for pairs, 3-col for trios, 5-col for 5 items
+- **Dark mode**: Automatic via `prefers-color-scheme`
 
 ## Project Overview
+
 - **Goal**: Migrate from Adobe Portfolio (designed.cloud) to self-hosted Next.js site
 - **Domain**: designed.cloud (registered with GoDaddy, currently pointing to Adobe Portfolio)
 - **Hosting**: Vercel (planned)
 - **Framework**: Next.js 16.1.1 with TypeScript and Tailwind CSS
 - **Owner**: Godwin Johnson - Product Designer (UI+UX)
-
-## Current Status (as of 2025-12-30)
-
-### Completed
-- [x] Next.js project setup with TypeScript + Tailwind
-- [x] Extracted all content from Adobe Portfolio (full verbatim via Firecrawl)
-- [x] Created all pages: Home, About, Contact, Project details
-- [x] Added all 5 projects with **FULL case study content** (10-15 sections each)
-- [x] About page bio matches Adobe Portfolio exactly
-- [x] Navigation with responsive mobile menu + helmet logo
-- [x] Dark mode support
-- [x] Project pages render all sections with proper formatting
-- [x] **All project images downloaded** (via Firecrawl hash extraction)
-- [x] **Helmet logo downloaded and added to nav**
-- [x] **Yellow hero section matching original**
-- [x] **Project thumbnails displaying on home and detail pages**
-
-### Pending - Next Session
-- [ ] **Replicate CSS styling & animations** (typography, transitions, hover effects)
-- [ ] Deploy to Vercel
-- [ ] Configure designed.cloud domain in Vercel
-- [ ] Update GoDaddy DNS to point to Vercel
+- **GitHub**: https://github.com/godyj/godwin-portfolio
 
 ## Project Structure
+
 ```
 /src
   /app
-    /page.tsx           # Home page - yellow hero + project grid
+    /page.tsx           # Home page - full-viewport hero + project grid
     /about/page.tsx     # About page with exact bio
     /contact/page.tsx   # Contact form
     /projects/[id]/page.tsx  # Dynamic project pages with hero image
     /layout.tsx         # Root layout with Navigation
     /globals.css        # Global styles
   /components
-    /Navigation.tsx     # Header nav with helmet logo
+    /Navigation.tsx     # Header nav with helmet logo (transparent on hero)
   /data
     /projects.ts        # All project content data (full verbatim)
 /public
   /images
-    /logo.png           # Helmet logo (21 KB)
+    /logo.png           # Helmet logo
     /projects/
-      /humanics-calendar.png  # 120 KB
-      /humanics-swap.png      # 166 KB
-      /roblox.png             # 143 KB
-      /jarvis.png             # 110 KB
-      /xcode.png              # 192 KB
+      /*.png            # Project thumbnails (5 total)
+      /image-urls.json  # Reference file with all case study image URLs
+      /jarvis/          # Case study images for Jarvis project (18 images)
+  /videos
+    /jarvis-prototype.mp4  # Jarvis prototype demo video
 ```
 
 ## Projects Data
-5 projects extracted from Adobe Portfolio:
 
 | ID | Title | Subtitle | Year |
 |----|-------|----------|------|
@@ -78,62 +91,19 @@ Claude acts as the **expert web developer** on this project and must:
 | xcode-touch-bar | Apple Xcode | Touch Bar | Aug 2016 |
 
 ## Dev Server
+
 ```bash
 npm run dev
 # Runs on http://localhost:3000
 ```
 
-## Next Session: CSS & Animations
-
-### Tasks
-1. **Scrape original CSS/branding**:
-   ```
-   firecrawl_scrape("https://designed.cloud", formats: ["branding"])
-   ```
-
-2. **Typography**: Match font family (ftnk from Adobe Typekit), weights, sizes
-
-3. **Navigation**:
-   - Transparent background on yellow hero
-   - Solid background on scroll
-   - Smooth transition
-
-4. **Animations**:
-   - Hero chevron bounce animation
-   - Project card hover effects
-   - Image zoom on hover
-   - Page transitions (fade in/out)
-
-5. **Spacing**: Match padding/margins exactly
-
-6. **Colors**: Fine-tune yellow (#F5B800), text grays
-
-7. **Mobile**: Responsive breakpoints, touch interactions
-
-## Deployment Steps (After CSS)
-1. Push to GitHub repository
-2. Connect repo to Vercel
-3. Deploy to Vercel
-4. Add custom domain `designed.cloud` in Vercel
-5. Update GoDaddy DNS:
-   - Remove Adobe Portfolio records
-   - Add Vercel DNS records (CNAME or A records)
-6. Wait for DNS propagation
-7. Verify SSL certificate
-
 ## Technical Notes
+
 - Using Next.js App Router (not Pages Router)
-- Server Components by default
+- Server Components by default, Client Components where needed (scroll effects)
 - Images downloaded via Firecrawl hash extraction (bypassed CDN auth)
 - Contact form uses mailto: fallback (can integrate Formspree/EmailJS later)
-
-## Content Verification
-All content verified against Adobe Portfolio on 2025-12-30:
-- About bio: ✅ Exact match (word-for-word)
-- Project content: ✅ Full verbatim (scraped via Firecrawl)
-- Project titles/dates: ✅ All 5 match
-- Images: ✅ All downloaded at full resolution
-- LinkedIn: ✅ linkedin.com/in/godwinjohnson/
+- Hero scroll effect: fixed hero with content sliding over, opacity fade on scroll
 
 ## Key Decisions & Context
 
@@ -165,18 +135,23 @@ All content verified against Adobe Portfolio on 2025-12-30:
 - `designed.cloud/jarvis` - Full case study
 - `designed.cloud/xcode` - Full case study
 
-### Session History
-- **2025-12-30 (Session 1)**: Initial migration session
-  - Set up Next.js project
-  - Extracted all content via WebFetch
-  - Created all pages with abbreviated case study content
-  - Images blocked by CDN auth
+## Content Verification
 
-- **2025-12-30 (Session 2)**: Content & images complete
-  - Used Firecrawl MCP to scrape full verbatim content
-  - Updated all project sections with complete text
-  - Downloaded all 5 project thumbnails via hash URL extraction
-  - Downloaded helmet logo
-  - Updated home page with yellow hero + image grid
-  - Updated project pages with hero images + "More work" section
-  - Added CSS/animations task for next session
+All content verified against Adobe Portfolio on 2025-12-30:
+- About bio: Exact match (word-for-word)
+- Project content: Full verbatim (scraped via Firecrawl)
+- Project titles/dates: All 5 match
+- Thumbnails: All downloaded at full resolution
+- LinkedIn: linkedin.com/in/godwinjohnson/
+
+## Deployment Steps
+
+1. Push to GitHub repository
+2. Connect repo to Vercel
+3. Deploy to Vercel
+4. Add custom domain `designed.cloud` in Vercel
+5. Update GoDaddy DNS:
+   - Remove Adobe Portfolio records
+   - Add Vercel DNS records (CNAME or A records)
+6. Wait for DNS propagation
+7. Verify SSL certificate

@@ -1,6 +1,19 @@
+export type ContentBlock =
+  | { type: 'text'; content: string; centered?: boolean; size?: 'normal' | 'large' }
+  | { type: 'image'; src: string; alt: string; maxWidth?: number }
+  | { type: 'images'; items: Array<{ src: string; alt: string }>; maxWidth?: number }
+  | { type: 'video'; src: string; caption?: string; maxWidth?: number }
+  | { type: 'notice'; content: string; color?: 'red' | 'gray' };
+
 export interface ProjectSection {
-  title: string;
-  content: string;
+  title?: string;
+  content?: string;
+  images?: Array<{
+    src: string;
+    alt: string;
+  }>;
+  // New: supports inline content blocks for exact layout matching
+  blocks?: ContentBlock[];
 }
 
 export interface Project {
@@ -9,6 +22,8 @@ export interface Project {
   subtitle?: string;
   description: string;
   category: string;
+  // Layout options: 'default' shows hero+header, 'content-first' skips hero/header
+  layout?: 'default' | 'content-first';
   thumbnail: string;
   year: string;
   month?: string;
@@ -433,6 +448,7 @@ The goal here is to suggest interesting usernames based on the choices they made
     subtitle: "Connected Car App",
     description: "A 2017 design proof of concept for an iOS app to control and monitor a connected car.",
     category: "Product Design",
+    layout: "content-first",
     thumbnail: "/images/projects/jarvis.png",
     year: "2017",
     month: "June",
@@ -441,8 +457,11 @@ The goal here is to suggest interesting usernames based on the choices they made
     confidential: true,
     sections: [
       {
-        title: "About the Name",
-        content: `I named the app Jarvis after Tony Stark's assistant, with the north star in mind that it should be a smart app with contextual awarenesses.`
+        blocks: [
+          { type: 'image', src: "/images/projects/jarvis/jarvis-01-app-icon.png", alt: "iOS App Icon", maxWidth: 250 },
+          { type: 'text', content: `I named the app Jarvis after Tony Stark's assistant, with the north star in mind that it should be a smart app with contextual awarenesses.`, centered: true, size: 'large' },
+          { type: 'notice', content: `Note: Confidential content - Do not share`, color: 'red' }
+        ]
       },
       {
         title: "Role & Context",
@@ -454,9 +473,10 @@ The goal here is to suggest interesting usernames based on the choices they made
       },
       {
         title: "The Ideal Assistant",
-        content: `Why: (High Level Problems) iOS apps of connected cars (like Tesla, BMW, Chevrolet, etc.) don't seem to be optimized for basic everyday use cases. They don't seem to utilize contextual data for a deeper and richer human experience. They seem to lack a focused human experience and have failed to delight me.
-
-Goals: At the high level I wanted to design a delightful and competent assistant with the following abilities.
+        blocks: [
+          { type: 'text', content: `Why: (High Level Problems) iOS apps of connected cars (like Tesla, BMW, Chevrolet, etc.) don't seem to be optimized for basic everyday use cases. They don't seem to utilize contextual data for a deeper and richer human experience. They seem to lack a focused human experience and have failed to delight me.` },
+          { type: 'image', src: "/images/projects/jarvis/jarvis-02-manufacturer-app.jpg", alt: "Manufacturer's 2017 App Interface", maxWidth: 300 },
+          { type: 'text', content: `Goals: At the high level I wanted to design a delightful and competent assistant with the following abilities.
 
 1. Provide an improved experience for core functions to cater to everyday use (Hypothesis: mirrors expectations of target audience)
 
@@ -468,47 +488,76 @@ Goals: At the high level I wanted to design a delightful and competent assistant
 
 5. Execute all of the above by making sure the experience and interface is elegant, organized, focused, intuitive, delightful, and simple.
 
-Who: Target audience are humans who can drive a car and can operate a smart phone at the basic level.`
+Who: Target audience are humans who can drive a car and can operate a smart phone at the basic level.` }
+        ]
       },
       {
         title: "Everyday Use",
-        content: `I wanted to first tackle the problem (and goal #1) of basic and common actions for everyday use – unlocking and starting a connected car (Assumption: these actions are most common for everyday use when not carrying the key fob)
+        blocks: [
+          { type: 'text', content: `I wanted to first tackle the problem (and goal #1) of basic and common actions for everyday use – unlocking and starting a connected car (Assumption: these actions are most common for everyday use when not carrying the key fob)
 
 Research: My informal UX research based on friends and family validated my assumption that these actions are most common for everyday use, and feedback regarding the app experience was lukewarm.
 
-Analysis: The current app provides access to basic actions for everyday use with a row of circular buttons.
-
-Why: (Problem) These buttons require higher accuracy to tap (Assumption: a swipe is better in this scenario) and the design does not seem to be optimized for everyday use (Hypothesis: tapping at this location on the screen isn't ideal for repeated use and the best human experience).
+Analysis: The current app provides access to basic actions for everyday use with a row of circular buttons.` },
+          { type: 'image', src: "/images/projects/jarvis/jarvis-03-basic-actions.jpg", alt: "Basic Actions for Everyday Use", maxWidth: 450 },
+          { type: 'text', content: `Why: (Problem) These buttons require higher accuracy to tap (Assumption: a swipe is better in this scenario) and the design does not seem to be optimized for everyday use (Hypothesis: tapping at this location on the screen isn't ideal for repeated use and the best human experience).
 
 Goal #1: Provide an improved experience for these common functions to cater to everyday use.
 
-Solution: I have always thought the slide to unlock control of the original iPhone's lock screen was such an elegant, thoughtful, and delightful design. My assumption is, the interface and experience was designed such that you would not accidentally unlock your device, the swipe gesture is very comfortable to execute for repeated everyday use instead of a more accurate tap gesture, and it is visually prominent.`
+Solution: I have always thought the slide to unlock control of the original iPhone's lock screen was such an elegant, thoughtful, and delightful design. My assumption is, the interface and experience was designed such that you would not accidentally unlock your device, the swipe gesture is very comfortable to execute for repeated everyday use instead of a more accurate tap gesture, and it is visually prominent.` },
+          { type: 'image', src: "/images/projects/jarvis/jarvis-04-iphone-lockscreen.jpg", alt: "Original iPhone Lock Screen", maxWidth: 200 }
+        ]
       },
       {
         title: "Overview Screen",
-        content: `I thus took inspiration from iPhone's unlock control and decided to use it as the method to unlock or start the car. My hypothesis is, a swipe gesture at the bottom edge of the device is more ergonomic, requires less accuracy, less likely to be accidentally triggered, and satisfies goal #3.
+        blocks: [
+          { type: 'text', content: `I thus took inspiration from iPhone's unlock control and decided to use it as the method to unlock or start the car. My hypothesis is, a swipe gesture at the bottom edge of the device is more ergonomic, requires less accuracy, less likely to be accidentally triggered, and satisfies goal #3.
 
 My next hypothesis is, if the target audience forget to close any part of the vehicle (glass roof, windows, doors, etc.) they'd want to clearly see that state in the app. Assuming that information can be conveyed to the app, it should be surfaced adequately in the overview screen of the vehicle. Based on that hypothesis I decided to highlight that accordingly when that state occurs. This satisfies goal #2.
 
-I chose to show the top view of the car in this screen because it provides the most optimal view to highlight different parts of the vehicle for the purposes of the overview screen. Regarding goal #4, if more than 1 car has been authenticated for access, there would be a visual control to switch vehicles from the title section (My Car) at the top. I have not visualized that yet, as I prioritized this goal lower on the list.
-
-Challenges: I prefer to adhere to established design patterns (standard bottom tabs in iOS apps) and only introduce something new when there is a clear win, aha moment or when absolutely necessary. In this case, the design decision to use the bottom part of the screen for swipe gestures was ideal for that action, which directed me to find a new home for the primary navigation.
-
-Outcome: I took this opportunity to also satisfy goal #2 – to communicate important information, states and warnings. I thus introduced a new vertically stacked navigation control to also convey additional data.`
+I chose to show the top view of the car in this screen because it provides the most optimal view to highlight different parts of the vehicle for the purposes of the overview screen. Regarding goal #4, if more than 1 car has been authenticated for access, there would be a visual control to switch vehicles from the title section (My Car) at the top. I have not visualized that yet, as I prioritized this goal lower on the list.` },
+          { type: 'images', items: [
+            { src: "/images/projects/jarvis/jarvis-05-overview-locked.jpg", alt: "Overview Screen - Locked" },
+            { src: "/images/projects/jarvis/jarvis-06-overview-alert.jpg", alt: "Overview Screen - Alert" }
+          ], maxWidth: 800 },
+          { type: 'text', content: `Challenges: I prefer to adhere to established design patterns (standard bottom tabs in iOS apps) and only introduce something new when there is a clear win, aha moment or when absolutely necessary. In this case, the design decision to use the bottom part of the screen for swipe gestures was ideal for that action, which directed me to find a new home for the primary navigation.` },
+          { type: 'image', src: "/images/projects/jarvis/jarvis-07-bottom-tabs.jpg", alt: "Standard Bottom Tabs in iOS App", maxWidth: 362 },
+          { type: 'text', content: `Outcome: I took this opportunity to also satisfy goal #2 – to communicate important information, states and warnings. I thus introduced a new vertically stacked navigation control to also convey additional data.` },
+          { type: 'image', src: "/images/projects/jarvis/jarvis-08-vertical-nav.jpg", alt: "Vertical Navigation Control", maxWidth: 500 }
+        ]
       },
       {
         title: "Simplicity in Shades of Gray",
-        content: `I initially explored a white and blue color palette for the interface, but I finally settled on shades of gray with clean lines because my design philosophy was to maintain simplicity and minimalism (inspired by Dieter Rams) and to convey a neutral but mature message to my audience. I chose to use basic colors to convey different meanings so I could use them in strong contrast against the gray interface and draw attention to key data points and design elements.`
+        blocks: [
+          { type: 'text', content: `I initially explored a white and blue color palette for the interface, but I finally settled on shades of gray with clean lines because my design philosophy was to maintain simplicity and minimalism (inspired by Dieter Rams) and to convey a neutral but mature message to my audience. I chose to use basic colors to convey different meanings so I could use them in strong contrast against the gray interface and draw attention to key data points and design elements.` },
+          { type: 'images', items: [
+            { src: "/images/projects/jarvis/jarvis-09-gray-1.png", alt: "Gray Palette - Screen 1" },
+            { src: "/images/projects/jarvis/jarvis-10-gray-2.png", alt: "Gray Palette - Screen 2" },
+            { src: "/images/projects/jarvis/jarvis-11-gray-3.png", alt: "Gray Palette - Screen 3" },
+            { src: "/images/projects/jarvis/jarvis-12-gray-4.png", alt: "Gray Palette - Screen 4" },
+            { src: "/images/projects/jarvis/jarvis-13-gray-5.png", alt: "Gray Palette - Screen 5" }
+          ], maxWidth: 800 }
+        ]
       },
       {
         title: "Testing & Prototypes",
-        content: `The additional screens shown below do not have any noteworthy rethinking, but I wanted to exhibit them for further conversation.
+        blocks: [
+          { type: 'text', content: `The additional screens shown below do not have any noteworthy rethinking, but I wanted to exhibit them for further conversation.` },
+          { type: 'image', src: "/images/projects/jarvis/jarvis-14-additional.jpg", alt: "Additional Screens", maxWidth: 500 },
+          { type: 'images', items: [
+            { src: "/images/projects/jarvis/jarvis-15-prototype-1.jpg", alt: "Prototype Screen 1" },
+            { src: "/images/projects/jarvis/jarvis-16-prototype-2.jpg", alt: "Prototype Screen 2" }
+          ], maxWidth: 800 },
+          { type: 'images', items: [
+            { src: "/images/projects/jarvis/jarvis-17-prototype-3.jpg", alt: "Prototype Screen 3" },
+            { src: "/images/projects/jarvis/jarvis-18-prototype-4.jpg", alt: "Prototype Screen 4" }
+          ], maxWidth: 800 },
+          { type: 'text', content: `Using these designs I built a design prototype for friends and family to validate my hypotheses and assumptions.` },
+          { type: 'video', src: "/videos/jarvis-prototype.mp4", caption: "Preview of Design Prototype", maxWidth: 360 },
+          { type: 'text', content: `Production: I have not built an engineering product yet.
 
-Using these designs I built a design prototype for friends and family to validate my hypotheses and assumptions.
-
-Production: I have not built an engineering product yet.
-
-Analytics & Metrics: When I have a working product, my plan is to collect anonymous usage data from the app, reviews from the App Store, feedback from Twitter, and refine the design accordingly.`
+Analytics & Metrics: When I have a working product, my plan is to collect anonymous usage data from the app, reviews from the App Store, feedback from Twitter, and refine the design accordingly.` }
+        ]
       },
       {
         title: "Assistant of the Future",

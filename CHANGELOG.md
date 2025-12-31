@@ -4,22 +4,81 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
-## [Unreleased]
+## [0.5.1] - 2025-12-30
 
-### Pending - Next Session
-- [ ] **Replicate CSS styling & animations from Adobe Portfolio**
-  - [ ] Typography: Match font family (ftnk), weights, sizes
-  - [ ] Navigation: Transparent on hero, solid on scroll
-  - [ ] Hero section: Smooth scroll, chevron animation
-  - [ ] Project cards: Hover effects, image zoom transitions
-  - [ ] Page transitions: Fade in/out between pages
-  - [ ] Spacing: Match padding/margins exactly
-  - [ ] Colors: Fine-tune yellow (#F5B800), grays
-  - [ ] Mobile: Responsive breakpoints, touch interactions
-- [ ] Deploy to Vercel
-- [ ] Configure `designed.cloud` domain in Vercel
-- [ ] Update GoDaddy DNS to point to Vercel
-- [ ] Verify SSL certificate after DNS propagation
+### Changed
+- **Typography**: Switched from system fonts to **Jost** (free alternative to Futura PT)
+- **Font weights**: Matched to original Adobe Portfolio:
+  - Body text: 400 weight
+  - Bold labels (Why:, Goals:, etc.): 700 weight
+  - Intro text: 500 weight (medium)
+  - Section titles: 700 weight (bold)
+- **Line height**: Changed from `leading-relaxed` (1.625) to `leading-normal` (1.5) to match original
+- Updated font loading via Next.js Google Fonts (`next/font/google`)
+
+### Technical Notes
+- Original Adobe Portfolio uses Futura PT (`font-family: ftnk`)
+- Jost font loaded with weights 400, 500, 700
+- All pages updated for consistent line-height
+
+---
+
+## [0.5.0] - 2025-12-30
+
+### Added
+- Comprehensive design system in `globals.css` with CSS custom properties:
+  - Color tokens (background, text hierarchy, accents, borders)
+  - Typography tokens (font sizes, weights, line heights)
+  - Spacing tokens matched to original Adobe Portfolio (10px/20px/40px pattern)
+  - Layout tokens (container widths, image max-widths)
+  - Animation tokens (durations, easing functions)
+  - Shadow tokens
+- Content block system for inline images in case studies
+- `content-first` layout option for projects (centered header, no hero image)
+- All 18 Jarvis case study images downloaded
+- Jarvis prototype video (`/videos/jarvis-prototype.mp4`)
+- Image grid layouts (2-col, 3-col, 5-col based on item count)
+- Notice block type for confidential warnings
+
+### Changed
+- Removed rounded corners from all case study images (matches original)
+- Updated paragraph spacing: `mb-5` (20px) to match original
+- Updated image spacing: `mt-2.5 mb-5` (10px top, 20px bottom)
+- Updated image grid spacing: `mb-10` (40px bottom)
+- Confidential notice color changed to `#e01414` (original portfolio red)
+- Simplified CLAUDE.md to reference globals.css as design system source of truth
+- Jarvis project now uses `content-first` layout with centered header
+
+### Technical Notes
+- Design system uses CSS custom properties for easy theming
+- Spacing values extracted from original Adobe Portfolio HTML via Firecrawl
+- Content blocks support: text, image, images (grid), video, notice
+- Dark mode support via `prefers-color-scheme` media query
+
+---
+
+## [0.4.0] - 2025-12-30
+
+### Added
+- Full-viewport welcome hero ("Hello, I'm Godwin")
+- Scroll-reveal effect: projects slide over fixed hero with rounded top corners
+- Hero text fades out as user scrolls (opacity tied to scroll position)
+- Transparent navigation on hero, transitions to solid on scroll
+- GitHub repository: https://github.com/godyj/godwin-portfolio
+- Case study image URL reference file (`public/images/projects/image-urls.json`)
+- Jarvis case study images folder with 8 images downloaded
+
+### Changed
+- Home page hero now takes full viewport height (`h-screen`)
+- Hero section is now fixed, content slides over it
+- Navigation background dynamically changes based on scroll position
+- Scroll indicator moved to bottom of hero with "SCROLL" label
+
+### Technical Notes
+- Hero uses `position: fixed` with spacer div for scroll effect
+- Scroll-based opacity calculated via `useEffect` and `scrollY` state
+- Projects container uses `relative z-10` to slide over hero
+- Navigation detects home page via `usePathname()` hook
 
 ---
 
@@ -115,50 +174,3 @@ src/
 - **Tailwind CSS**: Rapid styling, built-in dark mode
 - **Server Components**: Default for better performance
 
----
-
-## Migration Source
-
-**Original site**: [designed.cloud](https://designed.cloud) (Adobe Portfolio)
-
-### Content Extraction Methods
-- WebFetch for initial content scrape
-- Firecrawl MCP for full verbatim content verification
-- Manual comparison against Adobe Portfolio
-
-### What Couldn't Be Automated
-- Image downloads (Adobe CDN requires `?h=` auth hash)
-- Profile photo extraction
-
----
-
-## Deployment Checklist
-
-When ready to deploy:
-
-1. **Pre-deployment**
-   - [ ] All images saved to `/public/images/projects/`
-   - [ ] Profile image saved to `/public/images/profile.png`
-   - [ ] Run `npm run build` successfully
-   - [ ] Test all pages locally
-
-2. **Vercel Setup**
-   - [ ] Push code to GitHub
-   - [ ] Connect repository to Vercel
-   - [ ] Deploy to Vercel
-   - [ ] Note Vercel deployment URL
-
-3. **Domain Configuration**
-   - [ ] Add `designed.cloud` as custom domain in Vercel
-   - [ ] Get DNS records from Vercel
-   - [ ] Log in to GoDaddy
-   - [ ] Remove Adobe Portfolio DNS records
-   - [ ] Add Vercel DNS records (A or CNAME)
-   - [ ] Wait for DNS propagation (up to 48 hours)
-
-4. **Post-deployment**
-   - [ ] Verify site loads at `designed.cloud`
-   - [ ] Verify SSL certificate is active
-   - [ ] Test all pages and navigation
-   - [ ] Test on mobile devices
-   - [ ] Verify dark mode works

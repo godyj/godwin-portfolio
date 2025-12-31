@@ -22,15 +22,15 @@ export default function AboutPage() {
             </div>
 
             <div className="prose prose-gray dark:prose-invert max-w-none space-y-4">
-              <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+              <p className="text-lg leading-normal text-gray-700 dark:text-gray-300">
                 I am first and foremost a Product Designer (UI+UX) with an insatiable need to ship exciting products that humans can&apos;t live without. As a lead/principal designer I consistently aim to inspire, mentor, and lead by example while keeping myself up-to-date on the latest in design, tools and bleeding edge technology.
               </p>
 
-              <p className="leading-relaxed text-gray-600 dark:text-gray-400">
+              <p className="leading-normal text-gray-600 dark:text-gray-400">
                 Creating a delightful, simple, intuitive and pioneering product is quite important but I fervently believe anything I design should first add value to the lives of those I design for.
               </p>
 
-              <p className="leading-relaxed text-gray-600 dark:text-gray-400">
+              <p className="leading-normal text-gray-600 dark:text-gray-400">
                 I think the best designs materialize when a team of humans work in collaboration; like a great symphony. Complexity is a great opportunity for creating simple experiences.
               </p>
             </div>

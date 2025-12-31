@@ -1,6 +1,6 @@
 # Godwin Portfolio - Quick Start
 
-> Last updated: 2025-12-30 19:30 PST
+> Last updated: 2025-12-30 21:38 PST
 
 ## TL;DR
 
@@ -12,7 +12,7 @@ npm run dev
 # → http://localhost:3000
 ```
 
-## Current State: 95% Complete
+## Current State: 97% Complete
 
 | Component | Status |
 |-----------|--------|
@@ -20,31 +20,45 @@ npm run dev
 | Full case study content (5 projects) | ✅ Done |
 | About bio (exact match) | ✅ Done |
 | Navigation + dark mode | ✅ Done |
-| Project images (all 5) | ✅ Done |
+| Project images (all 5 thumbnails) | ✅ Done |
 | Helmet logo | ✅ Done |
 | Yellow hero section | ✅ Done |
-| **CSS polish & animations** | ⚠️ Next session |
+| **Design system (globals.css)** | ✅ Done |
+| **Jarvis case study (18 images + video)** | ✅ Done |
+| **Typography & spacing matched** | ✅ Done |
+| **Remaining case study images** | ⚠️ Next |
 | **Vercel deployment** | ❌ Pending |
 | **Domain config** | ❌ Pending |
 
+## Design System
+
+**Source of truth:** `src/app/globals.css`
+
+### Typography
+- **Font**: Jost (free alternative to Futura PT used in original)
+- **Line height**: 1.5 (`leading-normal`)
+- **Body text**: 400 weight
+- **Bold labels**: 700 weight (`font-bold`)
+- **Intro text**: 500 weight (`font-medium`), 24px
+
+### Spacing (matched to original Adobe Portfolio)
+| Token | Value | Use |
+|-------|-------|-----|
+| `--space-2-5` | 10px | Image padding-top |
+| `--space-5` | 20px | Paragraph/image padding-bottom |
+| `--space-10` | 40px | Image grid padding-bottom |
+| `--color-accent-red` | #e01414 | Confidential notices |
+
 ## Next Session Priority
 
-### 1. Replicate CSS Styling & Animations
-Match the original Adobe Portfolio site styling:
+### 1. Download Remaining Case Study Images
+4 projects still need images downloaded:
+- Humanics Calendar Sharing
+- Humanics Swap & Withdraw
+- Roblox NUX
+- Apple Xcode Touch Bar
 
-- [ ] **Typography**: Match font family, weights, sizes
-- [ ] **Navigation**: Transparent on hero, solid on scroll
-- [ ] **Hero section**: Smooth scroll behavior, chevron animation
-- [ ] **Project cards**: Hover effects, image zoom transitions
-- [ ] **Page transitions**: Fade in/out between pages
-- [ ] **Spacing**: Match padding/margins exactly
-- [ ] **Colors**: Fine-tune yellow (#F5B800), grays
-- [ ] **Mobile**: Responsive breakpoints, touch interactions
-
-Use Firecrawl to scrape original CSS:
-```
-firecrawl_scrape("https://designed.cloud", formats: ["branding"])
-```
+Use image URLs from: `public/images/projects/image-urls.json`
 
 ### 2. Deploy to Vercel
 ```bash
@@ -121,6 +135,7 @@ Currently uses `mailto:` - can integrate:
 ## Session History
 - **Session 1 (2025-12-30)**: Initial setup, content extraction, all pages created
 - **Session 2 (2025-12-30)**: Full verbatim content via Firecrawl, images downloaded, layout matched
+- **Session 3 (2025-12-30)**: Design system created, Jarvis styling matched, spacing/typography finalized
 
 ## Links
 - Live (current): https://designed.cloud (Adobe Portfolio)

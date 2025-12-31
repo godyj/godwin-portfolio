@@ -1,43 +1,273 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* =============================================================================
+   DESIGN SYSTEM - Godwin Portfolio
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+   A comprehensive token-based design system for consistent styling.
+   All values derived from analysis of original Adobe Portfolio site.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   COLOR TOKENS
+   ----------------------------------------------------------------------------- */
+:root {
+  /* Base colors */
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+
+  /* Text hierarchy */
+  --color-text-primary: #171717;
+  --color-text-secondary: #4b5563;    /* gray-600 */
+  --color-text-muted: #6b7280;        /* gray-500 */
+  --color-text-caption: #9ca3af;      /* gray-400 */
+
+  /* Accent colors */
+  --color-accent-red: #e01414;        /* Original portfolio red - confidential notices */
+  --color-accent-blue: #3b82f6;       /* For links */
+
+  /* UI colors */
+  --color-border: #e5e7eb;            /* gray-200 */
+  --color-border-light: #f3f4f6;      /* gray-100 */
+  --color-surface: #f9fafb;           /* gray-50 - subtle backgrounds */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Base colors - dark */
+    --color-background: #000000;
+    --color-foreground: #ededed;
+
+    /* Text hierarchy - dark */
+    --color-text-primary: #ededed;
+    --color-text-secondary: #9ca3af;  /* gray-400 */
+    --color-text-muted: #6b7280;      /* gray-500 */
+    --color-text-caption: #4b5563;    /* gray-600 */
+
+    /* UI colors - dark */
+    --color-border: #1f2937;          /* gray-800 */
+    --color-border-light: #111827;    /* gray-900 */
+    --color-surface: #0a0a0a;
   }
+}
+
+/* -----------------------------------------------------------------------------
+   TYPOGRAPHY TOKENS
+   Original site uses Futura PT (ftnk). Using Jost as free alternative.
+   ----------------------------------------------------------------------------- */
+:root {
+  /* Font families - Jost matches Futura PT closely */
+  --font-sans: "Jost", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco,
+               "Cascadia Mono", "Segoe UI Mono", monospace;
+
+  /* Font sizes - follows Tailwind scale */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px - captions, metadata */
+  --text-base: 1rem;       /* 16px - body text */
+  --text-lg: 1.125rem;     /* 18px - large body */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px - section titles, intro text */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px - page titles mobile */
+  --text-5xl: 3rem;        /* 48px - page titles desktop */
+
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;      /* Intro text */
+  --font-semibold: 600;
+  --font-bold: 700;        /* Headings */
+
+  /* Line heights */
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+}
+
+/* -----------------------------------------------------------------------------
+   SPACING TOKENS
+   Based on original Adobe Portfolio spacing analysis
+   ----------------------------------------------------------------------------- */
+:root {
+  /* Spacing scale - follows Tailwind 4px base */
+  --space-0: 0;
+  --space-1: 0.25rem;      /* 4px */
+  --space-2: 0.5rem;       /* 8px - mt-2 for captions */
+  --space-2-5: 0.625rem;   /* 10px - image padding-top (original) */
+  --space-3: 0.75rem;      /* 12px */
+  --space-4: 1rem;         /* 16px */
+  --space-5: 1.25rem;      /* 20px - paragraph/image padding-bottom (original) */
+  --space-6: 1.5rem;       /* 24px - px-6 content padding */
+  --space-8: 2rem;         /* 32px */
+  --space-10: 2.5rem;      /* 40px - image grid padding-bottom (original) */
+  --space-12: 3rem;        /* 48px - space-y-12, section gaps */
+  --space-16: 4rem;        /* 64px */
+  --space-20: 5rem;        /* 80px */
+  --space-24: 6rem;        /* 96px - py-24 page padding */
+}
+
+/* -----------------------------------------------------------------------------
+   LAYOUT TOKENS
+   ----------------------------------------------------------------------------- */
+:root {
+  /* Container widths */
+  --width-content: 56rem;      /* 896px - max-w-4xl */
+  --width-image-full: 800px;   /* Full-width images */
+  --width-image-medium: 500px; /* Medium feature images */
+  --width-image-small: 362px;  /* Small images, phone mockups */
+  --width-icon: 250px;         /* App icons */
+  --width-video: 360px;        /* Prototype videos */
+
+  /* Aspect ratios */
+  --aspect-video: 16 / 9;
+  --aspect-square: 1 / 1;
+  --aspect-portrait: 9 / 16;
+}
+
+/* -----------------------------------------------------------------------------
+   ANIMATION TOKENS
+   ----------------------------------------------------------------------------- */
+:root {
+  /* Durations */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+
+  /* Easing functions */
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* -----------------------------------------------------------------------------
+   SHADOW TOKENS
+   ----------------------------------------------------------------------------- */
+:root {
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* =============================================================================
+   TAILWIND THEME INTEGRATION
+   ============================================================================= */
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  /* Use Jost font from Next.js Google Fonts with fallbacks */
+  --font-sans: var(--font-jost), "Jost", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono);
+}
+
+/* =============================================================================
+   BASE STYLES
+   ============================================================================= */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  line-height: var(--leading-normal); /* 1.5 - matches original Adobe Portfolio */
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom selection color */
+/* Selection */
 ::selection {
-  background-color: #171717;
-  color: #ffffff;
+  background-color: var(--color-foreground);
+  color: var(--color-background);
 }
 
-@media (prefers-color-scheme: dark) {
-  ::selection {
-    background-color: #ededed;
-    color: #0a0a0a;
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent-blue);
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================================= */
+
+/* Prose adjustments for project content */
+.prose {
+  --tw-prose-body: var(--color-text-secondary);
+  --tw-prose-headings: var(--color-text-primary);
+  --tw-prose-links: var(--color-accent-blue);
+  --tw-prose-bold: var(--color-text-primary);
+  --tw-prose-counters: var(--color-text-muted);
+  --tw-prose-bullets: var(--color-text-muted);
+  --tw-prose-quotes: var(--color-text-secondary);
+  --tw-prose-captions: var(--color-text-caption);
+}
+
+/* =============================================================================
+   COMPONENT UTILITIES
+   ============================================================================= */
+
+/* Smooth image loading */
+img {
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+/* Link transitions */
+a {
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+/* Button/interactive transitions */
+button,
+[role="button"] {
+  transition: all var(--duration-fast) var(--ease-default);
+}
+
+/* =============================================================================
+   RESPONSIVE UTILITIES
+   ============================================================================= */
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* =============================================================================
+   ANIMATION UTILITIES
+   ============================================================================= */
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+.animate-fade-in {
+  animation: fadeIn var(--duration-slow) var(--ease-out) forwards;
+}
+
+/* Staggered fade in for lists */
+.animate-stagger > * {
+  opacity: 0;
+  animation: fadeIn var(--duration-slow) var(--ease-out) forwards;
+}
+
+.animate-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.animate-stagger > *:nth-child(2) { animation-delay: 50ms; }
+.animate-stagger > *:nth-child(3) { animation-delay: 100ms; }
+.animate-stagger > *:nth-child(4) { animation-delay: 150ms; }
+.animate-stagger > *:nth-child(5) { animation-delay: 200ms; }
