@@ -1,0 +1,973 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="description"  content="A 2017 design proof of concept for an iOS app to control and monitor a connected car." />
+      <meta name="twitter:card"  content="summary_large_image" />
+      <meta name="twitter:site"  content="@AdobePortfolio" />
+      <meta  property="og:title" content="My Portfolio - Jarvis" />
+      <meta  property="og:description" content="A 2017 design proof of concept for an iOS app to control and monitor a connected car." />
+      <meta  property="og:image" content="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/5c755e3b-cb5b-4459-9ee3-fcf9886985d4_rwc_0x0x1000x1000x1000.png?h=2387797bd4fea92ca174b800764d48c1" />
+      <meta name="robots"  content="noindex" />
+      <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURUxpcU3H2DoAAAABdFJOUwBA5thmAAAADElEQVQI12NgIA0AAAAwAAHHqoWOAAAAAElFTkSuQmCC"  />
+      <link rel="stylesheet" href="/dist/css/main.css" type="text/css" />
+      <link rel="stylesheet" href="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/7dfe6179ac088d06e4c5cc91ebc6e36c1767128489.css?h=87a2e31b379e01e1187188a3466d3aa3" type="text/css" />
+    <link rel="canonical" href="https://designed.cloud/jarvis" />
+      <title>My Portfolio - Jarvis</title>
+    <script type="text/javascript" src="//use.typekit.net/ik/Xz99a2Vbkstfcm3zjeqgzCHytl5SbQvd1_sF03VavOJfezMgfHYEBsJzwD9oFDIDWhw3jQIUjDIo5AbtjQ6aFRyRw2mR5eBcwAbtjQ9uFQs8jDF8jDIDwQb-K6I7Ocs8Sh81dcmqOcFCdamqOfG0dW83da4XZcNC-Av0jhNlOfG0SY4zwKuh-AmaOcuoSeNkieZzde8zOcFzdPUqZWFTZho8ZfoRdeNuZfUlpWgzS1scdhUTdkoRdhXCSY4zwKuh-AmaOcuoSeNkieZzde8zOcFzdPUaiaS0ZemD-Ai0ZAb0jhUziAbKgeZXdcC7fbKImsMMeMb6MKG4fVN9IMMjgPMfH6qJ6m9bMg6YJMHbMLerkr3B.js?cb=35f77bfb8b50944859ea3d3804e7194e7a3173fb" async onload="
+    try {
+      window.Typekit.load();
+    } catch (e) {
+      console.warn('Typekit not loaded.');
+    }
+    "></script>
+</head>
+  <body class="transition-enabled">  <div class='page-background-video page-background-video-with-panel'>
+  </div>
+  <div class="js-responsive-nav">
+    <div class="responsive-nav has-social">
+      <div class="close-responsive-click-area js-close-responsive-nav">
+        <div class="close-responsive-button"></div>
+      </div>
+          <nav class="nav-container" data-hover-hint="nav" data-hover-hint-placement="bottom-start">
+                <div class="gallery-title"><a href="/mywork" >Work</a></div>
+      <div class="page-title">
+        <a href="/resume" >Résumé</a>
+      </div>
+      <div class="page-title">
+        <a href="/about" >About</a>
+      </div>
+      <div class="page-title">
+        <a href="/contact" >Contact</a>
+      </div>
+          </nav>
+        <div class="social pf-nav-social" data-context="theme.nav" data-hover-hint="navSocialIcons" data-hover-hint-placement="bottom-start">
+          <ul>
+                  <li>
+                    <a href="https://www.linkedin.com/in/godwinjohnson/" target="_blank">
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 30 24" style="enable-background:new 0 0 30 24;" xml:space="preserve" class="icon">
+                      <path id="path-1_24_" d="M19.6,19v-5.8c0-1.4-0.5-2.4-1.7-2.4c-1,0-1.5,0.7-1.8,1.3C16,12.3,16,12.6,16,13v6h-3.4
+                        c0,0,0.1-9.8,0-10.8H16v1.5c0,0,0,0,0,0h0v0C16.4,9,17.2,7.9,19,7.9c2.3,0,4,1.5,4,4.9V19H19.6z M8.9,6.7L8.9,6.7
+                        C7.7,6.7,7,5.9,7,4.9C7,3.8,7.8,3,8.9,3s1.9,0.8,1.9,1.9C10.9,5.9,10.1,6.7,8.9,6.7z M10.6,19H7.2V8.2h3.4V19z"/>
+                      </svg>
+                    </a>
+                  </li>
+          </ul>
+        </div>
+    </div>
+  </div>
+    <header class="site-header js-site-header  js-fixed-nav" data-context="theme.nav" data-hover-hint="nav" data-hover-hint-placement="top-start">
+        <nav class="nav-container" data-hover-hint="nav" data-hover-hint-placement="bottom-start">
+                <div class="gallery-title"><a href="/mywork" >Work</a></div>
+      <div class="page-title">
+        <a href="/resume" >Résumé</a>
+      </div>
+      <div class="page-title">
+        <a href="/about" >About</a>
+      </div>
+      <div class="page-title">
+        <a href="/contact" >Contact</a>
+      </div>
+        </nav>
+        <div class="logo-wrap" data-context="theme.logo.header" data-hover-hint="logo" data-hover-hint-placement="bottom-start">
+          <div class="logo e2e-site-logo-text logo-image  ">
+    <a href="/mywork" class="image-normal image-link">
+      <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/43b5772d-245f-458d-9864-57df1ca5f0e4_rwc_0x0x565x565x4096.png?h=cf55dab652dc20e5a35c226274152b5b" alt="Godwin">
+    </a>
+          </div>
+        </div>
+        <div class="social pf-nav-social" data-context="theme.nav" data-hover-hint="navSocialIcons" data-hover-hint-placement="bottom-start">
+          <ul>
+                  <li>
+                    <a href="https://www.linkedin.com/in/godwinjohnson/" target="_blank">
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 30 24" style="enable-background:new 0 0 30 24;" xml:space="preserve" class="icon">
+                      <path id="path-1_24_" d="M19.6,19v-5.8c0-1.4-0.5-2.4-1.7-2.4c-1,0-1.5,0.7-1.8,1.3C16,12.3,16,12.6,16,13v6h-3.4
+                        c0,0,0.1-9.8,0-10.8H16v1.5c0,0,0,0,0,0h0v0C16.4,9,17.2,7.9,19,7.9c2.3,0,4,1.5,4,4.9V19H19.6z M8.9,6.7L8.9,6.7
+                        C7.7,6.7,7,5.9,7,4.9C7,3.8,7.8,3,8.9,3s1.9,0.8,1.9,1.9C10.9,5.9,10.1,6.7,8.9,6.7z M10.6,19H7.2V8.2h3.4V19z"/>
+                      </svg>
+                    </a>
+                  </li>
+          </ul>
+        </div>
+        <div class="hamburger-click-area js-hamburger">
+          <div class="hamburger">
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+        </div>
+    </header>
+    <div class="header-placeholder"></div>
+  <div class="site-wrap cfix js-site-wrap">
+    <div class="site-container">
+      <div class="site-content e2e-site-content">
+        <main>
+  <div class="page-container" data-context="page.page.container" data-hover-hint="pageContainer">
+    <section class="page standard-modules">
+        <header class="page-header content" data-context="pages" data-identity="id:p5ba1ab706ed70c4b37c3e545c5907c8840e858f21a4134d67a2df" data-hover-hint="pageHeader" data-hover-hint-id="p5ba1ab706ed70c4b37c3e545c5907c8840e858f21a4134d67a2df">
+            <h1 class="title preserve-whitespace e2e-site-logo-text">Jarvis</h1>
+            <p class="description">A 2017 design proof of concept for an iOS app to control and monitor a connected car.</p>
+            <div class="custom1 preserve-whitespace">• Product Strategy • UI • UX • IA • Prototype • Research •</div>
+        </header>
+      <div class="page-content js-page-content" data-context="pages" data-identity="id:p5ba1ab706ed70c4b37c3e545c5907c8840e858f21a4134d67a2df">
+        <div id="project-canvas" class="js-project-modules modules content">
+          <div id="project-modules">
+              
+              <div class="project-module module image project-module-image js-js-project-module"  style="padding-top: 0px;
+padding-bottom: 20px;
+  width: 100%;
+  max-width: 250px;
+  float: center;
+  clear: both;
+">
+
+  
+
+  
+     <div class="js-lightbox" data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/418dd7b2-321f-49ad-8c03-3bb0f20e849f.png?h=6f58e2c0c66e3f6c2183cecd320ecc7c">
+           <img
+             class="js-lazy e2e-site-project-module-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+             data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/418dd7b2-321f-49ad-8c03-3bb0f20e849f_rw_600.png?h=6f3825864a0c7d8403026418afb3df76"
+             data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/418dd7b2-321f-49ad-8c03-3bb0f20e849f_rw_600.png?h=6f3825864a0c7d8403026418afb3df76 480w,"
+             data-sizes="(max-width: 480px) 100vw, 480px"
+             width="480"
+             height="0"
+             style="padding-bottom: 100%; background: rgba(0, 0, 0, 0.03)"
+             
+           >
+     </div>
+  
+
+    <div class="project-module module-caption-container js-caption-container align-left">
+      <div class="rich-text module-caption js-text-editable"><p>iOS App Icon</p></div>
+    </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 20px;
+padding-bottom: 0px;
+">
+  <div class="rich-text js-text-editable module-text"><div style="text-align:center;" class="main-text"><span style="font-family:ftnk; font-weight:500;"><span style="font-size:24px;" class="texteditor-inline-fontsize">I named the app <a href="https://en.wikipedia.org/wiki/J.A.R.V.I.S." target="_blank">Jarvis</a> after Tony Stark’s assistant, with the north star in mind that it should be a smart app with contextual awarenesses.</span></span></div><div style="text-align:center;" class="main-text"><span style="color:#e01414;" class="texteditor-inline-color"><span style="font-family:ftnk; font-weight:500;"><span style="font-size:24px;" class="texteditor-inline-fontsize">Note: Confidential content - Do not share</span></span></span></div></div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 0px;
+padding-bottom: 20px;
+">
+  <div class="rich-text js-text-editable module-text"><div><div class="sub-title">Role &amp; Context</div><div>I was the primary designer and I defined, designed and created all aspects of the design. Starting with identifying the problems and defining the goals, to creating an interactive design prototype for testing. The goals were derived from problems based on my use cases and informal UX research I conducted interviewing friends and family with connected cars. Data and vehicle functions were gathered from my car.</div><div class="sub-title">Stakeholders</div><div>There was just 1 stakeholder – an engineer friend of mine whom I roped in because I wanted someone to objectively provide feedback. I led the endeavor and collaborated closely with them on a regular basis. This partnership proved to be particularly beneficial because they also helped surface potential technical challenges and API limitations for the short-term roadmap. </div><div class="sub-title">The Ideal Assistant</div><div><span style="font-family:ftnk; font-weight:700;">Why</span>: (High Level Problems) iOS apps of connected cars (like Tesla, BMW, Chevrolet, etc.) don’t seem to be optimized for basic everyday use cases. They don’t seem to utilize contextual data for a deeper and richer human experience. They seem to lack a focused human experience and have failed to delight me.</div></div></div>
+</div>
+
+              
+              
+              
+              
+              
+              <div class="project-module module image project-module-image js-js-project-module"  style="padding-top: 10px;
+padding-bottom: 20px;
+  width: 100%;
+  max-width: 300px;
+  float: center;
+  clear: both;
+">
+
+  
+
+  
+     <div class="js-lightbox" data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1c227db6-f54c-4094-b310-258d48ef3228.jpg?h=4d2d680b4debb415ab5c5be499098c17">
+           <img
+             class="js-lazy e2e-site-project-module-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+             data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1c227db6-f54c-4094-b310-258d48ef3228_rw_1200.jpg?h=1cb7122f9ef1cab5307cb704ddb27d49"
+             data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1c227db6-f54c-4094-b310-258d48ef3228_rw_600.jpg?h=8b700045433238772ae9e2af10679f10 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1c227db6-f54c-4094-b310-258d48ef3228_rw_1200.jpg?h=1cb7122f9ef1cab5307cb704ddb27d49 640w,"
+             data-sizes="(max-width: 640px) 100vw, 640px"
+             width="640"
+             height="0"
+             style="padding-bottom: 177.5%; background: rgba(0, 0, 0, 0.03)"
+             
+           >
+     </div>
+  
+
+    <div class="project-module module-caption-container js-caption-container align-left">
+      <div class="rich-text module-caption js-text-editable"><p>Manufacturer's 2017 App Interface</p></div>
+    </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 0px;
+padding-bottom: 20px;
+">
+  <div class="rich-text js-text-editable module-text"><div><span style="font-family:ftnk; font-weight:700;">Goals</span>: At the high level I wanted to design a delightful and competent assistant with the following abilities.</div><div>1. Provide an improved experience for core functions to cater to everyday use (Hypothesis: mirrors expectations of target audience)</div><div>2. Communicate important information, states and warnings (with the help of contextual data and based on the hypothesis that target audience expect this)</div><div>3. Be a pleasant alternative to carrying the car’s key fob (Assumption: Most common use case for a key fob is to lock, unlock and start a car. Majority of humans who own a connected car generally have their smart phone with them at all times. Thus, leaving the key fob at home and just using the smart phone is more convenient)</div><div>4. Unified experience for different brands (Assumption: Household of 2 adults sharing cars from different brands and using a single app experience to control those cars is preferred over 2 different app experiences)</div><div>5. Execute all of the above by making sure the experience and interface is elegant, organized, focused, intuitive, delightful, and simple.</div><div><span style="font-family:ftnk; font-weight:700;">Who</span>: Target audience are humans who can drive a car and can operate a smart phone at the basic level.</div><div class="sub-title">Everyday Use</div><div>I wanted to first tackle the problem (and goal #1) of basic and common actions for everyday use – unlocking and starting a connected car (Assumption: these actions are most common for everyday use when not carrying the key fob)</div><div><div><span style="font-family:ftnk; font-weight:700;">Research</span>: My informal UX research based on friends and family validated my assumption that these actions are most common for everyday use, and feedback regarding the app experience was lukewarm.</div><div><span style="font-family:ftnk; font-weight:700;">Analysis</span>:  The current app provides access to basic actions for everyday use with a row of circular buttons.</div></div></div>
+</div>
+
+              
+              
+              
+              
+              
+              <div class="project-module module image project-module-image js-js-project-module"  style="padding-top: 10px;
+padding-bottom: 20px;
+  width: 100%;
+  max-width: 450px;
+  float: center;
+  clear: both;
+">
+
+  
+
+  
+     <div class="js-lightbox" data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/e1e39cad-241a-41a6-8a94-1bffc08435dd.jpg?h=06a292880cfde10fd632135c1e0b8ff1">
+           <img
+             class="js-lazy e2e-site-project-module-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+             data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/e1e39cad-241a-41a6-8a94-1bffc08435dd_rw_1200.jpg?h=0f256e74af9970aeebcba9e070fac88d"
+             data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/e1e39cad-241a-41a6-8a94-1bffc08435dd_rw_600.jpg?h=2257659dd5eb975e57c785f27487fc7d 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/e1e39cad-241a-41a6-8a94-1bffc08435dd_rw_1200.jpg?h=0f256e74af9970aeebcba9e070fac88d 640w,"
+             data-sizes="(max-width: 640px) 100vw, 640px"
+             width="640"
+             height="0"
+             style="padding-bottom: 30.83%; background: rgba(0, 0, 0, 0.03)"
+             
+           >
+     </div>
+  
+
+    <div class="project-module module-caption-container js-caption-container align-left">
+      <div class="rich-text module-caption js-text-editable"><p>Basic Actions for Everyday Use</p></div>
+    </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 0px;
+padding-bottom: 20px;
+">
+  <div class="rich-text js-text-editable module-text"><div><span style="font-family:ftnk; font-weight:700;">Why</span>: (Problem) These buttons require higher accuracy to tap (Assumption: a swipe is better in this scenario) and the design does not seem to be optimized for everyday use (Hypothesis: tapping at this location on the screen isn’t ideal for repeated use and the best human experience).</div><div><span style="font-family:ftnk; font-weight:700;">Goal #1</span>: Provide an improved experience for these common functions to cater to everyday use.</div><div><span style="font-family:ftnk; font-weight:700;">Solution</span>: I have always thought the slide to unlock control of the original iPhone’s lock screen was such an elegant, thoughtful, and delightful design. My assumption is, the interface and experience was designed such that you would not accidentally unlock your device, the swipe gesture is very comfortable to execute for repeated everyday use instead of a more accurate tap gesture, and it is visually prominent.</div></div>
+</div>
+
+              
+              
+              
+              
+              
+              <div class="project-module module image project-module-image js-js-project-module"  style="padding-top: 10px;
+padding-bottom: 20px;
+  width: 100%;
+  max-width: 200px;
+  float: center;
+  clear: both;
+">
+
+  
+
+  
+     <div class="js-lightbox" data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/465e865d-ea67-46f0-92fd-ee7ade2b5084.jpg?h=2eadb6dff5c82b49d11e18acc556648d">
+           <img
+             class="js-lazy e2e-site-project-module-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+             data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/465e865d-ea67-46f0-92fd-ee7ade2b5084_rw_600.jpg?h=90353d75f1142d967b7a874224eace56"
+             data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/465e865d-ea67-46f0-92fd-ee7ade2b5084_rw_600.jpg?h=90353d75f1142d967b7a874224eace56 220w,"
+             data-sizes="(max-width: 220px) 100vw, 220px"
+             width="220"
+             height="0"
+             style="padding-bottom: 172.73%; background: rgba(0, 0, 0, 0.03)"
+             
+           >
+     </div>
+  
+
+    <div class="project-module module-caption-container js-caption-container align-left">
+      <div class="rich-text module-caption js-text-editable"><p>Original iPhone Lock Screen</p></div>
+    </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 0px;
+padding-bottom: 20px;
+">
+  <div class="rich-text js-text-editable module-text"><div class="sub-title"><span style="font-family:ftnk;font-weight:500;">Overview Screen</span></div><div class="main-text">I thus took inspiration from iPhone’s unlock control and decided to use it as the method to unlock or start the car. My hypothesis is, a swipe gesture at the bottom edge of the device is more ergonomic, requires less accuracy, less likely to be accidentally triggered, and satisfies goal #3.</div><div class="main-text">My next hypothesis is, if the target audience forget to close any part of the vehicle (glass roof, windows, doors, etc.) they’d want to clearly see that state in the app. Assuming that information can be conveyed to the app, it should be surfaced adequately in the overview screen of the vehicle. Based on that hypothesis I decided to highlight that accordingly when that state occurs. This satisfies goal #2.</div><div class="main-text">I chose to show the top view of the car in this screen because it provides the most optimal view to highlight different parts of the vehicle for the purposes of the overview screen. Regarding goal #4, if more than 1 car has been authenticated for access, there would be a visual control to switch vehicles from the title section (My Car) at the top. I have not visualized that yet, as I prioritized this goal lower on the list.</div></div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module media_collection project-module-media_collection" data-id="m5bb90da4e3717147219395a812657dcb600e486b9889a2a4803c8"  style="padding-top: 0px;
+padding-bottom: 40px;
+  width: 100%;
+  max-width: 800px;
+">
+  <div class="grid--main js-grid-main" data-grid-max-images="
+  ">
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="146.45994832041" style="width:146.45994832041px; flex-grow:146.45994832041;" data-width="1090" data-height="1934">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/85435b4d-c2dd-4f53-bcb5-436a6b358c26_rw_1200.jpg?h=91fa118fbde842dca9d888b6b462dead" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/85435b4d-c2dd-4f53-bcb5-436a6b358c26_rw_600.jpg?h=6549c14c169e252603f53d0e6557341a 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/85435b4d-c2dd-4f53-bcb5-436a6b358c26_rw_1200.jpg?h=91fa118fbde842dca9d888b6b462dead 1090w,"  sizes="(max-width: 1090px) 100vw, 1090px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/85435b4d-c2dd-4f53-bcb5-436a6b358c26_rw_1200.jpg?h=91fa118fbde842dca9d888b6b462dead"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/85435b4d-c2dd-4f53-bcb5-436a6b358c26_rw_600.jpg?h=6549c14c169e252603f53d0e6557341a 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/85435b4d-c2dd-4f53-bcb5-436a6b358c26_rw_1200.jpg?h=91fa118fbde842dca9d888b6b462dead 1090w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:177.52293577982%;"></span>
+    </div>
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="146.45994832041" style="width:146.45994832041px; flex-grow:146.45994832041;" data-width="1090" data-height="1934">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/f0934789-f603-4f95-86c8-42fe8a1c473e_rw_1200.jpg?h=f155476978ae296c3eb90c2f9aa439f8" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/f0934789-f603-4f95-86c8-42fe8a1c473e_rw_600.jpg?h=4e709c42e1b41e2cde1de23b30bb56b8 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/f0934789-f603-4f95-86c8-42fe8a1c473e_rw_1200.jpg?h=f155476978ae296c3eb90c2f9aa439f8 1090w,"  sizes="(max-width: 1090px) 100vw, 1090px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/f0934789-f603-4f95-86c8-42fe8a1c473e_rw_1200.jpg?h=f155476978ae296c3eb90c2f9aa439f8"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/f0934789-f603-4f95-86c8-42fe8a1c473e_rw_600.jpg?h=4e709c42e1b41e2cde1de23b30bb56b8 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/f0934789-f603-4f95-86c8-42fe8a1c473e_rw_1200.jpg?h=f155476978ae296c3eb90c2f9aa439f8 1090w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:177.52293577982%;"></span>
+    </div>
+    <div class="js-grid-spacer"></div>
+  </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 0px;
+padding-bottom: 20px;
+">
+  <div class="rich-text js-text-editable module-text"><div><span style="font-family:ftnk; font-weight:700;">Challenges</span>: I prefer to adhere to established design patterns (standard bottom tabs in iOS apps) and only introduce something new when there is a clear win, aha moment or when absolutely necessary. In this case, the design decision to use the bottom part of the screen for swipe gestures was ideal for that action, which directed me to find a new home for the primary navigation.</div></div>
+</div>
+
+              
+              
+              
+              
+              
+              <div class="project-module module image project-module-image js-js-project-module"  style="padding-top: 0px;
+padding-bottom: 20px;
+  width: 100%;
+  max-width: 362px;
+  float: center;
+  clear: both;
+">
+
+  
+
+  
+     <div class="js-lightbox" data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/06b8f41c-e533-4ca2-9953-4dad2cf16c8d.jpg?h=5acb1713aca60f9c18e9e0bc5b812ff0">
+           <img
+             class="js-lazy e2e-site-project-module-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+             data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/06b8f41c-e533-4ca2-9953-4dad2cf16c8d_rw_600.jpg?h=b598133a94ce7f12ddab4dccc4643370"
+             data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/06b8f41c-e533-4ca2-9953-4dad2cf16c8d_rw_600.jpg?h=b598133a94ce7f12ddab4dccc4643370 362w,"
+             data-sizes="(max-width: 362px) 100vw, 362px"
+             width="362"
+             height="0"
+             style="padding-bottom: 177.62%; background: rgba(0, 0, 0, 0.03)"
+             
+           >
+     </div>
+  
+
+    <div class="project-module module-caption-container js-caption-container align-left">
+      <div class="rich-text module-caption js-text-editable"><p>Standard Bottom Tabs in iOS App</p></div>
+    </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 0px;
+padding-bottom: 20px;
+">
+  <div class="rich-text js-text-editable module-text"><div><span style="font-family:ftnk; font-weight:700;">Outcome</span>: I took this opportunity to also satisfy goal #2 – to communicate important information, states and warnings. I thus introduced a new vertically stacked navigation control to also convey additional data.</div></div>
+</div>
+
+              
+              
+              
+              
+              
+              <div class="project-module module image project-module-image js-js-project-module"  style="padding-top: 0px;
+padding-bottom: 20px;
+  width: 100%;
+  max-width: 500px;
+  float: center;
+  clear: both;
+">
+
+  
+
+  
+     <div class="js-lightbox" data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d6e51108-0a71-4262-b13f-38b58f8adce3.jpg?h=34d571ef12ef49eeb6ba3d681f118110">
+           <img
+             class="js-lazy e2e-site-project-module-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+             data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d6e51108-0a71-4262-b13f-38b58f8adce3_rw_1200.jpg?h=a526e062972fdd65e750267882842da5"
+             data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d6e51108-0a71-4262-b13f-38b58f8adce3_rw_600.jpg?h=7e9373e1585a7a8fbdb246ec164b6b5a 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d6e51108-0a71-4262-b13f-38b58f8adce3_rw_1200.jpg?h=a526e062972fdd65e750267882842da5 1090w,"
+             data-sizes="(max-width: 1090px) 100vw, 1090px"
+             width="1090"
+             height="0"
+             style="padding-bottom: 177.5%; background: rgba(0, 0, 0, 0.03)"
+             
+           >
+     </div>
+  
+
+    <div class="project-module module-caption-container js-caption-container align-left">
+      <div class="rich-text module-caption js-text-editable"><p>Vertical Navigation Control with Additional Information</p></div>
+    </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 0px;
+padding-bottom: 20px;
+">
+  <div class="rich-text js-text-editable module-text"><div class="sub-title">Simplicity in Shades of Gray</div><div>I initially explored a white and blue color palette for the interface, but I finally settled on shades of gray with clean lines because my design philosophy was to maintain simplicity and minimalism (inspired by Dieter Rams) and to convey a neutral but mature message to my audience. I chose to use basic colors to convey different meanings so I could use them in strong contrast against the gray interface and draw attention to key data points and design elements.</div></div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module media_collection project-module-media_collection" data-id="m5bb30d2202570b99c103df65242ffa567e87f959f3f4237acf057"  style="padding-top: 0px;
+padding-bottom: 40px;
+  width: 100%;
+  max-width: 800px;
+">
+  <div class="grid--main js-grid-main" data-grid-max-images="
+  ">
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="146.17691154423" style="width:146.17691154423px; flex-grow:146.17691154423;" data-width="750" data-height="1334">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/a0e06a7d-b40e-48da-989a-5afe3fb397c7_rw_1200.png?h=38edc4f97c2b3c17a03f71e7615b87a6" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/a0e06a7d-b40e-48da-989a-5afe3fb397c7_rw_600.png?h=94ae0ee6f3dba37fb3407eb2ef70eaa2 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/a0e06a7d-b40e-48da-989a-5afe3fb397c7_rw_1200.png?h=38edc4f97c2b3c17a03f71e7615b87a6 750w,"  sizes="(max-width: 750px) 100vw, 750px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/a0e06a7d-b40e-48da-989a-5afe3fb397c7_rw_1200.png?h=38edc4f97c2b3c17a03f71e7615b87a6"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/a0e06a7d-b40e-48da-989a-5afe3fb397c7_rw_600.png?h=94ae0ee6f3dba37fb3407eb2ef70eaa2 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/a0e06a7d-b40e-48da-989a-5afe3fb397c7_rw_1200.png?h=38edc4f97c2b3c17a03f71e7615b87a6 750w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:177.86666666667%;"></span>
+    </div>
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="146.17691154423" style="width:146.17691154423px; flex-grow:146.17691154423;" data-width="750" data-height="1334">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d659d3bd-04ef-40ef-b8d2-c705d3e2870d_rw_1200.png?h=76ae54b4e7c693210c6962d360a4d88b" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d659d3bd-04ef-40ef-b8d2-c705d3e2870d_rw_600.png?h=9fdf72bb8d6db301258812c9a9a8cddf 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d659d3bd-04ef-40ef-b8d2-c705d3e2870d_rw_1200.png?h=76ae54b4e7c693210c6962d360a4d88b 750w,"  sizes="(max-width: 750px) 100vw, 750px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d659d3bd-04ef-40ef-b8d2-c705d3e2870d_rw_1200.png?h=76ae54b4e7c693210c6962d360a4d88b"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d659d3bd-04ef-40ef-b8d2-c705d3e2870d_rw_600.png?h=9fdf72bb8d6db301258812c9a9a8cddf 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d659d3bd-04ef-40ef-b8d2-c705d3e2870d_rw_1200.png?h=76ae54b4e7c693210c6962d360a4d88b 750w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:177.86666666667%;"></span>
+    </div>
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="146.17691154423" style="width:146.17691154423px; flex-grow:146.17691154423;" data-width="750" data-height="1334">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/4addad45-5df8-479c-b348-d5ff243fa43c_rw_1200.png?h=166f4fda7c620aaef3fc546ab5933e36" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/4addad45-5df8-479c-b348-d5ff243fa43c_rw_600.png?h=fa9eceba634ff95353b6d7b7cdf772cb 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/4addad45-5df8-479c-b348-d5ff243fa43c_rw_1200.png?h=166f4fda7c620aaef3fc546ab5933e36 750w,"  sizes="(max-width: 750px) 100vw, 750px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/4addad45-5df8-479c-b348-d5ff243fa43c_rw_1200.png?h=166f4fda7c620aaef3fc546ab5933e36"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/4addad45-5df8-479c-b348-d5ff243fa43c_rw_600.png?h=fa9eceba634ff95353b6d7b7cdf772cb 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/4addad45-5df8-479c-b348-d5ff243fa43c_rw_1200.png?h=166f4fda7c620aaef3fc546ab5933e36 750w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:177.86666666667%;"></span>
+    </div>
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="146.17691154423" style="width:146.17691154423px; flex-grow:146.17691154423;" data-width="750" data-height="1334">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1abbaa63-546e-4c66-8173-84a14daf096b_rw_1200.png?h=19a30f31fba62b6e5728e6a23490a972" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1abbaa63-546e-4c66-8173-84a14daf096b_rw_600.png?h=173a4f085f6b40b912a9f2a4a0442e8f 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1abbaa63-546e-4c66-8173-84a14daf096b_rw_1200.png?h=19a30f31fba62b6e5728e6a23490a972 750w,"  sizes="(max-width: 750px) 100vw, 750px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1abbaa63-546e-4c66-8173-84a14daf096b_rw_1200.png?h=19a30f31fba62b6e5728e6a23490a972"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1abbaa63-546e-4c66-8173-84a14daf096b_rw_600.png?h=173a4f085f6b40b912a9f2a4a0442e8f 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/1abbaa63-546e-4c66-8173-84a14daf096b_rw_1200.png?h=19a30f31fba62b6e5728e6a23490a972 750w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:177.86666666667%;"></span>
+    </div>
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="146.17691154423" style="width:146.17691154423px; flex-grow:146.17691154423;" data-width="750" data-height="1334">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/ad840019-c954-4fe8-b303-0563e00f4d0a_rw_1200.png?h=253b406727d31d9c748d34cd5796e760" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/ad840019-c954-4fe8-b303-0563e00f4d0a_rw_600.png?h=8f3addfaaf278c87042c16fd86a0163e 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/ad840019-c954-4fe8-b303-0563e00f4d0a_rw_1200.png?h=253b406727d31d9c748d34cd5796e760 750w,"  sizes="(max-width: 750px) 100vw, 750px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/ad840019-c954-4fe8-b303-0563e00f4d0a_rw_1200.png?h=253b406727d31d9c748d34cd5796e760"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/ad840019-c954-4fe8-b303-0563e00f4d0a_rw_600.png?h=8f3addfaaf278c87042c16fd86a0163e 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/ad840019-c954-4fe8-b303-0563e00f4d0a_rw_1200.png?h=253b406727d31d9c748d34cd5796e760 750w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:177.86666666667%;"></span>
+    </div>
+    <div class="js-grid-spacer"></div>
+  </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 10px;
+padding-bottom: 0px;
+">
+  <div class="rich-text js-text-editable module-text"><div><span style="font-family:ftnk; font-weight:700;">Testing &amp; Prototypes</span>: The additional screens shown below do not have any noteworthy rethinking, but I wanted to exhibit them for further conversation. </div></div>
+</div>
+
+              
+              
+              
+              
+              
+              <div class="project-module module image project-module-image js-js-project-module"  style="padding-top: 0px;
+padding-bottom: 0px;
+  width: 100%;
+  max-width: 500px;
+  float: center;
+  clear: both;
+">
+
+  
+
+  
+     <div class="js-lightbox" data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/170796e1-203e-413d-a82d-c891cf4849df.jpg?h=fb554d39c9bf33975c71f02cc4b6c9d3">
+           <img
+             class="js-lazy e2e-site-project-module-image"
+             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+             data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/170796e1-203e-413d-a82d-c891cf4849df_rw_1200.jpg?h=87a643fa6769850de6c0073b05556c83"
+             data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/170796e1-203e-413d-a82d-c891cf4849df_rw_600.jpg?h=29695a3ddb4eea5e87a4c0e7ec84f4b1 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/170796e1-203e-413d-a82d-c891cf4849df_rw_1200.jpg?h=87a643fa6769850de6c0073b05556c83 1090w,"
+             data-sizes="(max-width: 1090px) 100vw, 1090px"
+             width="1090"
+             height="0"
+             style="padding-bottom: 177.5%; background: rgba(0, 0, 0, 0.03)"
+             
+           >
+     </div>
+  
+
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module media_collection project-module-media_collection" data-id="m5bb30ea11e3d299763110712c15af62d3e0cc9b7a9e9767f7beaf"  style="padding-top: 0px;
+padding-bottom: 0px;
+  width: 100%;
+  max-width: 800px;
+">
+  <div class="grid--main js-grid-main" data-grid-max-images="
+  ">
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="140.0293901543" style="width:140.0293901543px; flex-grow:140.0293901543;" data-width="733" data-height="1361">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/bfe5f603-c2bc-42d2-8f67-434899e58a4f_rw_1200.jpg?h=44b4295af65e8d881998b1fb4a223394" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/bfe5f603-c2bc-42d2-8f67-434899e58a4f_rw_600.jpg?h=01e7accbaca5e0ea2d9b95a11e6c3ecf 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/bfe5f603-c2bc-42d2-8f67-434899e58a4f_rw_1200.jpg?h=44b4295af65e8d881998b1fb4a223394 733w,"  sizes="(max-width: 733px) 100vw, 733px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/bfe5f603-c2bc-42d2-8f67-434899e58a4f_rw_1200.jpg?h=44b4295af65e8d881998b1fb4a223394"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/bfe5f603-c2bc-42d2-8f67-434899e58a4f_rw_600.jpg?h=01e7accbaca5e0ea2d9b95a11e6c3ecf 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/bfe5f603-c2bc-42d2-8f67-434899e58a4f_rw_1200.jpg?h=44b4295af65e8d881998b1fb4a223394 733w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:185.67530695771%;"></span>
+    </div>
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="140.0293901543" style="width:140.0293901543px; flex-grow:140.0293901543;" data-width="733" data-height="1361">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3a13c323-07cf-4429-88bf-d3a2d08a88bc_rw_1200.jpg?h=be84eb0449cd3cab37fca1fe7c3535c3" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3a13c323-07cf-4429-88bf-d3a2d08a88bc_rw_600.jpg?h=7dcfe48f85f1d5640faaab5ef8ef3e23 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3a13c323-07cf-4429-88bf-d3a2d08a88bc_rw_1200.jpg?h=be84eb0449cd3cab37fca1fe7c3535c3 733w,"  sizes="(max-width: 733px) 100vw, 733px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3a13c323-07cf-4429-88bf-d3a2d08a88bc_rw_1200.jpg?h=be84eb0449cd3cab37fca1fe7c3535c3"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3a13c323-07cf-4429-88bf-d3a2d08a88bc_rw_600.jpg?h=7dcfe48f85f1d5640faaab5ef8ef3e23 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3a13c323-07cf-4429-88bf-d3a2d08a88bc_rw_1200.jpg?h=be84eb0449cd3cab37fca1fe7c3535c3 733w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:185.67530695771%;"></span>
+    </div>
+    <div class="js-grid-spacer"></div>
+  </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module media_collection project-module-media_collection" data-id="m5bbbb7cd0bdafb83b8dbb6b0e42ed77d520e42cc87880544b2c8a"  style="padding-top: 0px;
+padding-bottom: 20px;
+  width: 100%;
+  max-width: 800px;
+">
+  <div class="grid--main js-grid-main" data-grid-max-images="
+  ">
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="140.0293901543" style="width:140.0293901543px; flex-grow:140.0293901543;" data-width="733" data-height="1361">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/365ec547-83f7-4823-8af0-f2045cbb83f5_rw_1200.jpg?h=cc63d01f829e832c9d7ac573e7ff4f70" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/365ec547-83f7-4823-8af0-f2045cbb83f5_rw_600.jpg?h=3aed278b6516e451028f7378bd8a1ea4 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/365ec547-83f7-4823-8af0-f2045cbb83f5_rw_1200.jpg?h=cc63d01f829e832c9d7ac573e7ff4f70 733w,"  sizes="(max-width: 733px) 100vw, 733px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/365ec547-83f7-4823-8af0-f2045cbb83f5_rw_1200.jpg?h=cc63d01f829e832c9d7ac573e7ff4f70"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/365ec547-83f7-4823-8af0-f2045cbb83f5_rw_600.jpg?h=3aed278b6516e451028f7378bd8a1ea4 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/365ec547-83f7-4823-8af0-f2045cbb83f5_rw_1200.jpg?h=cc63d01f829e832c9d7ac573e7ff4f70 733w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:185.67530695771%;"></span>
+    </div>
+    <div class="grid__item-container js-grid-item-container" data-flex-grow="140.0293901543" style="width:140.0293901543px; flex-grow:140.0293901543;" data-width="733" data-height="1361">
+      <script type="text/html" class="js-lightbox-slide-content">
+        <div class="grid__image-wrapper">
+          <img src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/af4d9a3e-9dcc-4791-a488-27c8fc45077c_rw_1200.jpg?h=cc3abff42fad20dcd60ce6cb57441db1" srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/af4d9a3e-9dcc-4791-a488-27c8fc45077c_rw_600.jpg?h=641ff90dcdd5621ca32ae5de8929048f 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/af4d9a3e-9dcc-4791-a488-27c8fc45077c_rw_1200.jpg?h=cc3abff42fad20dcd60ce6cb57441db1 733w,"  sizes="(max-width: 733px) 100vw, 733px">
+        <div>
+      </script>
+      <img
+        class="grid__item-image js-grid__item-image grid__item-image-lazy js-lazy"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        
+        data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/af4d9a3e-9dcc-4791-a488-27c8fc45077c_rw_1200.jpg?h=cc3abff42fad20dcd60ce6cb57441db1"
+        data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/af4d9a3e-9dcc-4791-a488-27c8fc45077c_rw_600.jpg?h=641ff90dcdd5621ca32ae5de8929048f 600w,https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/af4d9a3e-9dcc-4791-a488-27c8fc45077c_rw_1200.jpg?h=cc3abff42fad20dcd60ce6cb57441db1 733w,"
+      >
+      <span class="grid__item-filler" style="padding-bottom:185.67530695771%;"></span>
+    </div>
+    <div class="js-grid-spacer"></div>
+  </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text" style="padding-top: 0px;
+padding-bottom: 20px;
+">
+  <div class="rich-text js-text-editable module-text"><div>Using these designs I built a design prototype for friends and family to validate my hypotheses and assumptions.<br></div></div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              <div class="project-module module video project-module-video js-js-project-module" style="padding-top: 0px;
+padding-bottom: 0px;
+">
+    <div class="embed-dimensions" style="max-width: 360px; max-height: 640px; margin: 0 auto;">
+    <div class="embed-aspect-ratio" style="padding-bottom: 177.78%; position: relative; height: 0px;">
+        <iframe title="Video Player" class="embed-content" src="https://www-ccv.adobe.io/v1/player/ccv/3pm8xTR9Yzc/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+    </div>
+    </div>
+
+    <div class="project-module module-caption-container js-caption-container align-left">
+      <div class="rich-text module-caption js-text-editable"><p>Preview&nbsp;of Design Prototype</p></div>
+    </div>
+</div>
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
+  <div class="rich-text js-text-editable module-text"><div><span style="font-family:ftnk; font-weight:700;">Production</span>: I have not built an engineering product yet.</div><div><span style="font-family:ftnk; font-weight:700;">Analytics &amp; Metrics</span>: When I have a working product, my plan is to collect anonymous usage data from the app, reviews from the App Store, feedback from Twitter, and refine the design accordingly.</div><div class="sub-title">Assistant of the Future</div><div>To conclude, my high level goal was to make this app a delightful and competent assistant. To satisfy that goal, the assistant needs to react to contextual data with a broader scope. What got me thinking was the fact that my car has access to my calendar events (after granting permission). These calendar events have metadata associated with it such as location and people. The assistant could use this data (after I’ve granted permission) and act on it. The below ideas are high level concepts that need to be explored, tested, and validated.</div><div><span style="font-family:ftnk; font-weight:700;">Idea #1 - Reminder to Charge</span>: Say the driver needs to be at a particular location the next day (based on the calendar event), assumption is this data can be used in accordance with available range (remaining battery charge) and currently parked location (at home for instance) to remind the driver to charge the battery for tomorrow’s travel. Hypothesis is, this will bring that delight factor when you have a thoughtful assistant reminding you by your side.</div><div><span style="font-family:ftnk; font-weight:700;">Idea #2 - Comfortable Cabin</span>: Say the driver is ready to head to the car for their drive home from work. Assumption is, when they start walking, previous map path data (to/from work), time of day, and motion data, from a smart phone can be used to turn on the HVAC system (automatically or after a push request) in the car and make the cabin temperature comfortable for when the driver gets to the car. Assumption is, this will be more accurate and can react to varying habits because a smart phone is with the human as opposed to the car setting with basic cabin preconditioning.</div></div>
+</div>
+
+              
+              
+              
+              
+          </div>
+        </div>
+      </div>
+    </section>
+          <section class="other-projects" data-context="page.page.other_pages" data-hover-hint="otherPages">
+            <div class="title-wrapper">
+              <div class="title-container">
+                  <h3 class="other-projects-title preserve-whitespace">More of my work…</h3>
+              </div>
+            </div>
+            <div class="project-covers">
+                  <a class="project-cover js-project-cover-touch hold-space" href="/xcode" data-context="pages" data-identity="id:p5ba32bbaadaf7df83b99defdd6560c5220b96cec75469c82e2f55">
+                    <div class="cover-content-container">
+                      <div class="cover-image-wrap">
+                        <div class="cover-image">
+                            <div class="cover cover-normal">
+
+            <img
+              class="cover__img js-lazy"
+              src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3c9b95d3-645b-439c-a9ac-2f0fcc204a76_rwc_0x0x1000x1000x32.png?h=094a4c19362a32ce6325446f32770ed8"
+              data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3c9b95d3-645b-439c-a9ac-2f0fcc204a76_rwc_0x0x1000x1000x1000.png?h=7d57c71afd8494d85e7573118a330902"
+              data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3c9b95d3-645b-439c-a9ac-2f0fcc204a76_rwc_0x0x1000x1000x640.png?h=8620731c9d9c622a33baef4d05bffaa2 640w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3c9b95d3-645b-439c-a9ac-2f0fcc204a76_rwc_0x0x1000x1000x1000.png?h=7d57c71afd8494d85e7573118a330902 1280w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3c9b95d3-645b-439c-a9ac-2f0fcc204a76_rwc_0x0x1000x1000x1000.png?h=7d57c71afd8494d85e7573118a330902 1366w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3c9b95d3-645b-439c-a9ac-2f0fcc204a76_rwc_0x0x1000x1000x1000.png?h=7d57c71afd8494d85e7573118a330902 1920w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3c9b95d3-645b-439c-a9ac-2f0fcc204a76_rwc_0x0x1000x1000x1000.png?h=7d57c71afd8494d85e7573118a330902 2560w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/3c9b95d3-645b-439c-a9ac-2f0fcc204a76_rwc_0x0x1000x1000x1000.png?h=7d57c71afd8494d85e7573118a330902 5120w"
+              data-sizes="(max-width: 540px) 100vw, (max-width: 768px) 50vw, calc(1200px / 5)"
+            >
+                                      </div>
+                        </div>
+                      </div>
+                      <div class="details-wrap">
+                        <div class="details">
+                          <div class="details-inner">
+                              <div class="title preserve-whitespace">Apple Xcode (Touch Bar)</div>
+                              <div class="date">August, 2016</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                  <a class="project-cover js-project-cover-touch hold-space" href="/humanics-calendar-sharing" data-context="pages" data-identity="id:p5d929086489b94f132ca6cea68af891261023168b946b320f7a1b">
+                    <div class="cover-content-container">
+                      <div class="cover-image-wrap">
+                        <div class="cover-image">
+                            <div class="cover cover-normal">
+
+            <img
+              class="cover__img js-lazy"
+              src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/fafaff57-e8aa-423f-aab2-20886414ab67_rwc_0x0x1000x1000x32.png?h=1caa82feee2f84c30068391054e5c14a"
+              data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/fafaff57-e8aa-423f-aab2-20886414ab67_rwc_0x0x1000x1000x1000.png?h=77d8fd7c33253676dc06a17beba93905"
+              data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/fafaff57-e8aa-423f-aab2-20886414ab67_rwc_0x0x1000x1000x640.png?h=55bc41b55489091c5c269ab195b2f73d 640w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/fafaff57-e8aa-423f-aab2-20886414ab67_rwc_0x0x1000x1000x1000.png?h=77d8fd7c33253676dc06a17beba93905 1280w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/fafaff57-e8aa-423f-aab2-20886414ab67_rwc_0x0x1000x1000x1000.png?h=77d8fd7c33253676dc06a17beba93905 1366w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/fafaff57-e8aa-423f-aab2-20886414ab67_rwc_0x0x1000x1000x1000.png?h=77d8fd7c33253676dc06a17beba93905 1920w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/fafaff57-e8aa-423f-aab2-20886414ab67_rwc_0x0x1000x1000x1000.png?h=77d8fd7c33253676dc06a17beba93905 2560w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/fafaff57-e8aa-423f-aab2-20886414ab67_rwc_0x0x1000x1000x1000.png?h=77d8fd7c33253676dc06a17beba93905 5120w"
+              data-sizes="(max-width: 540px) 100vw, (max-width: 768px) 50vw, calc(1200px / 5)"
+            >
+                                      </div>
+                        </div>
+                      </div>
+                      <div class="details-wrap">
+                        <div class="details">
+                          <div class="details-inner">
+                              <div class="title preserve-whitespace">Humanics (Calendar Sharing)</div>
+                              <div class="date">July, 2019</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                  <a class="project-cover js-project-cover-touch hold-space" href="/humanics-swap-withdraw" data-context="pages" data-identity="id:p5da0c0181c78dfa75b8086c3444a025b117cd669e13eb70e05e38">
+                    <div class="cover-content-container">
+                      <div class="cover-image-wrap">
+                        <div class="cover-image">
+                            <div class="cover cover-normal">
+
+            <img
+              class="cover__img js-lazy"
+              src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/b32ee5f6-d76a-4be3-93b1-ff1106e2252b_rwc_0x0x1000x1000x32.png?h=885bef0a4ec7a304a84b8660afc91a4b"
+              data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/b32ee5f6-d76a-4be3-93b1-ff1106e2252b_rwc_0x0x1000x1000x1000.png?h=4134565cfd710a56dc1be23733aa9fc3"
+              data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/b32ee5f6-d76a-4be3-93b1-ff1106e2252b_rwc_0x0x1000x1000x640.png?h=f8443f291a682a6271f0cddca3fe1d8d 640w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/b32ee5f6-d76a-4be3-93b1-ff1106e2252b_rwc_0x0x1000x1000x1000.png?h=4134565cfd710a56dc1be23733aa9fc3 1280w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/b32ee5f6-d76a-4be3-93b1-ff1106e2252b_rwc_0x0x1000x1000x1000.png?h=4134565cfd710a56dc1be23733aa9fc3 1366w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/b32ee5f6-d76a-4be3-93b1-ff1106e2252b_rwc_0x0x1000x1000x1000.png?h=4134565cfd710a56dc1be23733aa9fc3 1920w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/b32ee5f6-d76a-4be3-93b1-ff1106e2252b_rwc_0x0x1000x1000x1000.png?h=4134565cfd710a56dc1be23733aa9fc3 2560w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/b32ee5f6-d76a-4be3-93b1-ff1106e2252b_rwc_0x0x1000x1000x1000.png?h=4134565cfd710a56dc1be23733aa9fc3 5120w"
+              data-sizes="(max-width: 540px) 100vw, (max-width: 768px) 50vw, calc(1200px / 5)"
+            >
+                                      </div>
+                        </div>
+                      </div>
+                      <div class="details-wrap">
+                        <div class="details">
+                          <div class="details-inner">
+                              <div class="title preserve-whitespace">Humanics (Swap &amp; Withdraw)</div>
+                              <div class="date">May, 2019</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                  <a class="project-cover js-project-cover-touch hold-space" href="/roblox" data-context="pages" data-identity="id:p5ba17c07038b74484da3452d95bc44887ff0d1c585b721675eed2">
+                    <div class="cover-content-container">
+                      <div class="cover-image-wrap">
+                        <div class="cover-image">
+                            <div class="cover cover-normal">
+
+            <img
+              class="cover__img js-lazy"
+              src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d38485a9-1b66-4c7e-a848-5cd3f4681bce_rwc_0x0x1000x1000x32.png?h=35b7e560e8e3965e5513cdef68f58a09"
+              data-src="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d38485a9-1b66-4c7e-a848-5cd3f4681bce_rwc_0x0x1000x1000x1000.png?h=612785453a3493a39c673d7aace306b3"
+              data-srcset="https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d38485a9-1b66-4c7e-a848-5cd3f4681bce_rwc_0x0x1000x1000x640.png?h=386810fd2387dcc443bcc94e8064f2e0 640w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d38485a9-1b66-4c7e-a848-5cd3f4681bce_rwc_0x0x1000x1000x1000.png?h=612785453a3493a39c673d7aace306b3 1280w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d38485a9-1b66-4c7e-a848-5cd3f4681bce_rwc_0x0x1000x1000x1000.png?h=612785453a3493a39c673d7aace306b3 1366w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d38485a9-1b66-4c7e-a848-5cd3f4681bce_rwc_0x0x1000x1000x1000.png?h=612785453a3493a39c673d7aace306b3 1920w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d38485a9-1b66-4c7e-a848-5cd3f4681bce_rwc_0x0x1000x1000x1000.png?h=612785453a3493a39c673d7aace306b3 2560w, https://cdn.myportfolio.com/4ce141d518a006f082b3a2959f4345bf/d38485a9-1b66-4c7e-a848-5cd3f4681bce_rwc_0x0x1000x1000x1000.png?h=612785453a3493a39c673d7aace306b3 5120w"
+              data-sizes="(max-width: 540px) 100vw, (max-width: 768px) 50vw, calc(1200px / 5)"
+            >
+                                      </div>
+                        </div>
+                      </div>
+                      <div class="details-wrap">
+                        <div class="details">
+                          <div class="details-inner">
+                              <div class="title preserve-whitespace">Roblox (NUX)</div>
+                              <div class="date">August, 2018</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+            </div>
+          </section>
+        <section class="back-to-top" data-hover-hint="backToTop">
+          <a href="#"><span class="arrow">&uarr;</span><span class="preserve-whitespace">Back to Top</span></a>
+        </section>
+        <a class="back-to-top-fixed js-back-to-top back-to-top-fixed-with-panel" data-hover-hint="backToTop" data-hover-hint-placement="top-start" href="#">
+          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;" xml:space="preserve" class="icon icon-back-to-top">
+          <g>
+            <path d="M13.8,1.3L21.6,9c0.1,0.1,0.1,0.3,0.2,0.4c0.1,0.1,0.1,0.3,0.1,0.4s0,0.3-0.1,0.4c-0.1,0.1-0.1,0.3-0.3,0.4
+              c-0.1,0.1-0.2,0.2-0.4,0.3c-0.2,0.1-0.3,0.1-0.4,0.1c-0.1,0-0.3,0-0.4-0.1c-0.2-0.1-0.3-0.2-0.4-0.3L14.2,5l0,19.1
+              c0,0.2-0.1,0.3-0.1,0.5c0,0.1-0.1,0.3-0.3,0.4c-0.1,0.1-0.2,0.2-0.4,0.3c-0.1,0.1-0.3,0.1-0.5,0.1c-0.1,0-0.3,0-0.4-0.1
+              c-0.1-0.1-0.3-0.1-0.4-0.3c-0.1-0.1-0.2-0.2-0.3-0.4c-0.1-0.1-0.1-0.3-0.1-0.5l0-19.1l-5.7,5.7C6,10.8,5.8,10.9,5.7,11
+              c-0.1,0.1-0.3,0.1-0.4,0.1c-0.2,0-0.3,0-0.4-0.1c-0.1-0.1-0.3-0.2-0.4-0.3c-0.1-0.1-0.1-0.2-0.2-0.4C4.1,10.2,4,10.1,4.1,9.9
+              c0-0.1,0-0.3,0.1-0.4c0-0.1,0.1-0.3,0.3-0.4l7.7-7.8c0.1,0,0.2-0.1,0.2-0.1c0,0,0.1-0.1,0.2-0.1c0.1,0,0.2,0,0.2-0.1
+              c0.1,0,0.1,0,0.2,0c0,0,0.1,0,0.2,0c0.1,0,0.2,0,0.2,0.1c0.1,0,0.1,0.1,0.2,0.1C13.7,1.2,13.8,1.2,13.8,1.3z"/>
+          </g>
+          </svg>
+        </a>
+  </div>
+        </main>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  // fix for Safari's back/forward cache
+  window.onpageshow = function(e) {
+    if (e.persisted) { window.location.reload(); }
+  };
+</script>
+  <script type="text/javascript">var __config__ = {"page_id":"p5ba1ab706ed70c4b37c3e545c5907c8840e858f21a4134d67a2df","theme":{"name":"marta"},"pageTransition":true,"linkTransition":true,"disableDownload":true,"localizedValidationMessages":{"required":"This field is required","Email":"This field must be a valid email address"},"lightbox":{"enabled":true,"color":{"opacity":0.94,"hex":"#FFFFFF"}},"cookie_banner":{"enabled":false},"googleAnalytics":{"trackingCode":"UA-126356186-1","anonymization":true}};</script>
+  <script type="text/javascript" src="/site/translations?cb=35f77bfb8b50944859ea3d3804e7194e7a3173fb"></script>
+  <script type="text/javascript" src="/dist/js/main.js?cb=35f77bfb8b50944859ea3d3804e7194e7a3173fb"></script>
+</html>

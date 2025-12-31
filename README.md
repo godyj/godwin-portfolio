@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Godwin Johnson Portfolio
+
+Personal portfolio site for Godwin Johnson, Product Designer (UI+UX).
+
+**Live site**: [designed.cloud](https://designed.cloud) (currently on Adobe Portfolio, migrating to this)
+
+## Tech Stack
+
+- **Framework**: Next.js 16.1.1 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Hosting**: Vercel (planned)
+- **Domain**: designed.cloud (GoDaddy)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) (or 3001 if 3000 is in use).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/
+│   ├── page.tsx              # Home - project grid
+│   ├── about/page.tsx        # About page
+│   ├── contact/page.tsx      # Contact form
+│   ├── projects/[id]/page.tsx # Project detail pages
+│   ├── layout.tsx            # Root layout
+│   └── globals.css           # Global styles
+├── components/
+│   └── Navigation.tsx        # Header navigation
+└── data/
+    └── projects.ts           # Project content
+```
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- Responsive design with mobile navigation
+- Dark mode support (follows system preference)
+- SEO optimized with meta tags
+- Fast page loads with Next.js static generation
+- Clean, minimal design aesthetic
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Projects Showcased
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Humanics: Calendar Sharing** (2019) - Workforce management calendar feature
+2. **Humanics: Swap & Withdraw** (2019) - Shift swap improvements
+3. **Roblox: New User Experience** (2018) - Player onboarding redesign
+4. **Jarvis** (2017) - Connected car iOS app concept
+5. **Apple Xcode: Touch Bar** (2016) - Touch Bar interface design
 
-## Deploy on Vercel
+## Adding Images
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Place project images in `/public/images/projects/`:
+- `humanics-calendar.png`
+- `humanics-swap.png`
+- `roblox.png`
+- `jarvis.png`
+- `xcode.png`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Profile image: `/public/images/profile.png`
+
+## Deployment
+
+This site is configured for Vercel deployment:
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+```
+
+## License
+
+Private - All rights reserved.
