@@ -11,8 +11,15 @@
    COLOR TOKENS
    ----------------------------------------------------------------------------- */
 :root {
+  /* Brand colors */
+  --color-brand-yellow: #F5B800;      /* Hero background, accent */
+  --color-brand-brown: #201612;       /* Dark chocolate - text on yellow, dark mode bg */
+  --color-brand-brown-dark: #160c08;  /* Darker brown - card backgrounds in dark mode */
+
   /* Base colors */
   --color-background: #ffffff;
+  --color-background-page: #ffffff;   /* Page background */
+  --color-background-card: #f3f4f6;   /* Card/image container background */
   --color-foreground: #171717;
 
   /* Text hierarchy */
@@ -29,24 +36,36 @@
   --color-border: #e5e7eb;            /* gray-200 */
   --color-border-light: #f3f4f6;      /* gray-100 */
   --color-surface: #f9fafb;           /* gray-50 - subtle backgrounds */
+
+  /* Nav colors */
+  --color-nav-bg: rgba(255, 255, 255, 0.9);
+  --color-nav-text: #6b7280;          /* gray-500 - inactive */
+  --color-nav-text-active: #111827;   /* gray-900 - active */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     /* Base colors - dark */
     --color-background: #000000;
+    --color-background-page: #201612; /* Warm chocolate brown */
+    --color-background-card: #160c08; /* Darker brown for cards */
     --color-foreground: #ededed;
 
-    /* Text hierarchy - dark */
-    --color-text-primary: #ededed;
-    --color-text-secondary: #9ca3af;  /* gray-400 */
-    --color-text-muted: #6b7280;      /* gray-500 */
-    --color-text-caption: #4b5563;    /* gray-600 */
+    /* Text hierarchy - dark (using stone palette for warmth) */
+    --color-text-primary: #f5f5f4;    /* stone-100 */
+    --color-text-secondary: #a8a29e;  /* stone-400 */
+    --color-text-muted: #78716c;      /* stone-500 */
+    --color-text-caption: #57534e;    /* stone-600 */
 
     /* UI colors - dark */
-    --color-border: #1f2937;          /* gray-800 */
-    --color-border-light: #111827;    /* gray-900 */
-    --color-surface: #0a0a0a;
+    --color-border: #292524;          /* stone-800 */
+    --color-border-light: #1c1917;    /* stone-900 */
+    --color-surface: #0c0a09;         /* stone-950 */
+
+    /* Nav colors - dark */
+    --color-nav-bg: rgba(0, 0, 0, 0.9);
+    --color-nav-text: #a8a29e;        /* stone-400 - inactive */
+    --color-nav-text-active: #ffffff; /* white - active */
   }
 }
 
@@ -156,8 +175,36 @@
    TAILWIND THEME INTEGRATION
    ============================================================================= */
 @theme inline {
+  /* Brand colors - available as bg-brand-yellow, text-brand-brown, etc. */
+  --color-brand-yellow: var(--color-brand-yellow);
+  --color-brand-brown: var(--color-brand-brown);
+  --color-brand-brown-dark: var(--color-brand-brown-dark);
+
+  /* Background colors */
   --color-background: var(--color-background);
+  --color-background-page: var(--color-background-page);
+  --color-background-card: var(--color-background-card);
   --color-foreground: var(--color-foreground);
+
+  /* Text colors */
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-caption: var(--color-text-caption);
+
+  /* Accent colors */
+  --color-accent-red: var(--color-accent-red);
+  --color-accent-blue: var(--color-accent-blue);
+
+  /* UI colors */
+  --color-border: var(--color-border);
+  --color-surface: var(--color-surface);
+
+  /* Nav colors */
+  --color-nav-bg: var(--color-nav-bg);
+  --color-nav-text: var(--color-nav-text);
+  --color-nav-text-active: var(--color-nav-text-active);
+
   /* Use Jost font from Next.js Google Fonts with fallbacks */
   --font-sans: var(--font-jost), "Jost", system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-mono);
@@ -271,3 +318,19 @@ button,
 .animate-stagger > *:nth-child(3) { animation-delay: 100ms; }
 .animate-stagger > *:nth-child(4) { animation-delay: 150ms; }
 .animate-stagger > *:nth-child(5) { animation-delay: 200ms; }
+
+/* Bounce up animation for scroll indicator */
+@keyframes bounceUp {
+  0%, 100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  50% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+}
+
+.animate-bounce-up {
+  animation: bounceUp 1s infinite;
+}

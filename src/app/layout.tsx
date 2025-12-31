@@ -38,7 +38,7 @@ export default function RootLayout({
         className={`${jost.variable} ${geistMono.variable} antialiased font-sans`}
       >
         <Navigation />
-        <main className="pt-16">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );

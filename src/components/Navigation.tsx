@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const navLinks = [
-  { href: "/", label: "Work" },
+  { href: "/#projects", label: "Work" },
   { href: "/about", label: "About" },
+  { href: "/resume", label: "Résumé" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -15,34 +16,96 @@ export default function Navigation() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hasProjectsHash, setHasProjectsHash] = useState(false);
+  const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number; visible: boolean }>({ left: 0, width: 0, visible: false });
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
 
   const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      // Clear hash state once we've scrolled (nav is now solid due to scroll)
+      if (window.scrollY > 50) {
+        setHasProjectsHash(false);
+      }
     };
+
+    // Check for #projects hash to keep nav solid during transition
+    const hash = window.location.hash;
+    if (hash === "#projects") {
+      setHasProjectsHash(true);
+    }
+
+    // When navigating to home page WITHOUT a hash, scroll to top for true welcome state
+    // If there's a hash (like #projects from Work link), let the page handle the scroll
+    if (pathname === "/" && !hash) {
+      window.scrollTo(0, 0);
+      setScrolled(false);
+      setHasProjectsHash(false);
+    }
 
     window.addEventListener("scroll", handleScroll);
     handleScroll(); // Check initial scroll position
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]); // Re-run when pathname changes to reset scroll state
+
+  // Update indicator position based on hover or active state
+  useEffect(() => {
+    // Prioritize hovered link, fall back to active link
+    const selector = hoveredHref
+      ? `[data-nav-href="${hoveredHref}"]`
+      : '[data-nav-active="true"]';
+    const targetLink = document.querySelector(selector) as HTMLElement;
+
+    if (targetLink) {
+      const rect = targetLink.getBoundingClientRect();
+      setIndicatorStyle({ left: rect.left, width: rect.width, visible: true });
+    } else {
+      // Keep position, just hide - this prevents horizontal animation
+      setIndicatorStyle(prev => ({ ...prev, visible: false }));
+    }
+  }, [pathname, scrolled, hoveredHref]); // Re-run when scroll state or hover changes
 
   // Transparent on home hero, solid elsewhere or after scroll
-  const showSolidBg = !isHomePage || scrolled || mobileMenuOpen;
+  // Also solid when navigating to #projects (prevents flash during transition)
+  const showSolidBg = !isHomePage || scrolled || mobileMenuOpen || hasProjectsHash;
+
+  // On hero: use dark text color for better contrast on yellow
+  const heroTextColor = "text-brand-brown";
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         showSolidBg
           ? "bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800"
-          : "bg-transparent border-b border-transparent"
+          : "bg-black/5 border-b border-transparent"
       }`}
     >
-      <nav className="max-w-6xl mx-auto px-6 py-3">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="hover:opacity-80 transition-opacity">
+      {/* Nav indicator bar at top edge - shows on hover or active */}
+      <span
+        className={`absolute top-0 h-[3px] transition-all duration-200 hidden md:block ${
+          showSolidBg ? "bg-brand-yellow" : "bg-brand-brown/50"
+        } ${indicatorStyle.visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full"}`}
+        style={{
+          left: indicatorStyle.left,
+          width: indicatorStyle.width,
+        }}
+      />
+      <nav className="max-w-6xl mx-auto px-6 h-[70px] flex items-center">
+        <div className="flex items-center justify-between w-full">
+          <Link
+            href="/"
+            className="hover:opacity-80 transition-opacity"
+            onClick={(e) => {
+              // When already on home, scroll to top (true welcome state)
+              if (pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+          >
             <Image
               src="/images/logo.png"
               alt="Godwin"
@@ -54,24 +117,54 @@ export default function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-colors ${
-                  pathname === link.href
-                    ? "text-gray-900 dark:text-white"
-                    : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              // Work link is only active when on home page AND scrolled past hero
+              const isActive = link.href === "/#projects"
+                ? pathname === "/" && scrolled
+                : pathname === link.href;
+
+              // Work link needs special scroll handling
+              const isWorkLink = link.href === "/#projects";
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  scroll={!isWorkLink} // Allow scroll for Work link to handle anchor
+                  data-nav-active={isActive ? "true" : "false"}
+                  data-nav-href={link.href}
+                  onMouseEnter={() => setHoveredHref(link.href)}
+                  onMouseLeave={() => setHoveredHref(null)}
+                  onClick={(e) => {
+                    // Smooth scroll only when already on home page
+                    if (isWorkLink && pathname === "/") {
+                      e.preventDefault();
+                      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                  className={`text-[17.5px] font-medium transition-colors ${
+                    showSolidBg
+                      ? isActive
+                        ? "text-gray-900 dark:text-white"
+                        : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                      : isActive
+                        ? heroTextColor
+                        : `${heroTextColor} opacity-70 hover:opacity-100`
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
             <a
               href="https://www.linkedin.com/in/godwinjohnson/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+              className={`transition-colors ${
+                showSolidBg
+                  ? "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                  : `${heroTextColor} opacity-70 hover:opacity-100`
+              }`}
               aria-label="LinkedIn"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -82,7 +175,7 @@ export default function Navigation() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-gray-900 dark:text-white"
+            className={`md:hidden p-2 ${showSolidBg ? "text-gray-900 dark:text-white" : heroTextColor}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -100,25 +193,40 @@ export default function Navigation() {
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gray-100 dark:border-gray-800 pt-4">
             <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`text-sm font-medium transition-colors ${
-                    pathname === link.href
-                      ? "text-gray-900 dark:text-white"
-                      : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                // Work link is only active when on home page AND scrolled past hero
+                const isActive = link.href === "/#projects"
+                  ? pathname === "/" && scrolled
+                  : pathname === link.href;
+                const isWorkLink = link.href === "/#projects";
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    scroll={!isWorkLink}
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      if (isWorkLink && pathname === "/") {
+                        e.preventDefault();
+                        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                      }
+                    }}
+                    className={`text-[17.5px] font-medium transition-colors ${
+                      isActive
+                        ? "text-gray-900 dark:text-white"
+                        : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <a
                 href="https://www.linkedin.com/in/godwinjohnson/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+                className="text-[17.5px] font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
               >
                 LinkedIn
               </a>

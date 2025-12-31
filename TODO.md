@@ -16,29 +16,34 @@
 
 ## In Progress - Styling & Layout
 
-### Phase 1: Core Styling (Current)
+### Phase 1: Core Styling (Complete)
 - [x] Analyze original Adobe Portfolio styling patterns
 - [x] Document web design standards in CLAUDE.md
 - [x] Remove rounded corners from case study images
-- [ ] Fine-tune intro text sizing and spacing
-- [ ] Verify all Jarvis sections match original layout
+- [x] Fine-tune intro text sizing and spacing
+- [x] Verify all Jarvis sections match original layout
+- [x] Add bold labels (Goals:, Who:, etc.) to case studies
+- [x] Implement inline formatting (**bold**, _underline_)
 
-### Phase 2: Typography Refinements
-- [ ] Match font family closer to original (Adobe Clean / Helvetica Neue)
-- [ ] Audit heading hierarchy across all pages
-- [ ] Ensure consistent text colors (foreground, muted, captions)
-- [ ] Review line-height and letter-spacing
+### Phase 2: Typography Refinements (Complete)
+- [x] Match font family closer to original (Jost - Futura PT alternative)
+- [x] Audit heading hierarchy across all pages
+- [x] Ensure consistent text colors (foreground, muted, captions)
+- [x] Review line-height and letter-spacing
+- [x] Refactor styles using inheritance and constants
 
-### Phase 3: Spacing & Layout
-- [ ] Audit section spacing (currently 48px via `space-y-12`)
-- [ ] Verify image margin consistency (32px via `my-8`)
-- [ ] Match paragraph spacing to original (20px bottom padding)
-- [ ] Responsive adjustments for mobile
+### Phase 3: Dark Theme & Colors (Complete)
+- [x] Implement warm brown dark theme (stone palette)
+- [x] Custom dark background (#201612)
+- [x] Consistent dark mode borders (stone-800)
 
-### Phase 4: Interactive Elements
-- [ ] Project cards: Hover effects, image zoom transitions
-- [ ] Page transitions: Smooth fade between pages
-- [ ] Back to top button (like original)
+### Phase 4: Navigation & Interactions (Complete)
+- [x] Work link scrolls to projects section
+- [x] Smooth scroll on home page
+- [x] Hash navigation from other pages
+- [ ] Project cards: Hover effects, image zoom transitions (done)
+- [ ] Page transitions: Smooth fade between pages (optional)
+- [ ] Back to top button (optional)
 - [ ] Lightbox for images (optional enhancement)
 
 ## Pending - Other Case Studies

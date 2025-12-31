@@ -1,6 +1,6 @@
 # Godwin Portfolio - Quick Start
 
-> Last updated: 2025-12-30 21:38 PST
+> Last updated: 2025-12-31 00:31 PST
 
 ## TL;DR
 
@@ -12,7 +12,7 @@ npm run dev
 # → http://localhost:3000
 ```
 
-## Current State: 97% Complete
+## Current State: 98% Complete
 
 | Component | Status |
 |-----------|--------|
@@ -26,6 +26,11 @@ npm run dev
 | **Design system (globals.css)** | ✅ Done |
 | **Jarvis case study (18 images + video)** | ✅ Done |
 | **Typography & spacing matched** | ✅ Done |
+| **Consistent page layouts** | ✅ Done |
+| **Fade-in animations** | ✅ Done |
+| **Project card hover (overlay + zoom)** | ✅ Done |
+| **Color token system** | ✅ Done |
+| **Nav hover indicator** | ✅ Done |
 | **Remaining case study images** | ⚠️ Next |
 | **Vercel deployment** | ❌ Pending |
 | **Domain config** | ❌ Pending |
@@ -132,10 +137,25 @@ Currently uses `mailto:` - can integrate:
 - Tailwind CSS
 - Vercel (deployment)
 
+## Page Layout Pattern
+
+All pages use consistent layout:
+```jsx
+<div className="min-h-screen bg-white dark:bg-background-page pt-[70px]">
+  <div className="max-w-3xl mx-auto px-6 py-16">
+    <div className={`transition-all duration-500 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+      {/* Content */}
+    </div>
+  </div>
+</div>
+```
+
 ## Session History
 - **Session 1 (2025-12-30)**: Initial setup, content extraction, all pages created
 - **Session 2 (2025-12-30)**: Full verbatim content via Firecrawl, images downloaded, layout matched
 - **Session 3 (2025-12-30)**: Design system created, Jarvis styling matched, spacing/typography finalized
+- **Session 4 (2025-12-30)**: Fixed dark strip bug, consistent page layouts, nav flash fix, animations
+- **Session 5 (2025-12-31)**: Project card hover overlay with info, image zoom effect, dark card backgrounds, color token system, scroll indicator pill hover, nav hover indicator
 
 ## Links
 - Live (current): https://designed.cloud (Adobe Portfolio)

@@ -45,6 +45,17 @@ The design system contains CSS custom properties for:
 - **Image grids**: 2-col for pairs, 3-col for trios, 5-col for 5 items
 - **Dark mode**: Automatic via `prefers-color-scheme`
 
+### Dark Theme Colors
+- **Background**: `#201612` (dark chocolate brown)
+- **Text**: stone palette (stone-100, stone-400, stone-500)
+- **Borders**: stone-800
+
+### Inline Text Formatting
+Content in `projects.ts` supports markdown-style formatting:
+- **Bold**: `**text**` - renders with font-bold and heading color
+- **Underline**: `_text_` - renders with underline style
+- Used for labels like `**Goals:**`, `**Who:**`, `**Why:**`
+
 ## Project Overview
 
 - **Goal**: Migrate from Adobe Portfolio (designed.cloud) to self-hosted Next.js site

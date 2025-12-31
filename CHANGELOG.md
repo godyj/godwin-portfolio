@@ -4,6 +4,112 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
+## [0.8.0] - 2025-12-31 (00:31 PST)
+
+### Added
+- **Project card hover overlay**: Slide-up gradient overlay on project thumbnails
+  - Shows title, subtitle, date, description (3-line clamp), and skills
+  - Transparent gradient from bottom (`from-black/90 via-black/70 to-transparent`)
+  - Smooth slide-up animation (`duration-300 ease-out`)
+- **Image zoom effect**: Gentle zoom on project card hover
+  - Scale 110% with 700ms duration and ease-in-out timing
+  - Wrapped Image in container div for Next.js Image compatibility
+- **Nav hover indicator**: Yellow bar slides to hovered nav item
+  - Shows indicator on both hover and active states
+  - Prioritizes hover state, falls back to active link
+  - Uses `data-nav-href` attribute for element selection
+- **Color token system**: CSS custom properties for all brand colors
+  - Brand: `--color-brand-yellow`, `--color-brand-brown`, `--color-brand-brown-dark`
+  - Backgrounds: `--color-background-page`, `--color-background-card`
+  - Tailwind integration via `@theme inline` directive
+  - All components now use token classes (`bg-brand-yellow`, `dark:bg-background-page`, etc.)
+- **Scroll indicator pill hover**: Interactive scroll button on hero
+  - Pill-shaped hover effect with 10% opacity dark background
+  - Clicking scrolls to projects section (same as Work nav link)
+
+### Changed
+- **Project card backgrounds**: Warm dark brown for image containers
+  - Dark mode: `#160c08` (darker than page background `#201612`)
+  - Creates depth and contrast for project thumbnails
+- **Project card content**: Updated descriptions to match Adobe Portfolio
+  - Humanics Calendar Sharing, Swap & Withdraw, Roblox NUX descriptions
+  - Skills display: removed leading/trailing bullets, unified with `•` separator
+- **Typography consistency**: Standardized hover overlay text
+  - Date and skills: `text-sm text-white/60`
+  - Body text: `text-sm text-white/80`
+
+### Technical Notes
+- Next.js Image with `fill` requires wrapper div for transform animations
+- Hover state uses Tailwind `group-hover:` for coordinated animations
+- Overlay uses `translate-y-full` → `translate-y-0` for slide effect
+- Nav indicator tracks `hoveredHref` state, updates via `useEffect`
+- Color tokens enable dark mode inheritance via CSS media queries
+
+---
+
+## [0.7.0] - 2025-12-30 (23:44 PST)
+
+### Fixed
+- **Dark strip bug**: Fixed dark strip appearing below nav on About page in dark mode
+  - Root cause: Body background (`#000000`) showing through margin gap
+  - Fix: Changed from `mt-[70px]` to `pt-[70px]` so background extends from top
+- **Nav flash on Work click**: Fixed navigation flashing between light/dark when clicking Work from About page
+  - Added `hasProjectsHash` state to keep nav solid during transition to `/#projects`
+
+### Changed
+- **Consistent page layout**: All pages now use unified spacing pattern
+  - Outer div: `min-h-screen bg-white dark:bg-[#201612] pt-[70px]`
+  - Inner div: `py-16` (64px padding)
+  - Total: 134px from viewport top to content
+- **Layout simplified**: Removed `pt-16` from `<main>` in layout.tsx (pages handle own nav clearance)
+- **Contact page redesign**:
+  - Centered header matching About page style
+  - Title: `text-5xl md:text-6xl` (larger, consistent)
+  - Added fade-in animation
+- **Resume page**: Updated spacing to match About page
+- **Project pages**: Updated spacing to match About page
+
+### Technical Notes
+- All pages now use same dark mode background: `#201612`
+- Navigation uses `hasProjectsHash` state for smooth transitions
+- Animation pattern: `mounted` state + `transition-all duration-500`
+
+---
+
+## [0.6.0] - 2025-12-30 (22:37 PST)
+
+### Added
+- **Work navigation scroll**: Clicking "Work" in nav scrolls to projects section
+  - On home page: Smooth scroll to projects
+  - From other pages: Navigates to home and scrolls to projects
+- **Inline text formatting**: Support for `**bold**` and `_underline_` in content
+- **Bold labels**: Labels like "Goals:", "Who:", "Why:" now render bold in case studies
+- **Style constants**: Centralized color classes in `styles` object for DRY code
+- **Grid helper**: `getGridCols()` function for dynamic image grid columns
+
+### Changed
+- **Dark theme**: Warm brown tones (stone palette) instead of gray
+  - Background: `#201612` (dark chocolate brown)
+  - Text colors: stone-100, stone-400, stone-500
+- **Typography refinements**:
+  - Title: `text-5xl md:text-6xl` (larger)
+  - Content width: `max-w-3xl` (narrower, matches original)
+  - Body text: `text-lg` via inheritance
+  - Section titles: `text-xl` (matches subtitle)
+  - Skills line: `text-lg` (matches subtitle)
+- **Code refactoring**:
+  - Style classes use inheritance instead of explicit sizing
+  - Removed unnecessary prose wrapper
+  - Helper functions for rendering images, videos, notices
+
+### Technical Notes
+- Navigation uses `scroll={!isWorkLink}` for proper anchor handling
+- Home page has useEffect to handle hash scroll after navigation
+- Bold labels use `**text**` markdown-style syntax in projects.ts
+- Dark theme tested multiple shades: #1a1412, #1c1410, #201612, #150f0c
+
+---
+
 ## [0.5.1] - 2025-12-30
 
 ### Changed

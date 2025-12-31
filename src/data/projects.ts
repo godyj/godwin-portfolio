@@ -39,7 +39,7 @@ export const projects: Project[] = [
     id: "humanics-calendar-sharing",
     title: "Humanics",
     subtitle: "Calendar Sharing",
-    description: "The desktop web app is used by nurse supervisors to create and manage the schedules of nursing staff in a hospital unit. The mobile app (iOS/Android) is used by nursing staff on their personal phones to view their hospital work schedule and submit their schedule preferences.",
+    description: "Humanics is a workforce management solution for nurses and nurse supervisors. The product has 2 parts: a desktop web app and a mobile app (iOS/Android).",
     category: "Product Design",
     thumbnail: "/images/projects/humanics-calendar.png",
     year: "2019",
@@ -220,7 +220,7 @@ Lastly, my primary goal to maintain user data privacy along with the need to des
     id: "humanics-swap-withdraw",
     title: "Humanics",
     subtitle: "Swap & Withdraw",
-    description: "The desktop web app is used by nurse supervisors to create and manage the schedules of nursing staff in a hospital unit. The mobile app (iOS/Android) is used by nursing staff on their personal phones to view their hospital work schedule and submit their schedule preferences.",
+    description: "Humanics is a workforce management solution for nurses and nurse supervisors. The product has 2 parts: a desktop web app and a mobile app (iOS/Android).",
     category: "Product Design",
     thumbnail: "/images/projects/humanics-swap.png",
     year: "2019",
@@ -331,7 +331,7 @@ We are establishing a usage baseline for the withdraw option. This also is not p
     id: "roblox-nux",
     title: "Roblox",
     subtitle: "NUX",
-    description: "The New User Experience (NUX) of the player funnel is a journey that begins when a player first encounters Roblox (e.g. iOS App Store) and ends when the player comes back a second day. The product-level goal of the NUX is to help grow our MAP and DAP by on-boarding users onto our platform.",
+    description: "Roblox is a platform for entertainment content providers to publish their games, and a source for players to discover and play millions of games.",
     category: "Product Design",
     thumbnail: "/images/projects/roblox.png",
     year: "2018",
@@ -356,9 +356,9 @@ After consulting with my research, analytics, and design partners, I distilled m
       },
       {
         title: "The Basics",
-        content: `Who: The target audience today are kids in the 9-12 age range, but we are taking measures to age up (13-16 age group).
+        content: `**Who:** The target audience today are kids in the 9-12 age range, but we are taking measures to age up (13-16 age group).
 
-High Level Goals: To successfully redesign NUX for the short, mid, and long term, my recommendation is to (#1) focus design efforts related to aging up the experience and interface first, and (#2) improve retention. This aligns with higher level business goals.`
+**High Level Goals:** To successfully redesign NUX for the short, mid, and long term, my recommendation is to (#1) focus design efforts related to aging up the experience and interface first, and (#2) improve retention. This aligns with higher level business goals.`
       },
       {
         title: "Breaking Down the Problem",
@@ -380,21 +380,21 @@ D0 Cycle: In this phase, players go thru a cycle that starts with discovering th
 
 When looking at the player fall-off from the point of launching the app to the point of players returning on Day 1 (D1), it might be tempting to just focus on improving the retention metrics. However, aging up is more important from a business standpoint at this time and since we are taking significant measures to address that, my suggestion was to start by refining the Signup phase for older and more discerning audience.
 
-Goals: To age up, my recommendation is to focus design efforts on providing better context, value proposition, reason and gain a clear understanding of player interests while conveying other fundamental aspects of Roblox, like the avatar. Last but not least, the design should deliver a high EI.`
+**Goals:** To age up, my recommendation is to focus design efforts on providing better context, value proposition, reason and gain a clear understanding of player interests while conveying other fundamental aspects of Roblox, like the avatar. Last but not least, the design should deliver a high EI.`
       },
       {
         title: "Purpose & Mission",
-        content: `Emotional Impact (EI): The degree of emotional feeling and connection that humans have with a product experience is not easily quantifiable. My hypothesis is, it comprises of mental stimulation (based on engaging interaction design), visual stimulation (based on pleasing and delightful interface/motion design), and auditory stimulation (based on pleasurable sound design). Without the right amounts and combinations of these, a product experience will feel off, and humans will struggle to connect with and or stay loyal to a product. My hypothesis is, successful products generally deliver a high EI.
+        content: `**Emotional Impact (EI):** The degree of emotional feeling and connection that humans have with a product experience is not easily quantifiable. My hypothesis is, it comprises of mental stimulation (based on engaging interaction design), visual stimulation (based on pleasing and delightful interface/motion design), and auditory stimulation (based on pleasurable sound design). Without the right amounts and combinations of these, a product experience will feel off, and humans will struggle to connect with and or stay loyal to a product. My hypothesis is, successful products generally deliver a high EI.
 
-Raise EI: The player journey to the first game experience should deliver a high EI. Assumption is, this will improve the enjoyment and engagement value while also providing an experience that's personalized, meaningful, focused, safe and provide adequate value and knowledge of Roblox. Along with that, new players should be presented with the right games and provided with sufficient context, value and understanding along that journey, and reinforcement to get them playing the same day (D0) but also getting them to return another day (D1).`
+**Raise EI:** The player journey to the first game experience should deliver a high EI. Assumption is, this will improve the enjoyment and engagement value while also providing an experience that's personalized, meaningful, focused, safe and provide adequate value and knowledge of Roblox. Along with that, new players should be presented with the right games and provided with sufficient context, value and understanding along that journey, and reinforcement to get them playing the same day (D0) but also getting them to return another day (D1).`
       },
       {
         title: "North Star",
         content: `The glaring problem I've identified is lack of a personalized experience. My hypothesis is, by designing the entire ecosystem around the interests of players to deeply personalize the experience, we will not only raise the product's EI but we will also achieve our goals for NUX and improve long-term retention.
 
-Why Do Players Come: My hypothesis is, the first reason most players come to Roblox is to play a wide variety of games with their friends (social ecosystem), but along with that, there is an element of their online presence, their digital identity and attributes surrounding that.
+**Why Do Players Come:** My hypothesis is, the first reason most players come to Roblox is to play a wide variety of games with their friends (social ecosystem), but along with that, there is an element of their online presence, their digital identity and attributes surrounding that.
 
-What Do Players Want: More importantly, my hypothesis around what they want is, content that relates to them, personalized and catered to their specific interests. My assumption is, understanding player interests and catering every aspect of their experience on the platform to their interests will be key to more aha moments, higher EI, and improved retention.`
+**What Do Players Want:** More importantly, my hypothesis around what they want is, content that relates to them, personalized and catered to their specific interests. My assumption is, understanding player interests and catering every aspect of their experience on the platform to their interests will be key to more aha moments, higher EI, and improved retention.`
       },
       {
         title: "Short Term Plan",
@@ -459,7 +459,7 @@ The goal here is to suggest interesting usernames based on the choices they made
       {
         blocks: [
           { type: 'image', src: "/images/projects/jarvis/jarvis-01-app-icon.png", alt: "iOS App Icon", maxWidth: 250 },
-          { type: 'text', content: `I named the app Jarvis after Tony Stark's assistant, with the north star in mind that it should be a smart app with contextual awarenesses.`, centered: true, size: 'large' },
+          { type: 'text', content: `I named the app _Jarvis_ after Tony Stark's assistant, with the north star in mind that it should be a smart app with contextual awarenesses.`, centered: true, size: 'large' },
           { type: 'notice', content: `Note: Confidential content - Do not share`, color: 'red' }
         ]
       },
@@ -474,9 +474,9 @@ The goal here is to suggest interesting usernames based on the choices they made
       {
         title: "The Ideal Assistant",
         blocks: [
-          { type: 'text', content: `Why: (High Level Problems) iOS apps of connected cars (like Tesla, BMW, Chevrolet, etc.) don't seem to be optimized for basic everyday use cases. They don't seem to utilize contextual data for a deeper and richer human experience. They seem to lack a focused human experience and have failed to delight me.` },
+          { type: 'text', content: `**Why:** (High Level Problems) iOS apps of connected cars (like Tesla, BMW, Chevrolet, etc.) don't seem to be optimized for basic everyday use cases. They don't seem to utilize contextual data for a deeper and richer human experience. They seem to lack a focused human experience and have failed to delight me.` },
           { type: 'image', src: "/images/projects/jarvis/jarvis-02-manufacturer-app.jpg", alt: "Manufacturer's 2017 App Interface", maxWidth: 300 },
-          { type: 'text', content: `Goals: At the high level I wanted to design a delightful and competent assistant with the following abilities.
+          { type: 'text', content: `**Goals:** At the high level I wanted to design a delightful and competent assistant with the following abilities.
 
 1. Provide an improved experience for core functions to cater to everyday use (Hypothesis: mirrors expectations of target audience)
 
@@ -488,7 +488,7 @@ The goal here is to suggest interesting usernames based on the choices they made
 
 5. Execute all of the above by making sure the experience and interface is elegant, organized, focused, intuitive, delightful, and simple.
 
-Who: Target audience are humans who can drive a car and can operate a smart phone at the basic level.` }
+**Who:** Target audience are humans who can drive a car and can operate a smart phone at the basic level.` }
         ]
       },
       {
@@ -496,15 +496,15 @@ Who: Target audience are humans who can drive a car and can operate a smart phon
         blocks: [
           { type: 'text', content: `I wanted to first tackle the problem (and goal #1) of basic and common actions for everyday use – unlocking and starting a connected car (Assumption: these actions are most common for everyday use when not carrying the key fob)
 
-Research: My informal UX research based on friends and family validated my assumption that these actions are most common for everyday use, and feedback regarding the app experience was lukewarm.
+**Research:** My informal UX research based on friends and family validated my assumption that these actions are most common for everyday use, and feedback regarding the app experience was lukewarm.
 
-Analysis: The current app provides access to basic actions for everyday use with a row of circular buttons.` },
+**Analysis:** The current app provides access to basic actions for everyday use with a row of circular buttons.` },
           { type: 'image', src: "/images/projects/jarvis/jarvis-03-basic-actions.jpg", alt: "Basic Actions for Everyday Use", maxWidth: 450 },
-          { type: 'text', content: `Why: (Problem) These buttons require higher accuracy to tap (Assumption: a swipe is better in this scenario) and the design does not seem to be optimized for everyday use (Hypothesis: tapping at this location on the screen isn't ideal for repeated use and the best human experience).
+          { type: 'text', content: `**Why:** (Problem) These buttons require higher accuracy to tap (Assumption: a swipe is better in this scenario) and the design does not seem to be optimized for everyday use (Hypothesis: tapping at this location on the screen isn't ideal for repeated use and the best human experience).
 
-Goal #1: Provide an improved experience for these common functions to cater to everyday use.
+**Goal #1:** Provide an improved experience for these common functions to cater to everyday use.
 
-Solution: I have always thought the slide to unlock control of the original iPhone's lock screen was such an elegant, thoughtful, and delightful design. My assumption is, the interface and experience was designed such that you would not accidentally unlock your device, the swipe gesture is very comfortable to execute for repeated everyday use instead of a more accurate tap gesture, and it is visually prominent.` },
+**Solution:** I have always thought the slide to unlock control of the original iPhone's lock screen was such an elegant, thoughtful, and delightful design. My assumption is, the interface and experience was designed such that you would not accidentally unlock your device, the swipe gesture is very comfortable to execute for repeated everyday use instead of a more accurate tap gesture, and it is visually prominent.` },
           { type: 'image', src: "/images/projects/jarvis/jarvis-04-iphone-lockscreen.jpg", alt: "Original iPhone Lock Screen", maxWidth: 200 }
         ]
       },
@@ -598,11 +598,11 @@ I interacted with 3 other designers on a regular basis who were working on other
 
 Context: A developer's workflow takes them thru a variety of focal points in Xcode. Every focal point has actions with associated keyboard shortcuts that improves efficiency. Xcode has a lot of useful functionality with undiscovered keyboard shortcuts.
 
-Opportunity: It was exciting to sort thru the noise and define the experiences and interfaces that could be designed for this new hardware. When I began, the high level question was, what will make the Touch Bar experience compelling enough to use in Xcode and bring value to the target audience when they purchase the new hardware?
+**Opportunity:** It was exciting to sort thru the noise and define the experiences and interfaces that could be designed for this new hardware. When I began, the high level question was, what will make the Touch Bar experience compelling enough to use in Xcode and bring value to the target audience when they purchase the new hardware?
 
-Analysis of trace data (anonymous app usage data) proved that many keyboard shortcuts for common functions were not being utilized to their full potential, which would improve efficiency for everyday use. Hypothesis was, most developers prefer using the keyboard as much as possible to be efficient (and they hardly use the mouse cursor) but they were not aware of the many keyboard shortcuts, or probably couldn't remember all of them. This was the value proposition and the biggest opportunity.
+**Analysis:** of trace data (anonymous app usage data) proved that many keyboard shortcuts for common functions were not being utilized to their full potential, which would improve efficiency for everyday use. Hypothesis was, most developers prefer using the keyboard as much as possible to be efficient (and they hardly use the mouse cursor) but they were not aware of the many keyboard shortcuts, or probably couldn't remember all of them. This was the value proposition and the biggest opportunity.
 
-Goals: At the high level I wanted to design a human experience for the Touch Bar that would boost efficiency for the target audience. It shouldn't be too complicated but minimal and simple (Apple design philosophy) even though the target audience are capable of understanding complex systems.
+**Goals:** At the high level I wanted to design a human experience for the Touch Bar that would boost efficiency for the target audience. It shouldn't be too complicated but minimal and simple (Apple design philosophy) even though the target audience are capable of understanding complex systems.
 
 The hypothesis was, loading up the Touch Bar with as many button as possible would increase cognitive load. Along with that, the recommendation from Apple's industrial design team was, be as judicious as possible with the number of buttons displayed in the Touch Bar and don't fill it even if there was room to do so.
 
@@ -614,15 +614,15 @@ Based on that, I defined the following goals.
 
 3. Introduce target audience to undiscovered useful functions (Based on analysis of trace data)
 
-Who: Target audience are all developers using Xcode. Assumption is, they are very technical, value efficiency the most, understand complex systems, and prefer high density over sparseness.`
+**Who:** Target audience are all developers using Xcode. Assumption is, they are very technical, value efficiency the most, understand complex systems, and prefer high density over sparseness.`
       },
       {
         title: "Xcode and New Hardware",
         content: `I led the design of the Touch Bar experience for about 6 contexts of Xcode.
 
-Information Architecture: UX research helped me identify the common workflows and actions for the above contexts and parts. I created a mind map of the various functions I wanted to surface in the Touch Bar.
+**Information Architecture:** UX research helped me identify the common workflows and actions for the above contexts and parts. I created a mind map of the various functions I wanted to surface in the Touch Bar.
 
-Challenges: Once I had the list of useful functions I wanted to surface, I still had to be very judicious because I couldn't surface all of them. Most Touch Bar experiences for other apps are not designed to change when focus changes to different parts of the app.
+**Challenges:** Once I had the list of useful functions I wanted to surface, I still had to be very judicious because I couldn't surface all of them. Most Touch Bar experiences for other apps are not designed to change when focus changes to different parts of the app.
 
 Xcode being a complex tool and given the target audience, I had to decide which core functions are most important and should stick around when focus changes in the main window. Touch Bar solutions for most apps mirror visible buttons in the main window. These are functions that a user commonly interacts with using the mouse cursor.
 

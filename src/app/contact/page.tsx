@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ContactPage() {
+  const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,17 +34,22 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
-      <div className="max-w-2xl mx-auto px-6 py-24">
+    <div className="min-h-screen bg-white dark:bg-background-page pt-[70px]">
+      <div className="max-w-2xl mx-auto px-6 py-16">
+        <div
+          className={`transition-all duration-500 ${
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
         <div className="space-y-8">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <header className="text-center mb-12">
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-stone-100 mb-6">
               Contact
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+            <p className="text-xl text-gray-500 dark:text-stone-500">
               Have a project in mind or want to collaborate? I&apos;d love to hear from you.
             </p>
-          </div>
+          </header>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -137,6 +147,7 @@ export default function ContactPage() {
               LinkedIn
             </a>
           </div>
+        </div>
         </div>
       </div>
     </div>
