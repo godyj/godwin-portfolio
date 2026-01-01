@@ -43,3 +43,6 @@ next-env.d.ts
 # MCP / Claude Code
 .mcp.json
 .playwright-mcp/
+
+# Personal notes
+APPWRITE-SITES-NOTES.md
