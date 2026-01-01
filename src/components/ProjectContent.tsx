@@ -28,7 +28,7 @@ function renderInlineFormatting(text: string, keyPrefix: string = "") {
   return parts.map((part, partIndex) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
-        <strong key={`${keyPrefix}-${partIndex}`} className={`font-bold ${styles.heading}`}>
+        <strong key={`${keyPrefix}-${partIndex}`} className={`font-medium ${styles.heading}`}>
           {part.slice(2, -2)}
         </strong>
       );
@@ -284,7 +284,7 @@ export default function ProjectContent({ sections }: ProjectContentProps) {
         {sections.map((section, index) => (
           <section key={index}>
             {section.title && (
-              <h2 className={`text-xl font-bold ${styles.heading} mb-4`}>{section.title}</h2>
+              <h2 className={`text-2xl font-medium ${styles.heading} mb-4`}>{section.title}</h2>
             )}
 
             {/* Render blocks or legacy content */}

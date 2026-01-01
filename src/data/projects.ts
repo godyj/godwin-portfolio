@@ -520,9 +520,9 @@ I chose to show the top view of the car in this screen because it provides the m
             { src: "/images/projects/jarvis/jarvis-05-overview-locked.jpg", alt: "Overview Screen - Locked" },
             { src: "/images/projects/jarvis/jarvis-06-overview-alert.jpg", alt: "Overview Screen - Alert" }
           ], maxWidth: 800 },
-          { type: 'text', content: `Challenges: I prefer to adhere to established design patterns (standard bottom tabs in iOS apps) and only introduce something new when there is a clear win, aha moment or when absolutely necessary. In this case, the design decision to use the bottom part of the screen for swipe gestures was ideal for that action, which directed me to find a new home for the primary navigation.` },
+          { type: 'text', content: `**Challenges:** I prefer to adhere to established design patterns (standard bottom tabs in iOS apps) and only introduce something new when there is a clear win, aha moment or when absolutely necessary. In this case, the design decision to use the bottom part of the screen for swipe gestures was ideal for that action, which directed me to find a new home for the primary navigation.` },
           { type: 'image', src: "/images/projects/jarvis/jarvis-07-bottom-tabs.jpg", alt: "Standard Bottom Tabs in iOS App", maxWidth: 362 },
-          { type: 'text', content: `Outcome: I took this opportunity to also satisfy goal #2 – to communicate important information, states and warnings. I thus introduced a new vertically stacked navigation control to also convey additional data.` },
+          { type: 'text', content: `**Outcome:** I took this opportunity to also satisfy goal #2 – to communicate important information, states and warnings. I thus introduced a new vertically stacked navigation control to also convey additional data.` },
           { type: 'image', src: "/images/projects/jarvis/jarvis-08-vertical-nav.jpg", alt: "Vertical Navigation Control", maxWidth: 500 }
         ]
       },
@@ -540,9 +540,8 @@ I chose to show the top view of the car in this screen because it provides the m
         ]
       },
       {
-        title: "Testing & Prototypes",
         blocks: [
-          { type: 'text', content: `The additional screens shown below do not have any noteworthy rethinking, but I wanted to exhibit them for further conversation.` },
+          { type: 'text', content: `**Testing & Prototypes:** The additional screens shown below do not have any noteworthy rethinking, but I wanted to exhibit them for further conversation.` },
           { type: 'image', src: "/images/projects/jarvis/jarvis-14-additional.jpg", alt: "Additional Screens", maxWidth: 500 },
           { type: 'images', items: [
             { src: "/images/projects/jarvis/jarvis-15-prototype-1.jpg", alt: "Prototype Screen 1" },
@@ -554,18 +553,18 @@ I chose to show the top view of the car in this screen because it provides the m
           ], maxWidth: 800 },
           { type: 'text', content: `Using these designs I built a design prototype for friends and family to validate my hypotheses and assumptions.` },
           { type: 'video', src: "/videos/jarvis-prototype.mp4", caption: "Preview of Design Prototype", maxWidth: 360 },
-          { type: 'text', content: `Production: I have not built an engineering product yet.
+          { type: 'text', content: `**Production:** I have not built an engineering product yet.
 
-Analytics & Metrics: When I have a working product, my plan is to collect anonymous usage data from the app, reviews from the App Store, feedback from Twitter, and refine the design accordingly.` }
+**Analytics & Metrics:** When I have a working product, my plan is to collect anonymous usage data from the app, reviews from the App Store, feedback from Twitter, and refine the design accordingly.` }
         ]
       },
       {
         title: "Assistant of the Future",
         content: `To conclude, my high level goal was to make this app a delightful and competent assistant. To satisfy that goal, the assistant needs to react to contextual data with a broader scope. What got me thinking was the fact that my car has access to my calendar events (after granting permission). These calendar events have metadata associated with it such as location and people. The assistant could use this data (after I've granted permission) and act on it. The below ideas are high level concepts that need to be explored, tested, and validated.
 
-Idea #1 - Reminder to Charge: Say the driver needs to be at a particular location the next day (based on the calendar event), assumption is this data can be used in accordance with available range (remaining battery charge) and currently parked location (at home for instance) to remind the driver to charge the battery for tomorrow's travel. Hypothesis is, this will bring that delight factor when you have a thoughtful assistant reminding you by your side.
+**Idea #1 - Reminder to Charge:** Say the driver needs to be at a particular location the next day (based on the calendar event), assumption is this data can be used in accordance with available range (remaining battery charge) and currently parked location (at home for instance) to remind the driver to charge the battery for tomorrow's travel. Hypothesis is, this will bring that delight factor when you have a thoughtful assistant reminding you by your side.
 
-Idea #2 - Comfortable Cabin: Say the driver is ready to head to the car for their drive home from work. Assumption is, when they start walking, previous map path data (to/from work), time of day, and motion data, from a smart phone can be used to turn on the HVAC system (automatically or after a push request) in the car and make the cabin temperature comfortable for when the driver gets to the car. Assumption is, this will be more accurate and can react to varying habits because a smart phone is with the human as opposed to the car setting with basic cabin preconditioning.`
+**Idea #2 - Comfortable Cabin:** Say the driver is ready to head to the car for their drive home from work. Assumption is, when they start walking, previous map path data (to/from work), time of day, and motion data, from a smart phone can be used to turn on the HVAC system (automatically or after a push request) in the car and make the cabin temperature comfortable for when the driver gets to the car. Assumption is, this will be more accurate and can react to varying habits because a smart phone is with the human as opposed to the car setting with basic cabin preconditioning.`
       }
     ]
   },

@@ -4,7 +4,66 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
-## [0.10.0] - 2025-12-31 (18:03 PST)
+## [0.9.2] - 2025-12-31 (18:30 PST)
+
+### Fixed
+- **Xcode images displaying wrong content**: Resolved corrupted Next.js image cache
+  - **Symptom**: Images appeared wrong on page (e.g., glyphs showing instead of MacBook Pro)
+  - **Root cause**: Next.js image optimization cache (`.next/cache/images`) was corrupted
+  - **Verification**: Actual image files on disk were correct (MD5 checksums matched CDN)
+  - **Fix**: `rm -rf .next && npm run dev` to clear cache and rebuild
+
+### Key Learnings for Future Case Studies
+1. **Checksum verification alone is insufficient**: Files on disk can be correct while cached optimized images are wrong
+2. **Always visual verify**: Use Playwright to screenshot and compare actual rendered pages
+3. **Next.js image cache can corrupt**: When images appear wrong despite correct files, clear `.next` folder
+4. **Test optimized URLs directly**: Check `/_next/image?url=...` endpoints to verify what's being served
+5. **Full workflow for image debugging**:
+   ```bash
+   # 1. Verify source file is correct
+   curl -s "http://localhost:3000/images/projects/xcode/touch-bar-interface.jpg" | md5
+
+   # 2. Check what Next.js optimized cache is serving
+   curl -s "http://localhost:3000/_next/image?url=%2Fimages%2Fprojects%2Fxcode%2Ftouch-bar-interface.jpg&w=1920&q=75" -o test.webp
+
+   # 3. If mismatch, clear cache
+   rm -rf .next && npm run dev
+   ```
+
+### Technical Notes
+- Next.js stores optimized images in `.next/cache/images/`
+- Cache can become corrupted if images are renamed/replaced while server is running
+- Always restart dev server after replacing image files
+- Visual comparison with Playwright is the definitive test, not checksums
+
+### Inline Label Verification Process
+When adding a new case study, verify all inline labels match the original:
+
+1. **Extract labels from original site** using Playwright:
+   ```javascript
+   // Find all elements with font-weight in style attribute
+   document.querySelectorAll('[style*="font-weight"]')
+   ```
+
+2. **Distinguish section titles from inline labels** by font-size:
+   - Section titles: ~28px, font-weight 500
+   - Inline labels: ~21px (body size), font-weight 700
+
+3. **Check our projects.ts** for each label:
+   - Section titles → use `title:` property
+   - Inline labels → use `**Label:**` markdown syntax in content
+
+4. **Common inline labels** (should use `**text:**` not `title:`):
+   - Why:, Goals:, Who:, Research:, Analysis:
+   - Solution:, Challenges:, Outcome:
+   - Production:, Analytics & Metrics:
+   - Testing & Prototypes:, Idea #1, Idea #2, etc.
+
+5. **Verify all labels are present** and marked with `**bold:**` syntax
+
+---
+
+## [0.9.1] - 2025-12-31 (18:03 PST)
 
 ### Added
 - **Xcode case study structure**: Full content blocks with all 22 images positioned
@@ -17,23 +76,10 @@ All notable changes to the Godwin Portfolio migration project.
   - mind-map.jpg, window-toolbar-navigator.jpg, and 16 more
   - All images verified via MD5 checksum match
 
-### Known Issues
-- **Xcode images appear wrong visually** despite checksums matching
-  - MD5 checksums verified identical to CDN originals
-  - Images downloaded directly from full-resolution CDN URLs
-  - Likely cause: Wrong image-to-position mapping in projects.ts
-  - Need visual side-by-side comparison to debug (not checksum comparison)
-
 ### Technical Notes
 - Used Playwright MCP to inspect element sizes on both sites
 - App icon renders at 350x350px on both original and new site
 - Image comparison done via MD5 checksums - all 22 match
-- Issue is likely in the ORDER of images, not the files themselves
-
-### Debug Info for Next Session
-- Original images cached at: `/tmp/xcode-original/`
-- Mapping file: `/tmp/xcode-original/urls.txt`
-- Need to use Playwright screenshots to visually compare each section
 
 ---
 
