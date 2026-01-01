@@ -4,6 +4,77 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
+## [0.10.0] - 2025-12-31 (18:03 PST)
+
+### Added
+- **Xcode case study structure**: Full content blocks with all 22 images positioned
+  - Uses `layout: "content-first"` (no hero image, centered header)
+  - `sections` with `blocks` array for interspersed text/images
+  - App icon at top with 350px max-width, noLightbox
+  - All section titles and content matched to original
+- **22 Xcode case study images**: Downloaded from Adobe CDN
+  - app-icon.jpg, touch-bar-interface.jpg, main-window.jpg, 6-contexts.jpg
+  - mind-map.jpg, window-toolbar-navigator.jpg, and 16 more
+  - All images verified via MD5 checksum match
+
+### Known Issues
+- **Xcode images appear wrong visually** despite checksums matching
+  - MD5 checksums verified identical to CDN originals
+  - Images downloaded directly from full-resolution CDN URLs
+  - Likely cause: Wrong image-to-position mapping in projects.ts
+  - Need visual side-by-side comparison to debug (not checksum comparison)
+
+### Technical Notes
+- Used Playwright MCP to inspect element sizes on both sites
+- App icon renders at 350x350px on both original and new site
+- Image comparison done via MD5 checksums - all 22 match
+- Issue is likely in the ORDER of images, not the files themselves
+
+### Debug Info for Next Session
+- Original images cached at: `/tmp/xcode-original/`
+- Mapping file: `/tmp/xcode-original/urls.txt`
+- Need to use Playwright screenshots to visually compare each section
+
+---
+
+## [0.9.0] - 2025-12-31 (15:40 PST)
+
+### Added
+- **Lightbox component**: Clickable images that open in full-screen modal
+  - All case study images are now clickable for enlarged view
+  - Dark overlay (90% opacity) with backdrop blur
+  - Close via X button, click outside, or Escape key
+  - Caption displayed at bottom of lightbox
+  - Full-resolution images via `unoptimized` Next.js Image prop
+  - Hover effect: subtle zoom (1.02x) + dark overlay + magnifying glass icon
+- **Custom video player**: Simple play button overlay (replaces browser controls)
+  - Large centered play button (80px white circle)
+  - Click anywhere to play/pause
+  - Native controls appear on hover while playing
+  - Play button reappears when video ends
+- **Global component styles**: Reusable CSS classes in `globals.css`
+  - Video player: `.video-player`, `.video-player-overlay`, `.video-play-button`
+  - Lightbox: `.lightbox-overlay`, `.lightbox-close`, `.lightbox-image-container`, `.lightbox-caption`
+- **CSS custom properties for video player**:
+  - `--video-play-button-size`: 5rem (80px)
+  - `--video-play-icon-size`: 2rem (32px)
+  - `--video-overlay-bg`: rgba(0, 0, 0, 0.3)
+  - `--video-play-button-bg`: rgba(255, 255, 255, 0.9)
+
+### Changed
+- **ProjectContent**: Refactored to client component for lightbox state management
+- **Project page**: Now uses `<ProjectContent>` component for case study sections
+- **Image rendering**: All images wrapped in clickable containers with hover effects
+
+### Technical Notes
+- `Lightbox.tsx`: Client component with keyboard handling and body scroll lock
+- `VideoPlayer.tsx`: Client component with play/pause state and hover controls
+- `ProjectContent.tsx`: Manages lightbox state, renders clickable images/grids
+- Components use global CSS classes for consistent styling across all case studies
+- Lightbox works automatically for all projects (existing and future)
+
+---
+
 ## [0.8.0] - 2025-12-31 (00:31 PST)
 
 ### Added

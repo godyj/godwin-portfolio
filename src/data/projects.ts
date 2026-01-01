@@ -1,6 +1,6 @@
 export type ContentBlock =
   | { type: 'text'; content: string; centered?: boolean; size?: 'normal' | 'large' }
-  | { type: 'image'; src: string; alt: string; maxWidth?: number }
+  | { type: 'image'; src: string; alt: string; maxWidth?: number; noLightbox?: boolean }
   | { type: 'images'; items: Array<{ src: string; alt: string }>; maxWidth?: number }
   | { type: 'video'; src: string; caption?: string; maxWidth?: number }
   | { type: 'notice'; content: string; color?: 'red' | 'gray' };
@@ -458,7 +458,7 @@ The goal here is to suggest interesting usernames based on the choices they made
     sections: [
       {
         blocks: [
-          { type: 'image', src: "/images/projects/jarvis/jarvis-01-app-icon.png", alt: "iOS App Icon", maxWidth: 250 },
+          { type: 'image', src: "/images/projects/jarvis/jarvis-01-app-icon.png", alt: "iOS App Icon", maxWidth: 250, noLightbox: true },
           { type: 'text', content: `I named the app _Jarvis_ after Tony Stark's assistant, with the north star in mind that it should be a smart app with contextual awarenesses.`, centered: true, size: 'large' },
           { type: 'notice', content: `Note: Confidential content - Do not share`, color: 'red' }
         ]
@@ -575,6 +575,7 @@ Idea #2 - Comfortable Cabin: Say the driver is ready to head to the car for thei
     subtitle: "Touch Bar",
     description: "Xcode is an integrated development environment (IDE) that's used by millions of developers around the world to build apps that consumers enjoy using on all Apple products.",
     category: "Product Design",
+    layout: "content-first",
     thumbnail: "/images/projects/xcode.png",
     year: "2016",
     month: "August",
@@ -582,6 +583,13 @@ Idea #2 - Comfortable Cabin: Say the driver is ready to head to the car for thei
     skills: ["Product Strategy", "UI", "UX", "IA", "Research"],
     confidential: true,
     sections: [
+      {
+        blocks: [
+          { type: 'image', src: "/images/projects/xcode/app-icon.jpg", alt: "macOS App Icon", maxWidth: 350, noLightbox: true },
+          { type: 'text', content: `Apple introduced a touchscreen on the MacBook Pro laptops called the Touch Bar which displays dynamic functions based on the app being used.`, centered: true, size: 'large' },
+          { type: 'notice', content: `Note: Confidential content - Do not share`, color: 'red' }
+        ]
+      },
       {
         title: "Role",
         content: `I was the lead designer for most of Xcode and saw it through almost 5 public releases. I partly worked on version 9, which was released at the end of 2017. The first Touch Bar experience for Xcode was publicly released at the end of 2016 with version 8. As the lead designer I led the design efforts for Xcode's Touch Bar all the way from defining the opportunities and goals, through to delivering final artwork to engineering for implementation and working with QA up until final release.
@@ -594,11 +602,12 @@ I interacted with 3 other designers on a regular basis who were working on other
       },
       {
         title: "Exciting New Hardware",
-        content: `The Touch Bar is a touchscreen on an Apple MacBook Pro and has the capability of providing actions that are global to an app and contextual to specific zones of an app based on cursor focus.
-
-Context: A developer's workflow takes them thru a variety of focal points in Xcode. Every focal point has actions with associated keyboard shortcuts that improves efficiency. Xcode has a lot of useful functionality with undiscovered keyboard shortcuts.
-
-**Opportunity:** It was exciting to sort thru the noise and define the experiences and interfaces that could be designed for this new hardware. When I began, the high level question was, what will make the Touch Bar experience compelling enough to use in Xcode and bring value to the target audience when they purchase the new hardware?
+        blocks: [
+          { type: 'text', content: `The Touch Bar is a touchscreen on an Apple MacBook Pro and has the capability of providing actions that are global to an app and contextual to specific zones of an app based on cursor focus.` },
+          { type: 'image', src: "/images/projects/xcode/touch-bar-interface.jpg", alt: "Xcode Touch Bar Interface" },
+          { type: 'text', content: `**Context:** A developer's workflow takes them thru a variety of focal points in Xcode. Every focal point has actions with associated keyboard shortcuts that improves efficiency. Xcode has a lot of useful functionality with undiscovered keyboard shortcuts.` },
+          { type: 'image', src: "/images/projects/xcode/main-window.jpg", alt: "Xcode App Main Window" },
+          { type: 'text', content: `**Opportunity:** It was exciting to sort thru the noise and define the experiences and interfaces that could be designed for this new hardware. When I began, the high level question was, what will make the Touch Bar experience compelling enough to use in Xcode and bring value to the target audience when they purchase the new hardware?
 
 **Analysis:** of trace data (anonymous app usage data) proved that many keyboard shortcuts for common functions were not being utilized to their full potential, which would improve efficiency for everyday use. Hypothesis was, most developers prefer using the keyboard as much as possible to be efficient (and they hardly use the mouse cursor) but they were not aware of the many keyboard shortcuts, or probably couldn't remember all of them. This was the value proposition and the biggest opportunity.
 
@@ -614,15 +623,17 @@ Based on that, I defined the following goals.
 
 3. Introduce target audience to undiscovered useful functions (Based on analysis of trace data)
 
-**Who:** Target audience are all developers using Xcode. Assumption is, they are very technical, value efficiency the most, understand complex systems, and prefer high density over sparseness.`
+**Who:** Target audience are all developers using Xcode. Assumption is, they are very technical, value efficiency the most, understand complex systems, and prefer high density over sparseness.` }
+        ]
       },
       {
         title: "Xcode and New Hardware",
-        content: `I led the design of the Touch Bar experience for about 6 contexts of Xcode.
-
-**Information Architecture:** UX research helped me identify the common workflows and actions for the above contexts and parts. I created a mind map of the various functions I wanted to surface in the Touch Bar.
-
-**Challenges:** Once I had the list of useful functions I wanted to surface, I still had to be very judicious because I couldn't surface all of them. Most Touch Bar experiences for other apps are not designed to change when focus changes to different parts of the app.
+        blocks: [
+          { type: 'text', content: `I led the design of the Touch Bar experience for about 6 contexts of Xcode.` },
+          { type: 'image', src: "/images/projects/xcode/6-contexts.jpg", alt: "6 Contexts of Xcode" },
+          { type: 'text', content: `**Information Architecture:** UX research helped me identify the common workflows and actions for the above contexts and parts. I created a mind map of the various functions I wanted to surface in the Touch Bar.` },
+          { type: 'image', src: "/images/projects/xcode/mind-map.jpg", alt: "Mind Map" },
+          { type: 'text', content: `**Challenges:** Once I had the list of useful functions I wanted to surface, I still had to be very judicious because I couldn't surface all of them. Most Touch Bar experiences for other apps are not designed to change when focus changes to different parts of the app.
 
 Xcode being a complex tool and given the target audience, I had to decide which core functions are most important and should stick around when focus changes in the main window. Touch Bar solutions for most apps mirror visible buttons in the main window. These are functions that a user commonly interacts with using the mouse cursor.
 
@@ -630,61 +641,64 @@ Assumption is, humans would be reluctant to use a control in the Touch Bar that 
 
 Then there was the question of adequate visual feedback for these buttons that don't have counterparts in the main window. Yes, the main window will react to the executed actions, but my hypothesis was that it wouldn't be sufficient. I had an idea that we didn't have time to implement for launch but I am unable to share the solution for confidentiality reasons.
 
-Lastly, in some cases I had to infer and define my own layout and style guide because the Touch Bar system itself was being defined in parallel (by a different team).`
+Lastly, in some cases I had to infer and define my own layout and style guide because the Touch Bar system itself was being defined in parallel (by a different team).` }
+        ]
       },
       {
-        title: "Toolbar and Navigator",
-        content: `Based on design principles of a macOS app, the buttons in the toolbar are for global actions, and do not change when focus shifts to different parts of the app window – Xcode adheres to this principle. Based on UX research and feedback from target audience, I started the design process focusing on the human experience when using the source editor because a significant amount of time during development is spent in the source editor.
+        title: "Results",
+        blocks: [
+          { type: 'text', content: `**Toolbar and Navigator:** Based on design principles of a macOS app, the buttons in the toolbar are for global actions, and do not change when focus shifts to different parts of the app window – Xcode adheres to this principle. Based on UX research and feedback from target audience, I started the design process focusing on the human experience when using the source editor because a significant amount of time during development is spent in the source editor.
 
 I started designing the Touch Bar experience holistically by asking the question, what is the combination of most essential Touch Bar functions for the toolbar along another section of the app? To write/edit code, the workflow technically begins in the navigator.
 
-I needed to balance functions between the ones in the toolbar with ones from the navigator. Research and feedback guided me to the Play and Stop buttons, because those two buttons are used to run and stop apps most frequently during development and are the most common actions taken in the toolbar. I dedicated the rest of the space for contextual actions. In this case, the navigator. The navigator section can be broken down to 3 subsections – nav switcher at the top, list view under it, and filter bar at the bottom – all these have their own associated actions. I didn't consider the nav switcher for the Touch Bar because switching navigators is not a frequent action during development for everyday use.
+I needed to balance functions between the ones in the toolbar with ones from the navigator. Research and feedback guided me to the Play and Stop buttons, because those two buttons are used to run and stop apps most frequently during development and are the most common actions taken in the toolbar. I dedicated the rest of the space for contextual actions. In this case, the navigator. The navigator section can be broken down to 3 subsections – nav switcher at the top, list view under it, and filter bar at the bottom – all these have their own associated actions. I didn't consider the nav switcher for the Touch Bar because switching navigators is not a frequent action during development for everyday use.` },
+          { type: 'image', src: "/images/projects/xcode/window-toolbar-navigator.jpg", alt: "Xcode App Main Window Toolbar and Navigator" },
+          { type: 'text', content: `However, I explored actions specific to a selected file, actions under the plus button in the bottom left corner of the navigator and filter bar functions. This exploration didn't yield optimal results because my hypothesis was, these were not truly the most common actions, in some cases there were commands that required an extra tap to get to the final action, and the Touch Bar started to look cluttered in some cases.` },
+          { type: 'image', src: "/images/projects/xcode/touchbar-exploration-toolbar.jpg", alt: "Touch Bar Interface Exploration for Toolbar and Navigator" },
+          { type: 'text', content: `I then explored more possibilities around just the filter bar area at the bottom; such as actions for the plus button and experiences using the filter field in the Touch Bar. These explorations also didn't yield optimal results because of the extra tap needed, and my hypothesis for the filter field being in the Touch Bar was, it could be potentially confusing to have an input field in the Touch Bar. This was not the intended use of the Touch Bar and it felt unnatural.` },
+          { type: 'image', src: "/images/projects/xcode/touchbar-exploration-filter-field.jpg", alt: "Touch Bar Interface Exploration with Filter Field" },
+          { type: 'text', content: `After exploring the above possibilities, and based on more UX research, user feedback, and my top goals (particularly #2), I decided to keep it simple and go with just the filter toggles because I also wanted a consistent experience across all navigators. Developers are regularly filtering content in all navigators in the course of a day or during the development cycle.` },
+          { type: 'image', src: "/images/projects/xcode/touchbar-final-toolbar-navigator.jpg", alt: "Final Touch Bar Interface for Toolbar and Navigator" },
+          { type: 'text', content: `**Editor/Canvas Bar:** Another designer defined the set of controls for the source editor itself, but I was responsible for the controls in the top bar of the editor/canvas. The icon in the left corner was not used frequently used during a typical day of development. The file path is actually a shortcut for quick navigation, but it won't fit in the Touch Bar and needs too many clicks to accomplish a task.
 
-However, I explored actions specific to a selected file, actions under the plus button in the bottom left corner of the navigator and filter bar functions. This exploration didn't yield optimal results because my hypothesis was, these were not truly the most common actions, in some cases there were commands that required an extra tap to get to the final action, and the Touch Bar started to look cluttered in some cases.
-
-I then explored more possibilities around just the filter bar area at the bottom; such as actions for the plus button and experiences using the filter field in the Touch Bar. These explorations also didn't yield optimal results because of the extra tap needed, and my hypothesis for the filter field being in the Touch Bar was, it could be potentially confusing to have an input field in the Touch Bar. This was not the intended use of the Touch Bar and it felt unnatural.
-
-After exploring the above possibilities, and based on more UX research, user feedback, and my top goals (particularly #2), I decided to keep it simple and go with just the filter toggles because I also wanted a consistent experience across all navigators. Developers are regularly filtering content in all navigators in the course of a day or during the development cycle.`
-      },
-      {
-        title: "Editor/Canvas Bar",
-        content: `Another designer defined the set of controls for the source editor itself, but I was responsible for the controls in the top bar of the editor/canvas. The icon in the left corner was not used frequently used during a typical day of development. The file path is actually a shortcut for quick navigation, but it won't fit in the Touch Bar and needs too many clicks to accomplish a task.
-
-The control on the right end is used to navigate thru warnings in the code, but again, not something used everyday. However, the previous/next buttons on the left are used to quickly jump between files, which is a common action for everyday use. Based on all the features I considered for this top bar (see Mind Map above), I only decided on the previous/next navigation controls based the above reasons, UX research, feedback, and available space.`
-      },
-      {
-        title: "Interface Builder (IB) Canvas",
-        content: `IB is the editor/canvas used to arrange the different visual elements of an app. Based on all the features I considered for the bottom bar of this canvas (see Mind Map above), I only decided on controls to update frames, and zoom controls, based on UX research, feedback from target audience, and available space.
-
-Trace data proved that these shortcuts were underutilized but worth surfacing for discovery based on common workflows in IB. As this is a canvas to layout the interface of an app, developers are constantly wanting to either see the layout at 1:1 pixel ratio (100%) to get an idea of the final result or are wanting to see everything on the canvas (=), which is 'fit to canvas'.
+The control on the right end is used to navigate thru warnings in the code, but again, not something used everyday. However, the previous/next buttons on the left are used to quickly jump between files, which is a common action for everyday use. Based on all the features I considered for this top bar (see Mind Map above), I only decided on the previous/next navigation controls based the above reasons, UX research, feedback, and available space.` },
+          { type: 'image', src: "/images/projects/xcode/window-top-bar-editor.jpg", alt: "Xcode App Main Window Top Bar and Editor/Canvas" },
+          { type: 'image', src: "/images/projects/xcode/touchbar-final-editor-top-bar.jpg", alt: "Final Touch Bar Interface for Editor/Canvas Top Bar" },
+          { type: 'text', content: `**Interface Builder (IB) Canvas:** IB is the editor/canvas used to arrange the different visual elements of an app. Based on all the features I considered for the bottom bar of this canvas (see Mind Map above), I only decided on controls to update frames, and zoom controls, based on UX research, feedback from target audience, and available space.` },
+          { type: 'image', src: "/images/projects/xcode/window-ib-canvas.jpg", alt: "Xcode App Main Window IB Canvas" },
+          { type: 'text', content: `Trace data proved that these shortcuts were underutilized but worth surfacing for discovery based on common workflows in IB. As this is a canvas to layout the interface of an app, developers are constantly wanting to either see the layout at 1:1 pixel ratio (100%) to get an idea of the final result or are wanting to see everything on the canvas (=), which is 'fit to canvas'.
 
 Even though the Update Frames button is on the right end in the main window, which was placed there for visual balance and prominence, the order of arrangement in the Touch Bar is based on the order of how often these actions will be used. Update Frames is an action that's most commonly used when working in IB and so I made it the first button in the group.
 
-An interesting point to note in this design was that the final set of actions in the Touch Bar ended up influencing a change in the actions for the IB canvas to mirror the types of actions in the Touch Bar. In this case, the 2nd and 3rd buttons are single action zoom controls unique to the Touch Bar and don't exactly match the ones in the main window because of goals #1 and #2.`
-      },
-      {
-        title: "Debug Bar",
-        content: `When a developer is running an app in Xcode during development, they will sometimes pause the app to debug an issue. This set of controls show up to aid them in that debugging workflow. In this case, all actions in the main window are equally important so I ended up with a Touch Bar full of buttons.`
-      },
-      {
-        title: "View Debugger Canvas",
-        content: `When a developer is running an app in Xcode during development, they will sometimes pause the app to debug a visual issue. They will use the view debugger canvas in this case. My mind map above shows all the functions I considered.
-
-During the process of view debugging, the canvas provides the ability to view the app in a 2D/3D space. The 3D view is useful when looking for a misplaced view and the 2D view is useful to quickly preview the final result of the app layout. These are common actions when view debugging. Other functions beneficial when view debugging are, spacing out the views in 3D to find that misplaced view or filtering out views to again find that misplaced view or inspect a specific view.
+An interesting point to note in this design was that the final set of actions in the Touch Bar ended up influencing a change in the actions for the IB canvas to mirror the types of actions in the Touch Bar. In this case, the 2nd and 3rd buttons are single action zoom controls unique to the Touch Bar and don't exactly match the ones in the main window because of goals #1 and #2.` },
+          { type: 'image', src: "/images/projects/xcode/touchbar-final-ib-canvas.jpg", alt: "Final Touch Bar Interface for IB Canvas" },
+          { type: 'text', content: `**Debug Bar:** When a developer is running an app in Xcode during development, they will sometimes pause the app to debug an issue. This set of controls show up to aid them in that debugging workflow. In this case, all actions in the main window are equally important so I ended up with a Touch Bar full of buttons.` },
+          { type: 'image', src: "/images/projects/xcode/window-debug-bar.jpg", alt: "Xcode App Main Window Debug Bar" },
+          { type: 'image', src: "/images/projects/xcode/touchbar-final-debug-bar.jpg", alt: "Final Touch Bar Interface for Debug Bar" },
+          { type: 'text', content: `**View Debugger Canvas:** When a developer is running an app in Xcode during development, they will sometimes pause the app to debug a visual issue. They will use the view debugger canvas in this case. My mind map above shows all the functions I considered.` },
+          { type: 'image', src: "/images/projects/xcode/window-view-debugger.jpg", alt: "Xcode App Main Window View Debugger" },
+          { type: 'text', content: `During the process of view debugging, the canvas provides the ability to view the app in a 2D/3D space. The 3D view is useful when looking for a misplaced view and the 2D view is useful to quickly preview the final result of the app layout. These are common actions when view debugging. Other functions beneficial when view debugging are, spacing out the views in 3D to find that misplaced view or filtering out views to again find that misplaced view or inspect a specific view.
 
 I thus decided on the View Spacer, 2D/3D and View Filter controls based on the above reasons, supporting UX research, feedback from target audience, and goals. However, in this case I couldn't satisfy goal #2 because of the limited space, but my hypothesis was, the Touch Bar would be more ergonomic to manipulate a slider control over having to use a mouse cursor to drag the handles in the main window.
 
 I explored a wide variety of designs particularly for the View Filter control because there was a lot of assumptions and hypotheses associated with it and because this is a very critical control to filter the many views of an app to debug an issue when it comes to the visual elements of an app.
 
-In these explorations below, there were strong arguments to keep previews in the Touch Bar, but my hypotheses were, the previews are of not much value because they'll end up being cropped, will be difficult to identify because of their size in the Touch Bar, and the number of views will be too many to display and the design will not scale given the large number of views in most apps.
-
-My final argument was that the previews are already in the main window, so they can be omitted from the Touch Bar, and I wanted to maintain simplicity in the Touch Bar. Based on that, below were my alternative proposals based on my hypotheses. I proposed to remove the previews and explored different options for the slider control.
-
-The final design was very simple and was consistent with other slider controls on macOS; particularly QuickTime Player's trim control. I decided to use blue to be consistent with the blue color in the slider of the main window, but to also differentiate it from the trim control in QuickTime, because this action is filtering, not trimming.`
+In these explorations below, there were strong arguments to keep previews in the Touch Bar, but my hypotheses were, the previews are of not much value because they'll end up being cropped, will be difficult to identify because of their size in the Touch Bar, and the number of views will be too many to display and the design will not scale given the large number of views in most apps.` },
+          { type: 'image', src: "/images/projects/xcode/touchbar-view-filter-exploration-previews.jpg", alt: "Touch Bar View Filter Exploration with Previews" },
+          { type: 'text', content: `My final argument was that the previews are already in the main window, so they can be omitted from the Touch Bar, and I wanted to maintain simplicity in the Touch Bar. Based on that, below were my alternative proposals based on my hypotheses. I proposed to remove the previews and explored different options for the slider control.` },
+          { type: 'image', src: "/images/projects/xcode/touchbar-view-filter-exploration-no-previews-1.jpg", alt: "Touch Bar View Filter Exploration without Previews" },
+          { type: 'text', content: `The final design was very simple and was consistent with other slider controls on macOS; particularly QuickTime Player's trim control. I decided to use blue to be consistent with the blue color in the slider of the main window, but to also differentiate it from the trim control in QuickTime, because this action is filtering, not trimming.` },
+          { type: 'image', src: "/images/projects/xcode/touchbar-view-filter-exploration-no-previews-2.jpg", alt: "Touch Bar View Filter Exploration without Previews" },
+          { type: 'image', src: "/images/projects/xcode/touchbar-final-view-debugger.jpg", alt: "Final Touch Bar Interface for View Debugger" },
+          { type: 'image', src: "/images/projects/xcode/touchbar-final-view-filter.jpg", alt: "Final Touch Bar Interface for View Filter" }
+        ]
       },
       {
         title: "Iconography",
-        content: `I also designed and delivered the entire family of Touch Bar glyphs for Xcode including the ones for the parts the other designers were responsible for.`
+        blocks: [
+          { type: 'text', content: `I also designed and delivered the entire family of Touch Bar glyphs for Xcode including the ones for the parts the other designers were responsible for.` },
+          { type: 'image', src: "/images/projects/xcode/glyphs.jpg", alt: "Final Touch Bar Interface Glyphs" }
+        ]
       },
       {
         title: "Conclusion",

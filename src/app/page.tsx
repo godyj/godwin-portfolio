@@ -84,23 +84,25 @@ export default function Home() {
                   </div>
 
                   {/* Half overlay - slides up from bottom on hover */}
-                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/90 via-black/70 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                    <div className="absolute bottom-0 inset-x-0 p-6 text-white">
-                      <h2 className="text-lg font-bold mb-1">
+                  {/* Light mode: light gray gradient, Dark mode: dark gradient */}
+                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-100/95 via-gray-100/80 to-transparent dark:from-black/90 dark:via-black/70 dark:to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in group-hover:ease-out">
+                    {/* Text glow for legibility: light gray in light mode, black in dark mode */}
+                    <div className="absolute bottom-0 inset-x-0 p-6 [text-shadow:0_1px_8px_rgb(243_244_246_/_0.9),0_1px_3px_rgb(243_244_246_/_0.9)] dark:[text-shadow:0_1px_8px_rgb(0_0_0_/_0.6),0_1px_3px_rgb(0_0_0_/_0.7)]">
+                      <h2 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">
                         {project.title}
                         {project.subtitle && (
-                          <span className="font-normal text-white/80">
+                          <span className="font-normal text-gray-700 dark:text-white/80">
                             {" "}({project.subtitle})
                           </span>
                         )}
                       </h2>
-                      <p className="text-sm text-white/60 mb-3">
+                      <p className="text-sm text-gray-500 dark:text-white/60 mb-3">
                         {project.month && `${project.month}, `}{project.year}
                       </p>
-                      <p className="text-sm text-white/80 mb-3 line-clamp-3">
+                      <p className="text-sm text-gray-700 dark:text-white/80 mb-3 line-clamp-3">
                         {project.description}
                       </p>
-                      <div className="text-sm text-white/60">
+                      <div className="text-sm text-gray-500 dark:text-white/60">
                         {project.skills.map((skill, i) => (
                           <span key={skill}>
                             {skill}{i < project.skills.length - 1 ? " • " : ""}
