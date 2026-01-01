@@ -46,27 +46,39 @@
 - [ ] Back to top button (optional)
 - [ ] Lightbox for images (optional enhancement)
 
+## Completed - Xcode Case Study
+
+- [x] Downloaded all 22 Xcode images
+- [x] Structure sections with content blocks
+- [x] Match layout to original
+- [x] Fixed inline labels (removed incorrect **Analysis:**)
+- [x] Added bold numbered goals (**1.**, **2.**, **3.**)
+- [x] Updated title to "Apple Xcode (Touch Bar)"
+- [x] Verified via Playwright
+
+## Completed - Roblox Case Study
+
+- [x] Downloaded all 12 Roblox images via Playwright
+- [x] Structure sections with content blocks
+- [x] Match layout to original
+- [x] Added inline labels (Discovery and Acquisition, Signup, D0 Cycle, Challenge, Goal, Solution, Risks)
+- [x] Matched image max-widths (600px, 800px, 768px, 400px, 450px)
+- [x] Updated title to "Roblox (NUX)"
+- [x] All 21 inline labels verified via Playwright comparison
+
 ## Pending - Other Case Studies
 
 ### Humanics Calendar Sharing
 - [ ] Download case study images
 - [ ] Structure sections with content blocks
 - [ ] Match layout to original
+- [ ] Verify inline labels via Playwright
 
 ### Humanics Swap & Withdraw
 - [ ] Download case study images
 - [ ] Structure sections with content blocks
 - [ ] Match layout to original
-
-### Roblox NUX
-- [ ] Download case study images
-- [ ] Structure sections with content blocks
-- [ ] Match layout to original
-
-### Apple Xcode Touch Bar
-- [ ] Download case study images
-- [ ] Structure sections with content blocks
-- [ ] Match layout to original
+- [ ] Verify inline labels via Playwright
 
 ## Deployment
 

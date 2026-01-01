@@ -1,6 +1,6 @@
 # Godwin Portfolio - Quick Start
 
-> Last updated: 2025-12-31 18:30 PST
+> Last updated: 2025-12-31 19:39 PST
 
 ## TL;DR
 
@@ -9,10 +9,10 @@ Portfolio site migration from Adobe Portfolio → Next.js + Vercel
 ```bash
 cd /Users/godwinjohnson/Development/godwin-portfolio
 npm run dev
-# → http://localhost:3000
+# → http://localhost:3000 (or 3002 if 3000 is in use)
 ```
 
-## Current State: 95% Complete
+## Current State: 97% Complete
 
 | Component | Status |
 |-----------|--------|
@@ -32,9 +32,9 @@ npm run dev
 | **Color token system** | ✅ Done |
 | **Nav hover indicator** | ✅ Done |
 | **Lightbox + Video player** | ✅ Done |
-| **Xcode case study structure** | ✅ Done |
-| **Xcode images (22 images)** | ✅ Done (verified 2025-12-31) |
-| **Remaining case studies (3)** | ❌ Pending |
+| **Xcode case study (22 images)** | ✅ Done (verified 2025-12-31) |
+| **Roblox case study (12 images)** | ✅ Done (verified 2025-12-31) |
+| **Remaining case studies (2)** | ❌ Humanics x2 |
 | **Vercel deployment** | ❌ Pending |
 | **Domain config** | ❌ Pending |
 
@@ -108,10 +108,9 @@ In `projects.ts`, Xcode uses:
 ## Next Session Priority
 
 ### 1. Download Remaining Case Study Images
-3 projects still need images downloaded:
+2 projects still need images downloaded:
 - Humanics Calendar Sharing
 - Humanics Swap & Withdraw
-- Roblox NUX
 
 ### 2. Deploy to Vercel
 ```bash
@@ -153,7 +152,8 @@ vercel
     ├── jarvis.png              # Thumbnail
     ├── xcode.png               # Thumbnail
     ├── jarvis/                 # 18 case study images
-    └── xcode/                  # 22 case study images (verified)
+    ├── xcode/                  # 22 case study images (verified)
+    └── roblox/                 # 12 case study images (verified)
 ```
 
 ## Projects in Portfolio
@@ -162,9 +162,9 @@ vercel
 |----|-------|------|--------|
 | `humanics-calendar-sharing` | Humanics (Calendar Sharing) | July 2019 | ❌ Pending |
 | `humanics-swap-withdraw` | Humanics (Swap & Withdraw) | May 2019 | ❌ Pending |
-| `roblox-nux` | Roblox (NUX) | Aug 2018 | ❌ Pending |
-| `jarvis` | Jarvis | June 2017 | ✅ Done |
-| `xcode-touch-bar` | Apple Xcode (Touch Bar) | Aug 2016 | ✅ Done |
+| `roblox-nux` | Roblox (NUX) | Aug 2018 | ✅ Done (12 images) |
+| `jarvis` | Jarvis (Connected Car App) | June 2017 | ✅ Done (18 images) |
+| `xcode-touch-bar` | Apple Xcode (Touch Bar) | Aug 2016 | ✅ Done (22 images) |
 
 ## Common Tasks
 
@@ -210,6 +210,7 @@ All pages use consistent layout:
 - **Session 5 (2025-12-31)**: Project card hover overlay with info, image zoom effect, dark card backgrounds, color token system, scroll indicator pill hover, nav hover indicator
 - **Session 6 (2025-12-31)**: Lightbox component, custom video player, Xcode case study structure added, 22 Xcode images downloaded
 - **Session 7 (2025-12-31)**: Verified all 22 Xcode images are correct via Playwright visual comparison and MD5 checksum verification against fresh CDN downloads. Found and fixed corrupted Next.js image cache causing wrong images to display (fix: `rm -rf .next && npm run dev`)
+- **Session 8 (2025-12-31)**: Fixed Xcode inline labels (removed incorrect **Analysis:**, added bold numbered goals). Completed Roblox case study: downloaded 12 images via Playwright, converted to blocks layout, matched max-widths, verified all 21 inline labels via Playwright comparison. Updated titles to "Apple Xcode (Touch Bar)" and "Roblox (NUX)"
 
 ## Links
 - Live (current): https://designed.cloud (Adobe Portfolio)

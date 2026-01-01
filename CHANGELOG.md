@@ -4,6 +4,39 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
+## [0.9.3] - 2025-12-31 (19:39 PST)
+
+### Added
+- **Roblox (NUX) case study complete**: Full migration with 12 images
+  - Downloaded all 12 images from Adobe CDN via Playwright URL extraction
+  - Converted to blocks layout with images interspersed with text
+  - Image max-widths matched to original (600px, 800px, 768px, 400px, 450px)
+  - All 21 inline labels verified via Playwright comparison
+
+### Fixed
+- **Xcode inline labels**: Removed incorrect `**Analysis:**` label (was just part of sentence)
+- **Xcode numbered goals**: Added bold formatting to numbered items (`**1.**`, `**2.**`, `**3.**`)
+
+### Changed
+- **Title format standardization**:
+  - Xcode: "Apple Xcode" → "Apple Xcode (Touch Bar)"
+  - Roblox: "Roblox" → "Roblox (NUX)"
+- **Roblox inline labels added**:
+  - "Breaking Down the Problem": `**Discovery and Acquisition:**`, `**Signup:**`, `**D0 Cycle:**`
+  - "Short Term Plan": `**Challenge:**`, `**Goal:**`, `**Solution:**`, `**Risks:**`
+
+### Verified via Playwright
+- All 12 Roblox images render at correct max-widths
+- All 21 Roblox inline labels match original site exactly
+- Visual comparison screenshots captured
+
+### Technical Notes
+- Used Playwright MCP to extract fresh image URLs with valid auth hashes
+- Image hashes expire - must use Playwright to get live URLs, not cached scrapes
+- Dev server runs on port 3002 when 3000 is occupied
+
+---
+
 ## [0.9.2] - 2025-12-31 (18:30 PST)
 
 ### Fixed

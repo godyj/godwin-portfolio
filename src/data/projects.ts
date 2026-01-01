@@ -329,10 +329,11 @@ We are establishing a usage baseline for the withdraw option. This also is not p
   },
   {
     id: "roblox-nux",
-    title: "Roblox",
-    subtitle: "NUX",
+    title: "Roblox (NUX)",
+    subtitle: "",
     description: "Roblox is a platform for entertainment content providers to publish their games, and a source for players to discover and play millions of games.",
     category: "Product Design",
+    layout: "content-first",
     thumbnail: "/images/projects/roblox.png",
     year: "2018",
     month: "August",
@@ -340,6 +341,13 @@ We are establishing a usage baseline for the withdraw option. This also is not p
     skills: ["Feature Strategy", "Roadmap", "UX", "IA", "Research"],
     confidential: true,
     sections: [
+      {
+        blocks: [
+          { type: 'image', src: "/images/projects/roblox/corporate-logo.jpg", alt: "Corporate Logo", maxWidth: 600, noLightbox: true },
+          { type: 'text', content: `The New User Experience (NUX) of the player funnel is a journey that begins when a player first encounters Roblox (e.g. iOS App Store) and ends when the player comes back a second day. The product-level goal of the NUX is to help grow our MAP and DAP by on-boarding users onto our platform.`, centered: true, size: 'large' },
+          { type: 'notice', content: `Note: Confidential content - Do not share`, color: 'red' }
+        ]
+      },
       {
         title: "Role & Context",
         content: `I am the Principal designer leading the design effort. The goals were derived from problems my design team and I identified from analyzing fall-off metrics (working with the analytics team), talking to parents and kids, dissecting the existing mobile NUX, feedback from Product Managers, and UX research.`
@@ -350,9 +358,11 @@ We are establishing a usage baseline for the withdraw option. This also is not p
       },
       {
         title: "Why re-think NUX?",
-        content: `The NUX as it stands today gets players to the Games page with the least number of steps. The hope is they'll play a game or more right after signing up, and then return the following day. However, I discovered that the games presented to a new player are not personalized and do not reflect categories that directly resonate with their interests. They are also not the ideal ones for the best mobile experience.
-
-After consulting with my research, analytics, and design partners, I distilled my findings into several high-level issues with the original NUX design. It lacks aspects such as context, value proposition, reason, and misses conveying other fundamental aspects of Roblox, like the avatar and game play controls. The player journey itself feels very clinical, impersonal and possesses little to no emotional value. Focusing on the aforementioned aspects of NUX will not only improve immediate and long-term player retention but will also aid in aging up. These may not seem critical based on the app and analytics today, but are worth seriously re-considering.`
+        blocks: [
+          { type: 'text', content: `The NUX as it stands today gets players to the Games page with the least number of steps. The hope is they'll play a game or more right after signing up, and then return the following day. However, I discovered that the games presented to a new player are not personalized and do not reflect categories that directly resonate with their interests. They are also not the ideal ones for the best mobile experience.` },
+          { type: 'image', src: "/images/projects/roblox/ftux-flow.jpg", alt: "FTUX Flow", maxWidth: 800 },
+          { type: 'text', content: `After consulting with my research, analytics, and design partners, I distilled my findings into several high-level issues with the original NUX design. It lacks aspects such as context, value proposition, reason, and misses conveying other fundamental aspects of Roblox, like the avatar and game play controls. The player journey itself feels very clinical, impersonal and possesses little to no emotional value. Focusing on the aforementioned aspects of NUX will not only improve immediate and long-term player retention but will also aid in aging up. These may not seem critical based on the app and analytics today, but are worth seriously re-considering.` }
+        ]
       },
       {
         title: "The Basics",
@@ -362,13 +372,16 @@ After consulting with my research, analytics, and design partners, I distilled m
       },
       {
         title: "Breaking Down the Problem",
-        content: `NUX is broken down to 3 phases so they can be tackled appropriately for optimal and strategic planning of the product roadmap.
-
-Discovery and Acquisition: This phase covers how, when, where, and why do players find Roblox for the first time. It starts at the point of sources like YouTube, App Stores, Friends, etc. to the point of getting the app on the device.
-
-Signup: This phase covers the experience from the point of launching the app (once it is on the device) to the point of completing the signup process.
-
-D0 Cycle: In this phase, players go thru a cycle that starts with discovering their first game (right after signup), playing their first game, developing their identity, connecting with real life friends and/or online friends, and then repeating the cycle.`
+        blocks: [
+          { type: 'text', content: `NUX is broken down to 3 phases so they can be tackled appropriately for optimal and strategic planning of the product roadmap.` },
+          { type: 'image', src: "/images/projects/roblox/nux-phases.jpg", alt: "NUX Phases", maxWidth: 768 },
+          { type: 'text', content: `**Discovery and Acquisition:** This phase covers how, when, where, and why do players find Roblox for the first time. It starts at the point of sources like YouTube, App Stores, Friends, etc. to the point of getting the app on the device.` },
+          { type: 'image', src: "/images/projects/roblox/app-store-device.jpg", alt: "App Store & Device Home", maxWidth: 400 },
+          { type: 'text', content: `**Signup:** This phase covers the experience from the point of launching the app (once it is on the device) to the point of completing the signup process.` },
+          { type: 'image', src: "/images/projects/roblox/welcome-signup.jpg", alt: "Welcome & Signup", maxWidth: 400 },
+          { type: 'text', content: `**D0 Cycle:** In this phase, players go thru a cycle that starts with discovering their first game (right after signup), playing their first game, developing their identity, connecting with real life friends and/or online friends, and then repeating the cycle.` },
+          { type: 'image', src: "/images/projects/roblox/d0-cycle.jpg", alt: "D0 Cycle", maxWidth: 600 }
+        ]
       },
       {
         title: "The Evidence",
@@ -390,51 +403,41 @@ When looking at the player fall-off from the point of launching the app to the p
       },
       {
         title: "North Star",
-        content: `The glaring problem I've identified is lack of a personalized experience. My hypothesis is, by designing the entire ecosystem around the interests of players to deeply personalize the experience, we will not only raise the product's EI but we will also achieve our goals for NUX and improve long-term retention.
+        blocks: [
+          { type: 'text', content: `The glaring problem I've identified is lack of a personalized experience. My hypothesis is, by designing the entire ecosystem around the interests of players to deeply personalize the experience, we will not only raise the product's EI but we will also achieve our goals for NUX and improve long-term retention.` },
+          { type: 'image', src: "/images/projects/roblox/ecosystem-interests.jpg", alt: "Ecosystem designed around Player Interests", maxWidth: 400 },
+          { type: 'text', content: `**Why Do Players Come:** My hypothesis is, the first reason most players come to Roblox is to play a wide variety of games with their friends (social ecosystem), but along with that, there is an element of their online presence, their digital identity and attributes surrounding that.
 
-**Why Do Players Come:** My hypothesis is, the first reason most players come to Roblox is to play a wide variety of games with their friends (social ecosystem), but along with that, there is an element of their online presence, their digital identity and attributes surrounding that.
-
-**What Do Players Want:** More importantly, my hypothesis around what they want is, content that relates to them, personalized and catered to their specific interests. My assumption is, understanding player interests and catering every aspect of their experience on the platform to their interests will be key to more aha moments, higher EI, and improved retention.`
+**What Do Players Want:** More importantly, my hypothesis around what they want is, content that relates to them, personalized and catered to their specific interests. My assumption is, understanding player interests and catering every aspect of their experience on the platform to their interests will be key to more aha moments, higher EI, and improved retention.` }
+        ]
       },
       {
         title: "Short Term Plan",
-        content: `Challenge: The biggest one so far is how to maintain delicate balance by not upsetting metrics (too much), but also making just enough meaningful changes to the flow so we can achieve the defined goals without losing sight of the North Star.
+        blocks: [
+          { type: 'text', content: `**Challenge:** The biggest one so far is how to maintain delicate balance by not upsetting metrics (too much), but also making just enough meaningful changes to the flow so we can achieve the defined goals without losing sight of the North Star.
 
-Goal: High level goals for the short-term are to provide better context, value proposition, reason and gain a clear understanding of player interests.
+**Goal:** High level goals for the short-term are to provide better context, value proposition, reason and gain a clear understanding of player interests.
 
-Solution: With that goal in mind, I led my design team to create a set of modular screens (wireframes) that can be arranged in different sequences. The purpose of these screens are to convey key elements and information required for each screen. The final touches will be made by a visual designer on the team.
+**Solution:** With that goal in mind, I led my design team to create a set of modular screens (wireframes) that can be arranged in different sequences. The purpose of these screens are to convey key elements and information required for each screen. The final touches will be made by a visual designer on the team.
 
-Risks: There is a possibility of increased fall-off when a signup flow has additional screens. However, my hypothesis is, breaking the single signup screen in the existing design to a total of 4 (only 3 added) will improve retention significantly in the long-term, and produce players who will remain loyal to the product because the extra screens will provide better context, reason, and value along with a more personalized experience in the long-term based on their interests.`
-      },
-      {
-        title: "Welcome Screen",
-        content: `This is the first screen new players will see as soon as the app launches. The design decisions for elements on this screen are, it needs to attract target audience in the older age group to satisfy our goals to age up. It should deliver a clear value proposition of Roblox as soon as the app launches because we want to retain and get players thru the sign up process successfully. It should be brief to prevent players from getting stuck here for too long.`
-      },
-      {
-        title: "Birthday Screen",
-        content: `Asking for birth date is a COPPA requirement because our core target audience are under 13. I decided to create a screen just for birthday because I wanted to have enough room to again convey the value proposition (info will be used to personalize content and suggest friends). When talking to kids and parents during interviews I understood that many were concerned about the privacy of this information so I wanted to also convey the fact that this info will be kept private and I wanted to take this opportunity to make the audience feel safe on our platform.`
-      },
-      {
-        title: "Interests Screen",
-        content: `As I noted before, my North Star goal is to have the entire ecosystem designed around player interests. That makes this screen the most important one of the redesign project. Using the birthday info, my plan is to show interests targeted for that particular age group. Metadata from interests will then affect design element on the following screens. For instance, the avatar itself will react to the chosen interests, the outfit also would change. If this screen comes after gender, the presented choices will be weighted differently. All in the name of personalizing around the players interests. The icons used here are placeholders.`
-      },
-      {
-        title: "Gender Screen",
-        content: `As I stated earlier, specific elements will change based on the order of these screens. If this screen comes after the player picks their interests, then the avatar and its outfit will reflect their choices. My hypothesis is, this will form a deeper connection with the player because it will feel more personalized. Along with that, I do not want to allow customization of the avatar during the signup process to avoid the possibility of players getting stuck in this step and not completing the signup process. The goal is to let players customize it soon after signup.`
-      },
-      {
-        title: "Account Screen",
-        content: `This is a straightforward screen, but again the repeating theme here is the avatar because I want to keep reminding the player of their digital identity in the Roblox world, which is a subtle but key element of the overall experience. A not so obvious problem players experience is finding a desirable username that's available. However, because most of our target audience today are under 13, we need to make sure they do not use their real name for privacy reasons.
+**Risks:** There is a possibility of increased fall-off when a signup flow has additional screens. However, my hypothesis is, breaking the single signup screen in the existing design to a total of 4 (only 3 added) will improve retention significantly in the long-term, and produce players who will remain loyal to the product because the extra screens will provide better context, reason, and value along with a more personalized experience in the long-term based on their interests.
 
-The goal here is to suggest interesting usernames based on the choices they made on the interests screen. Again, providing a personalized experience while also adding some delight. I've been thinking of ways to avoid having to remember a password because kids either use weak passwords or forget the ones they've created. This is something I have yet to solve.`
-      },
-      {
-        title: "Testing",
-        content: `The plan is to run multiple tests on a small percentage of players using different configurations to validate all the hypotheses and assumptions. The results should help guide us for a global rollout.`
-      },
-      {
-        title: "Results",
-        content: `I can't get into detailed metrics because of confidentiality, but initial tests with additional steps are showing some fall-off through those steps (validating our hypothesis), but metrics for the number of signups is showing some lift. This is promising.`
+**Welcome Screen:** This is the first screen new players will see as soon as the app launches. The design decisions for elements on this screen are, it needs to attract target audience in the older age group to satisfy our goals to age up. It should deliver a clear value proposition of Roblox as soon as the app launches because we want to retain and get players thru the sign up process successfully. It should be brief to prevent players from getting stuck here for too long.` },
+          { type: 'image', src: "/images/projects/roblox/screen-welcome.jpg", alt: "Welcome", maxWidth: 450 },
+          { type: 'text', content: `**Birthday Screen:** Asking for birth date is a COPPA requirement because our core target audience are under 13. I decided to create a screen just for birthday because I wanted to have enough room to again convey the value proposition (info will be used to personalize content and suggest friends). When talking to kids and parents during interviews I understood that many were concerned about the privacy of this information so I wanted to also convey the fact that this info will be kept private and I wanted to take this opportunity to make the audience feel safe on our platform.` },
+          { type: 'image', src: "/images/projects/roblox/screen-birthday.jpg", alt: "Birthday", maxWidth: 450 },
+          { type: 'text', content: `**Interests Screen:** As I noted before, my North Star goal is to have the entire ecosystem designed around player interests. That makes this screen the most important one of the redesign project. Using the birthday info, my plan is to show interests targeted for that particular age group. Metadata from interests will then affect design element on the following screens. For instance, the avatar itself will react to the chosen interests, the outfit also would change. If this screen comes after gender, the presented choices will be weighted differently. All in the name of personalizing around the players interests. The icons used here are placeholders.` },
+          { type: 'image', src: "/images/projects/roblox/screen-interests.jpg", alt: "Interests", maxWidth: 450 },
+          { type: 'text', content: `**Gender Screen:** As I stated earlier, specific elements will change based on the order of these screens. If this screen comes after the player picks their interests, then the avatar and its outfit will reflect their choices. My hypothesis is, this will form a deeper connection with the player because it will feel more personalized. Along with that, I do not want to allow customization of the avatar during the signup process to avoid the possibility of players getting stuck in this step and not completing the signup process. The goal is to let players customize it soon after signup.` },
+          { type: 'image', src: "/images/projects/roblox/screen-gender.jpg", alt: "Gender", maxWidth: 450 },
+          { type: 'text', content: `**Account Screen:** This is a straightforward screen, but again the repeating theme here is the avatar because I want to keep reminding the player of their digital identity in the Roblox world, which is a subtle but key element of the overall experience. A not so obvious problem players experience is finding a desirable username that's available. However, because most of our target audience today are under 13, we need to make sure they do not use their real name for privacy reasons.
+
+The goal here is to suggest interesting usernames based on the choices they made on the interests screen. Again, providing a personalized experience while also adding some delight. I've been thinking of ways to avoid having to remember a password because kids either use weak passwords or forget the ones they've created. This is something I have yet to solve.` },
+          { type: 'image', src: "/images/projects/roblox/screen-account.jpg", alt: "Account", maxWidth: 450 },
+          { type: 'text', content: `**Testing:** The plan is to run multiple tests on a small percentage of players using different configurations to validate all the hypotheses and assumptions. The results should help guide us for a global rollout.
+
+**Results:** I can't get into detailed metrics because of confidentiality, but initial tests with additional steps are showing some fall-off through those steps (validating our hypothesis), but metrics for the number of signups is showing some lift. This is promising.` }
+        ]
       },
       {
         title: "Conclusion",
@@ -570,8 +573,8 @@ I chose to show the top view of the car in this screen because it provides the m
   },
   {
     id: "xcode-touch-bar",
-    title: "Apple Xcode",
-    subtitle: "Touch Bar",
+    title: "Apple Xcode (Touch Bar)",
+    subtitle: "",
     description: "Xcode is an integrated development environment (IDE) that's used by millions of developers around the world to build apps that consumers enjoy using on all Apple products.",
     category: "Product Design",
     layout: "content-first",
@@ -608,7 +611,7 @@ I interacted with 3 other designers on a regular basis who were working on other
           { type: 'image', src: "/images/projects/xcode/main-window.jpg", alt: "Xcode App Main Window" },
           { type: 'text', content: `**Opportunity:** It was exciting to sort thru the noise and define the experiences and interfaces that could be designed for this new hardware. When I began, the high level question was, what will make the Touch Bar experience compelling enough to use in Xcode and bring value to the target audience when they purchase the new hardware?
 
-**Analysis:** of trace data (anonymous app usage data) proved that many keyboard shortcuts for common functions were not being utilized to their full potential, which would improve efficiency for everyday use. Hypothesis was, most developers prefer using the keyboard as much as possible to be efficient (and they hardly use the mouse cursor) but they were not aware of the many keyboard shortcuts, or probably couldn't remember all of them. This was the value proposition and the biggest opportunity.
+Analysis of trace data (anonymous app usage data) proved that many keyboard shortcuts for common functions were not being utilized to their full potential, which would improve efficiency for everyday use. Hypothesis was, most developers prefer using the keyboard as much as possible to be efficient (and they hardly use the mouse cursor) but they were not aware of the many keyboard shortcuts, or probably couldn't remember all of them. This was the value proposition and the biggest opportunity.
 
 **Goals:** At the high level I wanted to design a human experience for the Touch Bar that would boost efficiency for the target audience. It shouldn't be too complicated but minimal and simple (Apple design philosophy) even though the target audience are capable of understanding complex systems.
 
@@ -616,11 +619,11 @@ The hypothesis was, loading up the Touch Bar with as many button as possible wou
 
 Based on that, I defined the following goals.
 
-1. Provide a dynamic touch interface for commonly used functions and flows of the main app. Hypothesis was, this would provide the most value by increasing efficiency for common tasks and workflows for the majority of our target audience.
+**1.** Provide a dynamic touch interface for commonly used functions and flows of the main app. Hypothesis was, this would provide the most value by increasing efficiency for common tasks and workflows for the majority of our target audience.
 
-2. Preferably only single step commands. Hypothesis was, commands with multiple steps do not provide the best human experience in the Touch Bar because of the limited size of the screen. The Touch Bar was designed to execute single actions.
+**2.** Preferably only single step commands. Hypothesis was, commands with multiple steps do not provide the best human experience in the Touch Bar because of the limited size of the screen. The Touch Bar was designed to execute single actions.
 
-3. Introduce target audience to undiscovered useful functions (Based on analysis of trace data)
+**3.** Introduce target audience to undiscovered useful functions (Based on analysis of trace data)
 
 **Who:** Target audience are all developers using Xcode. Assumption is, they are very technical, value efficiency the most, understand complex systems, and prefer high density over sparseness.` }
         ]
