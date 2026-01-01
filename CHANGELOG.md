@@ -4,6 +4,47 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
+## [0.9.4] - 2025-12-31 (20:01 PST)
+
+### Added
+- **Humanics (Swap & Withdraw) case study complete**: Full migration with 21 images
+  - Downloaded all 21 images from Adobe CDN via Playwright URL extraction
+  - Converted to blocks layout with images interspersed with text
+  - Image types: header intro, brainstorming sketch, 5-image grids (hifi concepts, withdraw exploration), 2-image grids (other locations, pending states, final UI), workflow diagram
+  - Image max-widths matched to original (350px single mobile screens, 450px 2-col grids, 700px wide images)
+  - Inline label `**Other Locations:**` verified via Playwright comparison
+
+### Changed
+- **Title format standardization**: "Humanics" → "Humanics (Swap & Withdraw)"
+- **Layout**: Changed to `content-first` (centered header, no hero image)
+
+### Fixed
+- **List rendering in ProjectContent.tsx**: Added em dash (`–`) detection for list items in `content` fields
+- **List spacing**: Changed from `space-y-2` to `space-y-1` for tighter list spacing matching original
+- **Stakeholders section**: Uses `content` field with em dash list items, now renders with proper tight spacing instead of separate paragraphs
+
+### Image Structure
+| Image Type | Count | Max Width |
+|------------|-------|-----------|
+| Header intro | 1 | 600px |
+| Mobile screens (single) | 4 | 350px |
+| Brainstorming sketch | 1 | 700px |
+| 5-image grids | 2 | 700px |
+| 2-image grids | 4 | 450-700px |
+| Workflow diagram | 1 | 700px |
+
+### Verified via Playwright
+- All 21 images downloaded and render correctly
+- Inline label "Other Locations:" matches original site
+- Page structure matches original Adobe Portfolio
+
+### Technical Notes
+- Used Playwright MCP to extract fresh image URLs with valid auth hashes
+- Cleared Next.js cache (`rm -rf .next`) before verification
+- Dev server runs on port 3001 when 3000 is occupied
+
+---
+
 ## [0.9.3] - 2025-12-31 (19:39 PST)
 
 ### Added

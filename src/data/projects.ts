@@ -218,10 +218,11 @@ Lastly, my primary goal to maintain user data privacy along with the need to des
   },
   {
     id: "humanics-swap-withdraw",
-    title: "Humanics",
-    subtitle: "Swap & Withdraw",
+    title: "Humanics (Swap & Withdraw)",
+    subtitle: "",
     description: "Humanics is a workforce management solution for nurses and nurse supervisors. The product has 2 parts: a desktop web app and a mobile app (iOS/Android).",
     category: "Product Design",
+    layout: "content-first",
     thumbnail: "/images/projects/humanics-swap.png",
     year: "2019",
     month: "May",
@@ -230,6 +231,13 @@ Lastly, my primary goal to maintain user data privacy along with the need to des
     results: "64% increase in swap feature usage",
     confidential: true,
     sections: [
+      {
+        blocks: [
+          { type: 'image', src: "/images/projects/humanics-swap/header-intro.png", alt: "Humanics Logo", maxWidth: 600, noLightbox: true },
+          { type: 'text', content: `The desktop web app is used by nurse supervisors to create and manage the schedules of nursing staff in a hospital unit. The mobile app (iOS/Android) is used by nursing staff on their personal phones to view their hospital work schedule and submit their schedule preferences.`, centered: true, size: 'large' },
+          { type: 'notice', content: `Note: Confidential content - Do not share`, color: 'red' }
+        ]
+      },
       {
         title: "Role",
         content: `As the Principal UI/UX designer, my goal for this project was to improve the swap experience and design a new withdraw experience. I also made sure all iOS visual and interaction designs followed Apple's human interface guidelines.`
@@ -258,39 +266,76 @@ They also came across a second problem that nurses were facing… in some cases 
       },
       {
         title: "Previous Home for Swap",
-        content: `As I mentioned above, nursing staff did not discover the swap button and my hypothesis was, it was undiscoverable because it was hidden below the fold.`
+        blocks: [
+          { type: 'text', content: `As I mentioned above, nursing staff did not discover the swap button and my hypothesis was, it was undiscoverable because it was hidden below the fold.` },
+          { type: 'image', src: "/images/projects/humanics-swap/shift-detail-below-fold.png", alt: "Shift detail view with swap button below the fold", maxWidth: 350 }
+        ]
       },
       {
         title: "I Will Lift You Up",
-        content: `I sketched out a few possibilities for where the swap button could go in relation to the primary details for a shift.
-
-I then explored a few high fidelity concepts to improve discoverability without making the button overbearing or imposing.`
-      },
-      {
-        title: "Other Locations",
-        content: `I explored other locations in the app.
+        blocks: [
+          { type: 'text', content: `I sketched out a few possibilities for where the swap button could go in relation to the primary details for a shift.` },
+          { type: 'image', src: "/images/projects/humanics-swap/brainstorming.jpg", alt: "Small brainstorming session", maxWidth: 700 },
+          { type: 'text', content: `I then explored a few high fidelity concepts to improve discoverability without making the button overbearing or imposing.` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-swap/hifi-concept-1.png", alt: "High fidelity concept 1" },
+            { src: "/images/projects/humanics-swap/hifi-concept-2.png", alt: "High fidelity concept 2" },
+            { src: "/images/projects/humanics-swap/hifi-concept-3.png", alt: "High fidelity concept 3" },
+            { src: "/images/projects/humanics-swap/hifi-concept-4.png", alt: "High fidelity concept 4" },
+            { src: "/images/projects/humanics-swap/hifi-concept-5.png", alt: "High fidelity concept 5" }
+          ], maxWidth: 700 },
+          { type: 'text', content: `**Other Locations:** I explored other locations in the app.
 
 1. The one on the left (below) is the calendar card for the shift in the calendar view. This was a bit much as it felt like we were inviting staff to swap their shifts — swapping isn't really encouraged unless it is absolutely necessary.
 
-2. The one on the right (below) is the Now screen. The Now screen is like an inbox of cards that have data that nurses may want to know about and act on. I explored a button on the card for an upcoming shift. Again, this was giving the action too much importance.`
+2. The one on the right (below) is the Now screen. The Now screen is like an inbox of cards that have data that nurses may want to know about and act on. I explored a button on the card for an upcoming shift. Again, this was giving the action too much importance.` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-swap/other-location-calendar.png", alt: "Calendar card with swap button" },
+            { src: "/images/projects/humanics-swap/other-location-now.png", alt: "Now screen with swap button" }
+          ], maxWidth: 450 }
+        ]
       },
       {
         title: "New Home for Swap",
-        content: `The best place for it is in the shift detail view in the header area. I decided to use the available space more efficiently in the header part of the view and moved some of the data around to find a new home for the button above the fold.`
+        blocks: [
+          { type: 'text', content: `The best place for it is in the shift detail view in the header area. I decided to use the available space more efficiently in the header part of the view and moved some of the data around to find a new home for the button above the fold.` },
+          { type: 'image', src: "/images/projects/humanics-swap/new-home-swap.png", alt: "Shift detail view with new location for Swap", maxWidth: 350 }
+        ]
       },
       {
         title: "Swap Pending",
-        content: `The Withdraw action is basically the bookend action for a Swap. However, there is a state in-between — swap pending. When a swap is initiated a few things happen, it goes into a pending state while the initiator waits for the recipient to accept the swap request and a push notification is sent to the recipient. It also generates a swap pending card on the Now screen for the initiator and a swap request card on the Now screen of the recipient.`
+        blocks: [
+          { type: 'text', content: `The Withdraw action is basically the bookend action for a Swap. However, there is a state in-between — swap pending. When a swap is initiated a few things happen, it goes into a pending state while the initiator waits for the recipient to accept the swap request and a push notification is sent to the recipient. It also generates a swap pending card on the Now screen for the initiator and a swap request card on the Now screen of the recipient.` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-swap/pending-shift-details.png", alt: "Previous design: Shift details and swap in pending state" },
+            { src: "/images/projects/humanics-swap/pending-swap-request.png", alt: "Previous design: Swap request details" }
+          ], maxWidth: 700 }
+        ]
       },
       {
         title: "Pending & Withdraw Exploration",
-        content: `I explored a few different variations with the placement of the withdraw button. The amber colored glyph was being used on the calendar when a swap was pending. I decided to repeat that glyph in the shift detail view for continuity.`
+        blocks: [
+          { type: 'text', content: `I explored a few different variations with the placement of the withdraw button. The amber colored glyph was being used on the calendar when a swap was pending. I decided to repeat that glyph in the shift detail view for continuity.` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-swap/withdraw-exploration-1.png", alt: "Withdraw exploration 1" },
+            { src: "/images/projects/humanics-swap/withdraw-exploration-2.png", alt: "Withdraw exploration 2" },
+            { src: "/images/projects/humanics-swap/withdraw-exploration-3.png", alt: "Withdraw exploration 3" },
+            { src: "/images/projects/humanics-swap/withdraw-exploration-4.png", alt: "Withdraw exploration 4" },
+            { src: "/images/projects/humanics-swap/withdraw-exploration-5.png", alt: "Withdraw exploration 5" }
+          ], maxWidth: 700 }
+        ]
       },
       {
         title: "Shift Detail and Swap Detail Views (Final UI)",
-        content: `Since Withdraw is the bookend for Swap, it made sense for this button to take the place of Swap. I chose to place the pending glyph on the left of the button so I could morph the Swap button to pending. It may not work as well if I place it on the right.
+        blocks: [
+          { type: 'text', content: `Since Withdraw is the bookend for Swap, it made sense for this button to take the place of Swap. I chose to place the pending glyph on the left of the button so I could morph the Swap button to pending. It may not work as well if I place it on the right.
 
-The Withdraw button's location in the Shift Swap Request screen didn't require a lot of exploration and was fairly straightforward. I changed the title from "Your schedule preview" to "Proposed swap" so the placement of the button would make sense to the right of it, and less words are better when we localize in the future.`
+The Withdraw button's location in the Shift Swap Request screen didn't require a lot of exploration and was fairly straightforward. I changed the title from "Your schedule preview" to "Proposed swap" so the placement of the button would make sense to the right of it, and less words are better when we localize in the future.` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-swap/final-shift-details.png", alt: "Shift details – new pending glyph + withdraw" },
+            { src: "/images/projects/humanics-swap/final-swap-details.png", alt: "Swap details – new withdraw button" }
+          ], maxWidth: 700 }
+        ]
       },
       {
         title: "Thinking About Notifications",
@@ -309,9 +354,11 @@ There is a fine line between providing too many or too few notifications — dis
       },
       {
         title: "Hand-off & Deliverables",
-        content: `I took this project as the opportunity to learn the entire shift swap workflow between the initiator, recipient, and supervisor. Based on my learnings I provided an updated interaction flow doc and uploaded the final mocks to Zeplin.
-
-I used TestFlight to install engineering builds on my device so I could provide feedback to engineering as they were implementing my designs. I worked with the technical product manager and a QA engineer to iron out wrinkles and answer questions from the engineering team. I primarily used Sketch for design and prototyping.`
+        blocks: [
+          { type: 'text', content: `I took this project as the opportunity to learn the entire shift swap workflow between the initiator, recipient, and supervisor. Based on my learnings I provided an updated interaction flow doc and uploaded the final mocks to Zeplin.` },
+          { type: 'image', src: "/images/projects/humanics-swap/workflow-diagram.png", alt: "Entire Shift Swap workflow between initiator, recipient and supervisor", maxWidth: 700 },
+          { type: 'text', content: `I used TestFlight to install engineering builds on my device so I could provide feedback to engineering as they were implementing my designs. I worked with the technical product manager and a QA engineer to iron out wrinkles and answer questions from the engineering team. I primarily used Sketch for design and prototyping.` }
+        ]
       },
       {
         title: "For the Future",

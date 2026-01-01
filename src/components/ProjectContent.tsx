@@ -47,15 +47,16 @@ function renderInlineFormatting(text: string, keyPrefix: string = "") {
 // Helper to render text content with paragraphs
 function renderTextContent(content: string) {
   return content.split("\n\n").map((paragraph, pIndex) => {
-    // Check if it's a list item
+    // Check if it's a list item (supports bullet •, hyphen -, em dash –, and numbered lists)
     if (
       paragraph.trim().startsWith("•") ||
       paragraph.trim().startsWith("-") ||
+      paragraph.trim().startsWith("–") ||
       paragraph.trim().match(/^\d+\./)
     ) {
       const listItems = paragraph.split("\n").filter((item) => item.trim());
       return (
-        <ul key={pIndex} className="list-none space-y-2 mb-5">
+        <ul key={pIndex} className="list-none space-y-1 mb-5">
           {listItems.map((item, liIndex) => (
             <li key={liIndex}>{renderInlineFormatting(item, `${pIndex}-${liIndex}`)}</li>
           ))}
