@@ -32,6 +32,8 @@ export interface Project {
   results?: string;
   sections: ProjectSection[];
   confidential?: boolean;
+  // If true, requires authentication to view
+  locked?: boolean;
 }
 
 export const projects: Project[] = [
@@ -448,6 +450,7 @@ We are establishing a usage baseline for the withdraw option. This also is not p
     role: "Principal Designer",
     skills: ["Feature Strategy", "Roadmap", "UX", "IA", "Research"],
     confidential: true,
+    locked: true,
     sections: [
       {
         blocks: [
@@ -692,6 +695,7 @@ I chose to show the top view of the car in this screen because it provides the m
     role: "Lead Designer",
     skills: ["Product Strategy", "UI", "UX", "IA", "Research"],
     confidential: true,
+    locked: true,
     sections: [
       {
         blocks: [

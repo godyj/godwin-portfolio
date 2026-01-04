@@ -1,0 +1,28 @@
+// Viewer access record
+export type ViewerAccess = {
+  email: string;
+  status: 'pending' | 'approved' | 'denied';
+  projects: string[]; // Project IDs they can access (empty = all locked projects)
+  expiresAt: number | null; // Unix timestamp or null for permanent
+  createdAt: number;
+  approvedAt?: number;
+};
+
+// Magic link token
+export type MagicLinkToken = {
+  email: string;
+  type: 'viewer' | 'admin';
+  expiresAt: number; // 15 minutes from creation
+};
+
+// Session
+export type Session = {
+  email: string;
+  role: 'viewer' | 'admin';
+  expiresAt: number; // 7 days from login
+};
+
+// Session with ID (returned from getSession)
+export type SessionWithId = Session & {
+  sessionId: string;
+};

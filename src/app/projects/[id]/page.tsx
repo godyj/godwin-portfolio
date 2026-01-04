@@ -3,6 +3,9 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { projects } from "@/data/projects";
 import ProjectContent from "@/components/ProjectContent";
+import ProtectedProject from "@/components/ProtectedProject";
+import { getSession, redis } from "@/lib/auth";
+import type { ViewerAccess } from "@/lib/auth";
 
 // Common style classes (single source of truth)
 // Dark theme uses warm brown tones (stone palette) instead of gray
@@ -42,6 +45,29 @@ export async function generateMetadata({ params }: ProjectPageProps) {
   };
 }
 
+// Check if user has access to a locked project
+async function checkAccess(projectId: string, isLocked: boolean): Promise<boolean> {
+  if (!isLocked) return true;
+
+  const session = await getSession();
+  if (!session) return false;
+
+  // Admins have access to everything
+  if (session.role === 'admin') return true;
+
+  // Check if viewer is approved
+  const viewer = await redis.get<ViewerAccess>(`viewer:${session.email}`);
+  if (!viewer || viewer.status !== 'approved') return false;
+
+  // Check if access has expired
+  if (viewer.expiresAt && Date.now() > viewer.expiresAt) return false;
+
+  // Check if viewer has access to this specific project
+  // Empty projects array means access to all locked projects
+  if (viewer.projects.length === 0) return true;
+  return viewer.projects.includes(projectId);
+}
+
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params;
   const project = projects.find((p) => p.id === id);
@@ -53,6 +79,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const displayTitle = project.subtitle
     ? `${project.title} (${project.subtitle})`
     : project.title;
+
+  // Check if user has access to locked project
+  const hasAccess = await checkAccess(project.id, project.locked === true);
+
+  // If project is locked and user doesn't have access, show protected view
+  if (project.locked && !hasAccess) {
+    return (
+      <ProtectedProject
+        projectTitle={project.title}
+        projectSubtitle={project.subtitle}
+        hasAccess={false}
+      >
+        {null}
+      </ProtectedProject>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white dark:bg-background-page pt-[70px]">

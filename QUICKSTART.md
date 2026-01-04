@@ -1,6 +1,6 @@
 # Godwin Portfolio - Quick Start
 
-> Last updated: 2026-01-03 20:45 PST
+> Last updated: 2026-01-03 23:30 PST
 
 ## TL;DR
 
@@ -12,7 +12,7 @@ npm run dev
 # → http://localhost:3000 (or 3001 if 3000 is in use)
 ```
 
-## Current State: 100% Content Complete
+## Current State: Auth Walking Skeleton Complete
 
 | Component | Status |
 |-----------|--------|
@@ -37,8 +37,7 @@ npm run dev
 | **Humanics Swap & Withdraw (21 images)** | ✅ Done (verified 2025-12-31) |
 | **Humanics Calendar Sharing (40 images)** | ✅ Done (verified 2026-01-03) |
 | **Image zoom for flow diagrams** | ✅ Done (2026-01-03) |
-| **Auth system planned** | ✅ Done (2026-01-03) |
-| **Auth walking skeleton** | ⏳ Awaiting credentials |
+| **Auth walking skeleton** | ✅ Done (2026-01-03) |
 | **Vercel deployment** | ❌ Pending |
 | **Domain config** | ❌ Pending |
 
@@ -109,43 +108,37 @@ In `projects.ts`, Xcode uses:
 | `--space-10` | 40px | Image grid padding-bottom |
 | `--color-accent-red` | #e01414 | Confidential notices |
 
-## Next Session Priority: Authentication Walking Skeleton
+## Authentication System: COMPLETE
 
-### Prerequisites (User Must Complete)
+### What's Implemented
 
-**Step 1: Create Upstash Account** (~3 min)
-1. Go to [upstash.com](https://upstash.com) → Sign up (GitHub works)
-2. Create Database → Select **Redis** → Name: `godwin-portfolio-auth`
-3. Region: `us-west-1` (or nearest)
-4. Copy:
-   - `UPSTASH_REDIS_REST_URL`
-   - `UPSTASH_REDIS_REST_TOKEN`
+- **Magic link auth** via Resend email (domain: designed.cloud)
+- **Upstash Redis** for session/token storage
+- **Admin dashboard** at `/admin` to approve/deny/revoke viewers
+- **Project locking** via `locked: true` in projects.ts
+- **Granular access control** - can limit viewers to specific projects
+- **Lock/check badges** on project cards showing access status
 
-**Step 2: Create Resend Account** (~2 min)
-1. Go to [resend.com](https://resend.com) → Sign up
-2. API Keys → Create API Key → Name: `godwin-portfolio`
-3. Copy: `RESEND_API_KEY`
+### Currently Locked Projects
+- `xcode-touch-bar` - Apple Xcode (Touch Bar)
+- `roblox-nux` - Roblox (NUX)
 
-**Step 3: Provide to Claude**
-```
-UPSTASH_REDIS_REST_URL=https://...
-UPSTASH_REDIS_REST_TOKEN=...
-RESEND_API_KEY=re_...
-```
-
-### Walking Skeleton Implementation
-
-Once credentials provided, Claude will:
-1. Install dependencies: `@upstash/redis @upstash/ratelimit resend zod`
-2. Create `src/lib/auth/*` files (redis, tokens, sessions, validation, ratelimit)
-3. Create API routes (`/api/auth/request`, `/verify`, `/logout`, `/test-session`)
-4. Create UI components (`AccessRequestModal`, `ProtectedProject`)
-5. Create admin page (`/admin`)
-6. Add Playwright test helpers
+### Test Accounts
+- **Admin**: godwinjohnson@me.com (full access)
+- **Viewer**: godyj@me.com (Xcode only, not Roblox)
 
 ### Documentation
 - **Analysis**: [docs/AUTH_ANALYSIS.md](docs/AUTH_ANALYSIS.md) - Database & email choice rationale
 - **Implementation**: [docs/AUTH_IMPLEMENTATION_PLAN.md](docs/AUTH_IMPLEMENTATION_PLAN.md) - Full plan with code
+- **How Auth Works**: See CLAUDE.md → Authentication System section
+
+## Next Session: Refinements
+
+### Potential Improvements
+- [ ] Project selection UI in admin approval flow (checkboxes)
+- [ ] Expiration date picker for viewer access
+- [ ] React Email templates for prettier emails
+- [ ] Audit logging
 
 ### After Authentication: Deploy
 
@@ -252,7 +245,8 @@ All pages use consistent layout:
 - **Session 8 (2025-12-31)**: Fixed Xcode inline labels (removed incorrect **Analysis:**, added bold numbered goals). Completed Roblox case study: downloaded 12 images via Playwright, converted to blocks layout, matched max-widths, verified all 21 inline labels via Playwright comparison. Updated titles to "Apple Xcode (Touch Bar)" and "Roblox (NUX)"
 - **Session 9 (2025-12-31)**: Completed Humanics Swap & Withdraw case study: downloaded 21 images via Playwright URL extraction, converted to blocks layout with images interspersed, added inline label "Other Locations:", verified against original site. Updated title to "Humanics (Swap & Withdraw)". Fixed list rendering to support em dashes (`–`) with tighter spacing (`space-y-1`)
 - **Session 10 (2026-01-03)**: Completed Humanics Calendar Sharing case study (final case study): downloaded 40 images via Playwright URL extraction, converted to blocks layout with images interspersed, added inline labels (Exploration 1:, Exploration 2:, Exploration 3:), verified via Playwright. Updated title to "Humanics (Calendar Sharing)". **ALL 5 CASE STUDIES NOW COMPLETE** - Ready for deployment!
-- **Session 11 (2026-01-03)**: Added image zoom for flow diagrams (ZoomableImage component). Planned authentication system: researched Upstash Redis (500K free) vs Vercel KV (30K free), Resend (3K emails free) vs SendGrid (discontinued). Created `docs/AUTH_ANALYSIS.md` and `docs/AUTH_IMPLEMENTATION_PLAN.md`. Security review: added rate limiting, crypto-grade tokens, input validation, uniform responses, session invalidation. **Awaiting user Upstash/Resend credentials to begin walking skeleton.**
+- **Session 11 (2026-01-03)**: Added image zoom for flow diagrams (ZoomableImage component). Planned authentication system: researched Upstash Redis (500K free) vs Vercel KV (30K free), Resend (3K emails free) vs SendGrid (discontinued). Created `docs/AUTH_ANALYSIS.md` and `docs/AUTH_IMPLEMENTATION_PLAN.md`. Security review: added rate limiting, crypto-grade tokens, input validation, uniform responses, session invalidation.
+- **Session 12 (2026-01-03)**: **Completed authentication walking skeleton.** Full magic link auth implemented with Upstash Redis + Resend. Admin dashboard at `/admin` for viewer management. Verified domain `designed.cloud` in Resend with DNS records. Tested full flow: admin login → lock project → viewer request → admin approve → viewer access. Added lock/check badges on project cards (dark circle + lock for restricted, green circle + checkmark for access granted). Granular access control working - viewers can be limited to specific projects. Locked Xcode and Roblox projects for testing.
 
 ## Links
 - Live (current): https://designed.cloud (Adobe Portfolio)

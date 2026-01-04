@@ -4,6 +4,49 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
+## [1.3.0] - 2026-01-03 (23:30 PST)
+
+### Added
+- **Authentication walking skeleton complete**: Full magic link auth system implemented
+  - Upstash Redis for session/token storage
+  - Resend for email with verified domain `designed.cloud`
+  - Admin dashboard at `/admin` for viewer management
+  - Lock/check badges on project cards showing access status
+  - Granular access control (limit viewers to specific projects)
+
+### Auth System Files Created
+```
+src/lib/auth/           # Auth library (8 files)
+src/app/api/auth/       # API routes (request, verify, logout, test-session)
+src/app/admin/          # Admin dashboard + API routes
+src/components/         # AccessRequestModal, ProtectedProject, ProjectGrid
+```
+
+### Security Features
+- HTTP-only, Secure, SameSite cookies
+- 15-minute magic link expiration (one-time use)
+- 7-day session expiration
+- Rate limiting on auth endpoints
+- Crypto-grade token generation (crypto.randomBytes)
+- Bulk session revocation on access revoke
+
+### Currently Locked Projects
+- `xcode-touch-bar` - Apple Xcode (Touch Bar)
+- `roblox-nux` - Roblox (NUX)
+
+### Test Accounts
+- Admin: godwinjohnson@me.com (full access)
+- Viewer: godyj@me.com (Xcode only)
+
+### Verified
+- Admin login via magic link ✅
+- Viewer access request → admin approval → viewer login ✅
+- Lock icons for restricted projects ✅
+- Checkmark icons for approved access ✅
+- Granular project access control ✅
+
+---
+
 ## [1.2.0] - 2026-01-03 (20:45 PST)
 
 ### Added

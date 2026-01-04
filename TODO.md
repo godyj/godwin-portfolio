@@ -97,7 +97,7 @@ Large images like "Interaction Flow" diagrams have zoom functionality.
 - [x] Double-tap zoom on mobile
 - [x] Zoom indicator pill showing zoom level
 
-## Phase 2: Project Authentication System ⏳ IN PROGRESS
+## Phase 2: Project Authentication System ✅ COMPLETE
 
 Lock projects behind email-based magic link authentication.
 
@@ -112,26 +112,25 @@ Lock projects behind email-based magic link authentication.
 - [x] Define magic link flow (15-min tokens, 7-day sessions)
 - [x] Security review (rate limiting, crypto-grade tokens, input validation)
 
-### Prerequisites ⏳ AWAITING USER
-- [ ] User creates Upstash account → get `UPSTASH_REDIS_REST_URL` and `TOKEN`
-- [ ] User creates Resend account → get `RESEND_API_KEY`
+### Walking Skeleton ✅ COMPLETE (2026-01-03)
+- [x] Install dependencies (`@upstash/redis @upstash/ratelimit resend zod`)
+- [x] Create `src/lib/auth/*` (redis, tokens, sessions, validation, ratelimit, email, types)
+- [x] Create `/api/auth/request` route (with rate limiting, validation)
+- [x] Create `/api/auth/verify` route
+- [x] Create `/api/auth/logout` route
+- [x] Create `/api/auth/test-session` route (Playwright bypass)
+- [x] Create `AccessRequestModal` component
+- [x] Create `ProtectedProject` wrapper component
+- [x] Create `/admin` page (list/approve/deny viewers)
+- [x] Create Playwright test helpers (`tests/helpers/auth.ts`)
+- [x] Add `locked: true` to Xcode and Roblox projects
+- [x] Verify Resend domain (designed.cloud) with DNS records
+- [x] Test full flow: admin login → viewer request → approval → access
+- [x] Lock/check badges on project cards
 
-### Walking Skeleton Implementation
-- [ ] Install dependencies (`@upstash/redis @upstash/ratelimit resend zod`)
-- [ ] Create `src/lib/auth/*` (redis, tokens, sessions, validation, ratelimit, email, types)
-- [ ] Create `/api/auth/request` route (with rate limiting, validation)
-- [ ] Create `/api/auth/verify` route
-- [ ] Create `/api/auth/logout` route
-- [ ] Create `/api/auth/test-session` route (Playwright bypass)
-- [ ] Create `AccessRequestModal` component
-- [ ] Create `ProtectedProject` wrapper component
-- [ ] Create `/admin` page (list/approve/deny viewers)
-- [ ] Create Playwright test helpers (`tests/helpers/auth.ts`)
-- [ ] Add `locked: true` to one test project
-
-### Phase 2+ (After Skeleton)
+### Refinements (After Skeleton)
+- [ ] Project selection UI in admin approval flow (checkboxes)
 - [ ] Expiration date picker for viewer access
-- [ ] Project selection in approval flow
 - [ ] React Email templates
 - [ ] Audit logging
 
