@@ -82,10 +82,10 @@ interface ProjectContentProps {
 }
 
 export default function ProjectContent({ sections }: ProjectContentProps) {
-  const [lightboxImage, setLightboxImage] = useState<{ src: string; alt: string } | null>(null);
+  const [lightboxImage, setLightboxImage] = useState<{ src: string; alt: string; zoomable?: boolean } | null>(null);
 
-  const openLightbox = (src: string, alt: string) => {
-    setLightboxImage({ src, alt });
+  const openLightbox = (src: string, alt: string, zoomable?: boolean) => {
+    setLightboxImage({ src, alt, zoomable });
   };
 
   const closeLightbox = () => {
@@ -98,16 +98,18 @@ export default function ProjectContent({ sections }: ProjectContentProps) {
     alt,
     maxWidth,
     showCaption = true,
+    zoomable = false,
   }: {
     src: string;
     alt: string;
     maxWidth?: number;
     showCaption?: boolean;
+    zoomable?: boolean;
   }) => (
     <figure
       className="mt-10 mb-10 mx-auto cursor-pointer group"
       style={maxWidth ? { maxWidth: `${maxWidth}px` } : undefined}
-      onClick={() => openLightbox(src, alt)}
+      onClick={() => openLightbox(src, alt, zoomable)}
     >
       <div className="relative">
         {/* Wrapper div for smooth transform animation (same pattern as project cards) */}
@@ -259,6 +261,7 @@ export default function ProjectContent({ sections }: ProjectContentProps) {
             src={block.src}
             alt={block.alt}
             maxWidth={block.maxWidth}
+            zoomable={block.zoomable}
           />
         );
       }
@@ -309,6 +312,7 @@ export default function ProjectContent({ sections }: ProjectContentProps) {
         alt={lightboxImage?.alt || ""}
         isOpen={lightboxImage !== null}
         onClose={closeLightbox}
+        enableZoom={lightboxImage?.zoomable}
       />
     </>
   );

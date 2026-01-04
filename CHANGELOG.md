@@ -4,6 +4,131 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
+## [1.2.0] - 2026-01-03 (20:45 PST)
+
+### Added
+- **Authentication system architecture complete**: Full planning for magic link auth
+  - Database: **Upstash Redis** (500K requests/month free vs Vercel KV's 30K)
+  - Email: **Resend** (3K emails/month free; SendGrid discontinued free tier May 2025)
+  - Magic link flow: 15-min token expiry, one-time use, 7-day sessions
+  - Admin uses same magic link system (simplicity over separate password auth)
+
+- **Documentation created**:
+  - [docs/AUTH_ANALYSIS.md](docs/AUTH_ANALYSIS.md) - Database & email service comparison
+  - [docs/AUTH_IMPLEMENTATION_PLAN.md](docs/AUTH_IMPLEMENTATION_PLAN.md) - Full implementation plan with code
+
+- **Security Expert role added to CLAUDE.md**: Claude now acts as web security expert
+  - Must design secure solutions (HTTP-only cookies, input validation, crypto-grade tokens)
+  - Must proactively identify and call out security concerns
+  - Must refuse insecure implementations or propose secure alternatives
+
+### Security Review
+Conducted full security audit against high standards. Issues found and fixed:
+
+| Issue | Severity | Resolution |
+|-------|----------|------------|
+| No rate limiting | HIGH | Added @upstash/ratelimit (5-10 req/min per endpoint) |
+| Email enumeration | HIGH | Uniform responses for all email requests |
+| Weak token generation | MEDIUM | crypto.randomBytes(32) instead of nanoid |
+| No input validation | MEDIUM | zod schemas for email and token validation |
+| Session not invalidated on revoke | MEDIUM | invalidateAllSessions() bulk deletion |
+
+### Playwright Testing
+- Added test bypass API (`/api/auth/test-session`) with proper security gates
+- `AUTH_TEST_MODE` environment variable required
+- Test helpers: `loginAsViewer()`, `loginAsAdmin()`, `logout()`
+
+### Key Learnings
+1. **Vercel KV vs Upstash**: Vercel KV uses Upstash under the hood but with 16x fewer free requests (30K vs 500K) - go direct to Upstash for cost savings
+2. **SendGrid free tier discontinued**: As of May 2025, Resend is the best free option for transactional email
+3. **Security must be built in from the start**: Rate limiting and input validation are not "nice to haves" - they're required for the walking skeleton
+4. **Uniform responses prevent enumeration**: Never reveal whether an email exists in the system through different response messages
+5. **Session tracking enables revocation**: Store session IDs by email (`sessions:{email}`) for bulk invalidation when access is revoked
+
+### Status
+- Architecture: ✅ Complete
+- Documentation: ✅ Complete
+- Walking skeleton: ⏳ Awaiting user Upstash/Resend credentials
+
+---
+
+## [1.1.0] - 2026-01-03 (18:12 PST)
+
+### Added
+- **Image zoom functionality for large diagrams**: Flow diagrams and spec documents now support zoom
+  - Click to zoom in (2x), click again to reset
+  - Scroll wheel zoom (up to 4x)
+  - Pan/drag when zoomed
+  - Double-tap zoom on mobile
+  - Zoom indicator pill showing current zoom level
+  - Reset button when zoomed
+- **Reusable ZoomableImage component** (`src/components/ZoomableImage.tsx`)
+  - Can be used anywhere for zoomable images
+  - Configurable max zoom level
+  - Optional zoom hint
+
+### Changed
+- **Lightbox component**: Added `enableZoom` prop for zoom functionality
+- **ContentBlock type**: Added `zoomable?: boolean` property for images
+
+### Enabled zoom for
+- Humanics Calendar: interaction-flow-initial, 4 brainstorm images, calendar-data-spec, flow-from-calendar, flow-from-profile
+- Humanics Swap: workflow-diagram
+- Roblox: ftux-flow
+
+---
+
+## [1.0.0] - 2026-01-03 (17:45 PST)
+
+### Added
+- **Humanics (Calendar Sharing) case study complete**: Full migration with 40 images - FINAL CASE STUDY!
+  - Downloaded all 40 images from Adobe CDN via Playwright URL extraction
+  - Converted to blocks layout with images interspersed with text
+  - Image types: header intro, calendar views (2), user research photo, 4-image grid (round 1 screens), interaction flow, complicated diagram, brainstorming sketches (4), exploration grids (5-image ×2, 6-image, 3-image), round 2 screens (2-image ×2), calendar data spec, flow diagrams (2)
+  - Image max-widths matched to original (350px mobile screens, 450px 2-col grids, 500px diagrams, 700px wide images)
+  - Inline labels `**Exploration 1:**`, `**Exploration 2:**`, `**Exploration 3:**` verified via Playwright
+
+### Changed
+- **Title format standardization**: "Humanics" → "Humanics (Calendar Sharing)"
+- **Layout**: Changed to `content-first` (centered header, no hero image)
+
+### Image Structure
+| Image Type | Count | Max Width |
+|------------|-------|-----------|
+| Header intro | 1 | 600px |
+| Mobile screens (single) | 2 | 350px |
+| User research photo | 1 | 700px |
+| 4-image grid (round 1) | 1 | 700px |
+| Interaction flow diagrams | 3 | 700px |
+| Complicated diagram | 1 | 500px |
+| Brainstorming sketches | 4 | 700px |
+| 5-image grids (explorations) | 2 | 700px |
+| 6-image grid (exploration 3) | 1 | 700px |
+| 3-image grid (calendar flow) | 1 | 450px |
+| 2-image grids (round 2) | 2 | 450px |
+| Calendar data spec | 1 | 700px |
+
+### Milestone
+- **ALL 5 CASE STUDIES NOW COMPLETE** - Ready for Vercel deployment!
+  - Humanics Calendar Sharing: 40 images
+  - Humanics Swap & Withdraw: 21 images
+  - Roblox NUX: 12 images
+  - Jarvis: 18 images + 1 video
+  - Apple Xcode Touch Bar: 22 images
+  - **Total: 113 images + 1 video**
+
+### Verified via Playwright
+- All 40 images downloaded and render correctly
+- Inline labels "Exploration 1:", "Exploration 2:", "Exploration 3:" match original site
+- Page structure matches original Adobe Portfolio
+
+### Technical Notes
+- Used Playwright MCP to extract fresh image URLs with valid auth hashes
+- Cleared Next.js cache (`rm -rf .next`) before verification
+- Dev server runs on port 3000
+
+---
+
 ## [0.9.4] - 2025-12-31 (20:01 PST)
 
 ### Added

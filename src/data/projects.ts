@@ -1,7 +1,7 @@
 export type ContentBlock =
   | { type: 'text'; content: string; centered?: boolean; size?: 'normal' | 'large' }
-  | { type: 'image'; src: string; alt: string; maxWidth?: number; noLightbox?: boolean }
-  | { type: 'images'; items: Array<{ src: string; alt: string }>; maxWidth?: number }
+  | { type: 'image'; src: string; alt: string; maxWidth?: number; noLightbox?: boolean; zoomable?: boolean }
+  | { type: 'images'; items: Array<{ src: string; alt: string; zoomable?: boolean }>; maxWidth?: number }
   | { type: 'video'; src: string; caption?: string; maxWidth?: number }
   | { type: 'notice'; content: string; color?: 'red' | 'gray' };
 
@@ -37,10 +37,11 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "humanics-calendar-sharing",
-    title: "Humanics",
-    subtitle: "Calendar Sharing",
+    title: "Humanics (Calendar Sharing)",
+    subtitle: "",
     description: "Humanics is a workforce management solution for nurses and nurse supervisors. The product has 2 parts: a desktop web app and a mobile app (iOS/Android).",
     category: "Product Design",
+    layout: "content-first",
     thumbnail: "/images/projects/humanics-calendar.png",
     year: "2019",
     month: "July",
@@ -48,6 +49,13 @@ export const projects: Project[] = [
     skills: ["Feature Strategy", "UI", "UX", "IA", "Prototype", "Research"],
     confidential: true,
     sections: [
+      {
+        blocks: [
+          { type: 'image', src: "/images/projects/humanics-calendar/header-intro.png", alt: "Humanics Logo", maxWidth: 600, noLightbox: true },
+          { type: 'text', content: `The desktop web app is used by nurse supervisors to create and manage the schedules of nursing staff in a hospital unit. The mobile app (iOS/Android) is used by nursing staff on their personal phones to view their hospital work schedule and submit their schedule preferences.`, centered: true, size: 'large' },
+          { type: 'notice', content: `Note: Confidential content - Do not share`, color: 'red' }
+        ]
+      },
       {
         title: "Role & Context",
         content: `As the Principal UI/UX designer, my primary tent pole goal for this feature was to maintain utmost privacy of the end user's personal calendar data while still designing the best human experience possible. I also wanted to make sure all iOS visual and interaction designs followed Apple's latest human interface guidelines.
@@ -74,11 +82,14 @@ The customer success team and design research came to understand that nursing st
       },
       {
         title: "Why Calendar Sharing?",
-        content: `The customer success team identified a pain point that nursing staff were unable to share their work schedule with family and friends to plan their lives. Staff were frequently sending screenshots of their Humanics calendar to friends and family but this wasn't the ideal experience we wanted to provide. Not only that, the Humanics calendar is designed more specifically to view and manage hospital shifts and less as a typical calendar.
-
-Secondarily the team also identified the need for staff to view their work schedules alongside their personal schedules in their default calendar app of their devices. Staff were bouncing between their default calendar app and Humanics when planning life events, which wasn't a pleasant experience either.
-
-Based on the above discovery I accompanied our design researcher to the hospital to ask a few deeper questions. Based on my research session I boiled down calendar sharing to 2 categories: short term and long term sharing.`
+        blocks: [
+          { type: 'text', content: `The customer success team identified a pain point that nursing staff were unable to share their work schedule with family and friends to plan their lives. Staff were frequently sending screenshots of their Humanics calendar to friends and family but this wasn't the ideal experience we wanted to provide. Not only that, the Humanics calendar is designed more specifically to view and manage hospital shifts and less as a typical calendar.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/calendar-view.png", alt: "Calendar view", maxWidth: 350 },
+          { type: 'text', content: `Secondarily the team also identified the need for staff to view their work schedules alongside their personal schedules in their default calendar app of their devices. Staff were bouncing between their default calendar app and Humanics when planning life events, which wasn't a pleasant experience either.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/calendar-day-selection.png", alt: "Calendar showing selection of a day and associated shift", maxWidth: 350 },
+          { type: 'text', content: `Based on the above discovery I accompanied our design researcher to the hospital to ask a few deeper questions. Based on my research session I boiled down calendar sharing to 2 categories: short term and long term sharing.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/user-research-photo.jpg", alt: "I'm on the left at an on-site user research and design validation session (Photo by Rami A.)", maxWidth: 700 }
+        ]
       },
       {
         title: "Short Term Calendar Sharing",
@@ -96,7 +107,8 @@ Also, they only wanted to share a short defined period (1-2 weeks) because they 
       },
       {
         title: "Round 1 & Feature Exploration",
-        content: `My initial design leveraged the calendar sharing capability of iOS (and Android) to keep things simple and straightforward. I based this on what other apps and competitors were doing because I didn't want to invent anything new unless there was a clear need. I looked at apps such as NurseGrid, MyDuty and Deliveries. Based on my research I was a little hesitant with this approach because users had to allow access to their calendar data.
+        blocks: [
+          { type: 'text', content: `My initial design leveraged the calendar sharing capability of iOS (and Android) to keep things simple and straightforward. I based this on what other apps and competitors were doing because I didn't want to invent anything new unless there was a clear need. I looked at apps such as NurseGrid, MyDuty and Deliveries. Based on my research I was a little hesitant with this approach because users had to allow access to their calendar data.
 
 Not only that, my hypothesis was this design wouldn't be as intuitive and may require some planning and technical knowledge on the part of the user when sharing their schedule with friends. My other hypothesis was, it could be straightforward for married staff who already have a shared calendar. When I interviewed staff, my hypothesis was proved right as users did not know how to share a calendar (on iOS or Android)
 
@@ -105,41 +117,53 @@ The screens below are showing the key screens for the initial design. The follow
 1. System level app settings with calendar access toggle
 2. In-app settings showing Calendar Sync option off
 3. Calendar Sync detail screen in OFF state
-4. Calendar Sync detail screen in ON state with first calendar selected by default.
-
-I created this interaction flow document for the product manager and the engineering team.
-
-This design approach was less work for me and the engineering team but it wasn't ideal for our users, and so I didn't recommend this approach. It also required access to the user's calendar even though we only needed access to write data (not read) but the user does not know that. I felt it is important to avoid even asking for access when possible. In addition, this approach was not of much value from a product sales perspective. We thus ended up shelving it.`
+4. Calendar Sync detail screen in ON state with first calendar selected by default.` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-calendar/round1-screen-1.png", alt: "System level app settings with calendar access toggle" },
+            { src: "/images/projects/humanics-calendar/round1-screen-2.png", alt: "In-app settings showing Calendar Sync option off" },
+            { src: "/images/projects/humanics-calendar/round1-screen-3.png", alt: "Calendar Sync detail screen in OFF state" },
+            { src: "/images/projects/humanics-calendar/round1-screen-4.png", alt: "Calendar Sync detail screen in ON state" }
+          ], maxWidth: 700 },
+          { type: 'text', content: `I created this interaction flow document for the product manager and the engineering team.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/interaction-flow-initial.png", alt: "Interaction Flow (Initial Design)", maxWidth: 700, zoomable: true },
+          { type: 'text', content: `This design approach was less work for me and the engineering team but it wasn't ideal for our users, and so I didn't recommend this approach. It also required access to the user's calendar even though we only needed access to write data (not read) but the user does not know that. I felt it is important to avoid even asking for access when possible. In addition, this approach was not of much value from a product sales perspective. We thus ended up shelving it.` }
+        ]
       },
       {
         title: "It's Complicated",
-        content: `Calendar sharing is complicated and not as simple as it sounds. I am a strong proponent of user data privacy and as much as possible I try to avoid accessing user data even if there is a strong need to do so. I always advise my team and all stakeholders of the same. I also wanted to try my best to protect our users from themselves. What does that mean?
+        blocks: [
+          { type: 'text', content: `Calendar sharing is complicated and not as simple as it sounds. I am a strong proponent of user data privacy and as much as possible I try to avoid accessing user data even if there is a strong need to do so. I always advise my team and all stakeholders of the same. I also wanted to try my best to protect our users from themselves. What does that mean?
 
-It means … unintentional sharing of personal data. The sharing experience needed to be designed with as much transparency and clarity as possible to guide users down the safest path possible while making the interface and workflow intuitive — I needed to strike a very fine balance.
-
-Nursing staff are intelligent humans but my research suggested they aren't quite tech savvy. The Calendar sharing action doesn't just end when you share it with another human, like when sharing a link or photo. This concept was not very clear to nurses.
+It means … unintentional sharing of personal data. The sharing experience needed to be designed with as much transparency and clarity as possible to guide users down the safest path possible while making the interface and workflow intuitive — I needed to strike a very fine balance.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/calendar-sharing-complicated.png", alt: "Calendar sharing is complicated and confusing", maxWidth: 500 },
+          { type: 'text', content: `Nursing staff are intelligent humans but my research suggested they aren't quite tech savvy. The Calendar sharing action doesn't just end when you share it with another human, like when sharing a link or photo. This concept was not very clear to nurses.
 
 When a user shares a calendar, personal data continues to flow to the recipient till the initiator decides to stop sharing. This could potentially lead to stalking and other unexpected social issues which I wanted the team to be cognizant of.
 
 Since privacy was paramount, I worked with the Head of Engineering and came to the agreement that we needed to provide a UI for users to know whom they've shared their calendar with, who still has access to their shared calendar, and to manage access.
 
-Shared calendar access and management is already provided by mobile operating systems. However, during the research phase, I discovered that most staff did not know how to share a calendar from their default calendar apps using their mobile operating systems. This not only was a problem, but the business development team saw it as a feature to tout from the sales perspective because we would be able to control the experience from within Humanics. The advantage we have is our users are more familiar with Humanics than system level calendar settings. I thus decided to design a custom solution for managing shared calendars.`
+Shared calendar access and management is already provided by mobile operating systems. However, during the research phase, I discovered that most staff did not know how to share a calendar from their default calendar apps using their mobile operating systems. This not only was a problem, but the business development team saw it as a feature to tout from the sales perspective because we would be able to control the experience from within Humanics. The advantage we have is our users are more familiar with Humanics than system level calendar settings. I thus decided to design a custom solution for managing shared calendars.` }
+        ]
       },
       {
         title: "Brainstorming for Round 2",
-        content: `I explored some ideas and flows with the Product Manager and Head of Design before I started creating higher fidelity mockups for review.
-
-I explored a flow for short term calendar sharing which I later shelved for a future release because it was out of scope for this release from an engineering standpoint.
-
-I explored the possibility of using QR codes as the primary method of sharing the calendar URL. This was based on the hypothesis that it would be the safest and quickest. However, QR codes did not resonate with nurses when I got to the design validation stage.
-
-Text messaging was generally preferred so I ended up using the standard mobile OS share sheet.`
+        blocks: [
+          { type: 'text', content: `I explored some ideas and flows with the Product Manager and Head of Design before I started creating higher fidelity mockups for review.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/brainstorm-flow-layouts.jpg", alt: "Exploration of flow and layouts for round 2", maxWidth: 700, zoomable: true },
+          { type: 'text', content: `I explored a flow for short term calendar sharing which I later shelved for a future release because it was out of scope for this release from an engineering standpoint.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/brainstorm-sharing-method.jpg", alt: "Exploration of calendar sharing method and short term sharing", maxWidth: 700, zoomable: true },
+          { type: 'text', content: `I explored the possibility of using QR codes as the primary method of sharing the calendar URL. This was based on the hypothesis that it would be the safest and quickest. However, QR codes did not resonate with nurses when I got to the design validation stage.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/brainstorm-layout-flows.jpg", alt: "Exploration of layout and flows", maxWidth: 700, zoomable: true },
+          { type: 'text', content: `Text messaging was generally preferred so I ended up using the standard mobile OS share sheet.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/brainstorm-share-sheet.jpg", alt: "Exploration of flows with standard share sheet", maxWidth: 700, zoomable: true }
+        ]
       },
       {
         title: "Exploration for Round 2",
-        content: `I explored a number of variations in high fidelity — here are a few.
+        blocks: [
+          { type: 'text', content: `I explored a number of variations in high fidelity — here are a few.
 
-Exploration 1: This was an early quick exploration in which I experimented with a tabbed interface that didn't quite work.
+**Exploration 1:** This was an early quick exploration in which I experimented with a tabbed interface that didn't quite work.
 
 The following descriptions start with the screens below from the left.
 
@@ -147,9 +171,15 @@ The following descriptions start with the screens below from the left.
 2. Modal sheet with sharing UI
 3. Recipient name filled
 4. QR code presented for recipient
-5. Calendar subscription UI in settings with a switch to show state
-
-Exploration 2: In this set I explored a flow from Profile/settings instead of the calendar because some stakeholders felt that was more appropriate. Design validation later guided us to provide a flow from both the calendar and settings.
+5. Calendar subscription UI in settings with a switch to show state` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-calendar/exploration1-screen-1.png", alt: "Sharing modal sheet" },
+            { src: "/images/projects/humanics-calendar/exploration1-screen-2.png", alt: "Modal sheet with sharing UI" },
+            { src: "/images/projects/humanics-calendar/exploration1-screen-3.png", alt: "Recipient name filled" },
+            { src: "/images/projects/humanics-calendar/exploration1-screen-4.png", alt: "QR code presented" },
+            { src: "/images/projects/humanics-calendar/exploration1-screen-5.png", alt: "Calendar subscription UI" }
+          ], maxWidth: 700 },
+          { type: 'text', content: `**Exploration 2:** In this set I explored a flow from Profile/settings instead of the calendar because some stakeholders felt that was more appropriate. Design validation later guided us to provide a flow from both the calendar and settings.
 
 The following descriptions start with the screens below from the left.
 
@@ -157,9 +187,15 @@ The following descriptions start with the screens below from the left.
 2. Slightly refined sharing UI
 3. A share button is presented when a recipient's name is filled
 4. QR code presented for recipient
-5. Recipient name is added to list to manage calendar access
-
-Exploration 3: In this set I explored a flow from both the Profile and the Calendar.
+5. Recipient name is added to list to manage calendar access` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-calendar/exploration2-screen-1.png", alt: "Sharing UI from Profile/settings" },
+            { src: "/images/projects/humanics-calendar/exploration2-screen-2.png", alt: "Refined sharing UI" },
+            { src: "/images/projects/humanics-calendar/exploration2-screen-3.png", alt: "Share button when name filled" },
+            { src: "/images/projects/humanics-calendar/exploration2-screen-4.png", alt: "QR code presented" },
+            { src: "/images/projects/humanics-calendar/exploration2-screen-5.png", alt: "Recipient name in list" }
+          ], maxWidth: 700 },
+          { type: 'text', content: `**Exploration 3:** In this set I explored a flow from both the Profile and the Calendar.
 
 This is the flow from the Profile. Here I used the standard mobile OS share sheet along with the possibility of capturing the text string of the recipient used in the sharing method — "Mom". However, I was advised that this was not technically possible, which required an extra step. I added that in the final design. (see flow diagrams below)
 
@@ -170,29 +206,54 @@ The following descriptions start with the screens below from the left.
 3. Standard OS share sheet
 4. Standard OS messaging UI
 5. Recipient name is added to list to manage calendar access
-6. Subscription is part of app Settings and I explored "Device Sync" instead of "Subscribe"
-
-This is the flow from the Calendar.
+6. Subscription is part of app Settings and I explored "Device Sync" instead of "Subscribe"` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-calendar/exploration3-profile-1.png", alt: "Sharing UI from Profile" },
+            { src: "/images/projects/humanics-calendar/exploration3-profile-2.png", alt: "Refined sharing UI with share button" },
+            { src: "/images/projects/humanics-calendar/exploration3-profile-3.png", alt: "Standard OS share sheet" },
+            { src: "/images/projects/humanics-calendar/exploration3-profile-4.png", alt: "Standard OS messaging UI" },
+            { src: "/images/projects/humanics-calendar/exploration3-profile-5.png", alt: "Recipient name in list" },
+            { src: "/images/projects/humanics-calendar/exploration3-profile-6.png", alt: "Device Sync in Settings" }
+          ], maxWidth: 700 },
+          { type: 'text', content: `This is the flow from the Calendar.
 
 The following descriptions start with the screens below from the left.
 
 1. Calendar view has a More button in the top right corner
 2. The More button presents the action sheet
-3. Standard OS share sheet to share calendar with others`
+3. Standard OS share sheet to share calendar with others` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-calendar/exploration3-calendar-1.png", alt: "Calendar view with More button" },
+            { src: "/images/projects/humanics-calendar/exploration3-calendar-2.png", alt: "Action sheet" },
+            { src: "/images/projects/humanics-calendar/exploration3-calendar-3.png", alt: "Standard OS share sheet" }
+          ], maxWidth: 450 }
+        ]
       },
       {
         title: "Round 2 - Finalized",
-        content: `Since I wanted to avoid asking the user for calendar access for privacy reasons, the Head of Engineering also agreed this was a good goal to strive for. However, this came with a cost. For instance, the iOS engineer on the team advised me that it would require calendar access to display the state of calendar subscription (ON/OFF) when viewing the in-app settings. I thus designed the calendar subscription as a single action button rather than a stateful button. But this was a small cost to pay for privacy. I also took this opportunity to refresh and improve the Profile view.
-
-Secondly, as I wanted to help users view and manage shared calendar access, there was a technical limitation in iOS which resulted in a flow where users had to provide an identifier first for whom they were sharing with, followed by the actual sharing process. This wasn't ideal but it was something I couldn't avoid. You will see this illustrated in the interaction flow below and the screen below on the left. Overall I felt all of this was a small cost to pay to help users manage shared calendar access.
-
-Lastly, there was also the component of how the calendar data should be presented in the default calendar app. I added emojis to denote day or night shifts. Emoji are quite effective at quickly conveying information at a glance without the need of words. I created a spec doc to clarify the details for both Calendar app and Google Calendar app on iOS. I worked with an Android product designer to clarify any details on the Android side.`
+        blocks: [
+          { type: 'text', content: `Since I wanted to avoid asking the user for calendar access for privacy reasons, the Head of Engineering also agreed this was a good goal to strive for. However, this came with a cost. For instance, the iOS engineer on the team advised me that it would require calendar access to display the state of calendar subscription (ON/OFF) when viewing the in-app settings. I thus designed the calendar subscription as a single action button rather than a stateful button. But this was a small cost to pay for privacy. I also took this opportunity to refresh and improve the Profile view.` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-calendar/round2-profile-view.png", alt: "Redesigned Profile view with Calendar setting" },
+            { src: "/images/projects/humanics-calendar/round2-calendar-settings.png", alt: "Calendar Settings with single action button" }
+          ], maxWidth: 450 },
+          { type: 'text', content: `Secondly, as I wanted to help users view and manage shared calendar access, there was a technical limitation in iOS which resulted in a flow where users had to provide an identifier first for whom they were sharing with, followed by the actual sharing process. This wasn't ideal but it was something I couldn't avoid. You will see this illustrated in the interaction flow below and the screen below on the left. Overall I felt all of this was a small cost to pay to help users manage shared calendar access.` },
+          { type: 'images', items: [
+            { src: "/images/projects/humanics-calendar/round2-sharing-manage.png", alt: "Calendar Sharing – Extra step needed to manage access" },
+            { src: "/images/projects/humanics-calendar/round2-sharing-people.png", alt: "Calendar Sharing with 4 people" }
+          ], maxWidth: 450 },
+          { type: 'text', content: `Lastly, there was also the component of how the calendar data should be presented in the default calendar app. I added emojis to denote day or night shifts. Emoji are quite effective at quickly conveying information at a glance without the need of words. I created a spec doc to clarify the details for both Calendar app and Google Calendar app on iOS. I worked with an Android product designer to clarify any details on the Android side.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/calendar-data-spec.png", alt: "Calendar data spec document", maxWidth: 700, zoomable: true }
+        ]
       },
       {
         title: "Hand-off & Deliverables",
-        content: `I uploaded the final mocks to Zeplin along with associated interaction flow and spec documents.
-
-I used TestFlight to install engineering builds on my device so I could provide feedback to engineering as they were implementing my designs. I worked with the technical product manager and a QA engineer to iron out wrinkles and answer questions from the engineering team. I primarily used Sketch for design and prototyping.`
+        blocks: [
+          { type: 'text', content: `I uploaded the final mocks to Zeplin along with associated interaction flow and spec documents.` },
+          { type: 'image', src: "/images/projects/humanics-calendar/flow-from-calendar.png", alt: "Flow from Calendar", maxWidth: 700, zoomable: true },
+          { type: 'image', src: "/images/projects/humanics-calendar/flow-from-profile.png", alt: "Flow from Profile", maxWidth: 700, zoomable: true },
+          { type: 'text', content: `I used TestFlight to install engineering builds on my device so I could provide feedback to engineering as they were implementing my designs. I worked with the technical product manager and a QA engineer to iron out wrinkles and answer questions from the engineering team. I primarily used Sketch for design and prototyping.` }
+        ]
       },
       {
         title: "Opportunity to Learn & Teach",
@@ -356,7 +417,7 @@ There is a fine line between providing too many or too few notifications — dis
         title: "Hand-off & Deliverables",
         blocks: [
           { type: 'text', content: `I took this project as the opportunity to learn the entire shift swap workflow between the initiator, recipient, and supervisor. Based on my learnings I provided an updated interaction flow doc and uploaded the final mocks to Zeplin.` },
-          { type: 'image', src: "/images/projects/humanics-swap/workflow-diagram.png", alt: "Entire Shift Swap workflow between initiator, recipient and supervisor", maxWidth: 700 },
+          { type: 'image', src: "/images/projects/humanics-swap/workflow-diagram.png", alt: "Entire Shift Swap workflow between initiator, recipient and supervisor", maxWidth: 700, zoomable: true },
           { type: 'text', content: `I used TestFlight to install engineering builds on my device so I could provide feedback to engineering as they were implementing my designs. I worked with the technical product manager and a QA engineer to iron out wrinkles and answer questions from the engineering team. I primarily used Sketch for design and prototyping.` }
         ]
       },
@@ -407,7 +468,7 @@ We are establishing a usage baseline for the withdraw option. This also is not p
         title: "Why re-think NUX?",
         blocks: [
           { type: 'text', content: `The NUX as it stands today gets players to the Games page with the least number of steps. The hope is they'll play a game or more right after signing up, and then return the following day. However, I discovered that the games presented to a new player are not personalized and do not reflect categories that directly resonate with their interests. They are also not the ideal ones for the best mobile experience.` },
-          { type: 'image', src: "/images/projects/roblox/ftux-flow.jpg", alt: "FTUX Flow", maxWidth: 800 },
+          { type: 'image', src: "/images/projects/roblox/ftux-flow.jpg", alt: "FTUX Flow", maxWidth: 800, zoomable: true },
           { type: 'text', content: `After consulting with my research, analytics, and design partners, I distilled my findings into several high-level issues with the original NUX design. It lacks aspects such as context, value proposition, reason, and misses conveying other fundamental aspects of Roblox, like the avatar and game play controls. The player journey itself feels very clinical, impersonal and possesses little to no emotional value. Focusing on the aforementioned aspects of NUX will not only improve immediate and long-term player retention but will also aid in aging up. These may not seem critical based on the app and analytics today, but are worth seriously re-considering.` }
         ]
       },

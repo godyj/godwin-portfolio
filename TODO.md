@@ -66,24 +66,79 @@
 - [x] Updated title to "Roblox (NUX)"
 - [x] All 21 inline labels verified via Playwright comparison
 
-## Pending - Other Case Studies
+## Completed - Humanics Calendar Sharing
 
-### Humanics Calendar Sharing
-- [ ] Download case study images
-- [ ] Structure sections with content blocks
-- [ ] Match layout to original
-- [ ] Verify inline labels via Playwright
+- [x] Downloaded all 40 case study images via Playwright
+- [x] Structure sections with content blocks
+- [x] Match layout to original
+- [x] Added inline labels (Exploration 1:, Exploration 2:, Exploration 3:)
+- [x] Image grids: 4-image, 5-image, 6-image, 3-image, 2-image
+- [x] Updated title to "Humanics (Calendar Sharing)"
+- [x] Verified via Playwright
 
-### Humanics Swap & Withdraw
-- [ ] Download case study images
-- [ ] Structure sections with content blocks
-- [ ] Match layout to original
-- [ ] Verify inline labels via Playwright
+## Completed - Humanics Swap & Withdraw
+
+- [x] Downloaded all 21 case study images via Playwright
+- [x] Structure sections with content blocks
+- [x] Match layout to original
+- [x] Added inline label (Other Locations:)
+- [x] Updated title to "Humanics (Swap & Withdraw)"
+- [x] Verified via Playwright
+
+## Phase 1: Image Zoom for Large Images ✅ COMPLETE
+
+Large images like "Interaction Flow" diagrams have zoom functionality.
+
+- [x] Add zoom capability to Lightbox component
+- [x] Enable zoom for flow diagrams and spec images (8 images in Humanics Calendar)
+- [x] Click to zoom in, click again to reset
+- [x] Scroll wheel zoom support
+- [x] Pan/drag when zoomed
+- [x] Double-tap zoom on mobile
+- [x] Zoom indicator pill showing zoom level
+
+## Phase 2: Project Authentication System ⏳ IN PROGRESS
+
+Lock projects behind email-based magic link authentication.
+
+**Documentation:**
+- [docs/AUTH_ANALYSIS.md](docs/AUTH_ANALYSIS.md) - Database & email service analysis
+- [docs/AUTH_IMPLEMENTATION_PLAN.md](docs/AUTH_IMPLEMENTATION_PLAN.md) - Full implementation plan
+
+### Architecture ✅ COMPLETE
+- [x] Design database schema for viewer access (Redis keys: viewer, token, session, sessions)
+- [x] Choose email service → **Resend** (3K emails/month free)
+- [x] Choose database → **Upstash Redis** (500K requests/month free)
+- [x] Define magic link flow (15-min tokens, 7-day sessions)
+- [x] Security review (rate limiting, crypto-grade tokens, input validation)
+
+### Prerequisites ⏳ AWAITING USER
+- [ ] User creates Upstash account → get `UPSTASH_REDIS_REST_URL` and `TOKEN`
+- [ ] User creates Resend account → get `RESEND_API_KEY`
+
+### Walking Skeleton Implementation
+- [ ] Install dependencies (`@upstash/redis @upstash/ratelimit resend zod`)
+- [ ] Create `src/lib/auth/*` (redis, tokens, sessions, validation, ratelimit, email, types)
+- [ ] Create `/api/auth/request` route (with rate limiting, validation)
+- [ ] Create `/api/auth/verify` route
+- [ ] Create `/api/auth/logout` route
+- [ ] Create `/api/auth/test-session` route (Playwright bypass)
+- [ ] Create `AccessRequestModal` component
+- [ ] Create `ProtectedProject` wrapper component
+- [ ] Create `/admin` page (list/approve/deny viewers)
+- [ ] Create Playwright test helpers (`tests/helpers/auth.ts`)
+- [ ] Add `locked: true` to one test project
+
+### Phase 2+ (After Skeleton)
+- [ ] Expiration date picker for viewer access
+- [ ] Project selection in approval flow
+- [ ] React Email templates
+- [ ] Audit logging
 
 ## Deployment
 
 ### Pre-deployment
-- [ ] All case study images saved to `/public/images/projects/`
+- [x] All case study images saved to `/public/images/projects/`
 - [ ] Run `npm run build` successfully
 - [ ] Test all pages locally
 - [ ] Test dark mode on all pages

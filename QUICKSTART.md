@@ -1,6 +1,6 @@
 # Godwin Portfolio - Quick Start
 
-> Last updated: 2025-12-31 20:01 PST
+> Last updated: 2026-01-03 20:45 PST
 
 ## TL;DR
 
@@ -12,7 +12,7 @@ npm run dev
 # → http://localhost:3000 (or 3001 if 3000 is in use)
 ```
 
-## Current State: 98% Complete
+## Current State: 100% Content Complete
 
 | Component | Status |
 |-----------|--------|
@@ -35,7 +35,10 @@ npm run dev
 | **Xcode case study (22 images)** | ✅ Done (verified 2025-12-31) |
 | **Roblox case study (12 images)** | ✅ Done (verified 2025-12-31) |
 | **Humanics Swap & Withdraw (21 images)** | ✅ Done (verified 2025-12-31) |
-| **Remaining case study (1)** | ❌ Humanics Calendar Sharing |
+| **Humanics Calendar Sharing (40 images)** | ✅ Done (verified 2026-01-03) |
+| **Image zoom for flow diagrams** | ✅ Done (2026-01-03) |
+| **Auth system planned** | ✅ Done (2026-01-03) |
+| **Auth walking skeleton** | ⏳ Awaiting credentials |
 | **Vercel deployment** | ❌ Pending |
 | **Domain config** | ❌ Pending |
 
@@ -106,19 +109,53 @@ In `projects.ts`, Xcode uses:
 | `--space-10` | 40px | Image grid padding-bottom |
 | `--color-accent-red` | #e01414 | Confidential notices |
 
-## Next Session Priority
+## Next Session Priority: Authentication Walking Skeleton
 
-### 1. Download Remaining Case Study Images
-1 project still needs images downloaded:
-- Humanics Calendar Sharing
+### Prerequisites (User Must Complete)
 
-### 2. Deploy to Vercel
+**Step 1: Create Upstash Account** (~3 min)
+1. Go to [upstash.com](https://upstash.com) → Sign up (GitHub works)
+2. Create Database → Select **Redis** → Name: `godwin-portfolio-auth`
+3. Region: `us-west-1` (or nearest)
+4. Copy:
+   - `UPSTASH_REDIS_REST_URL`
+   - `UPSTASH_REDIS_REST_TOKEN`
+
+**Step 2: Create Resend Account** (~2 min)
+1. Go to [resend.com](https://resend.com) → Sign up
+2. API Keys → Create API Key → Name: `godwin-portfolio`
+3. Copy: `RESEND_API_KEY`
+
+**Step 3: Provide to Claude**
+```
+UPSTASH_REDIS_REST_URL=https://...
+UPSTASH_REDIS_REST_TOKEN=...
+RESEND_API_KEY=re_...
+```
+
+### Walking Skeleton Implementation
+
+Once credentials provided, Claude will:
+1. Install dependencies: `@upstash/redis @upstash/ratelimit resend zod`
+2. Create `src/lib/auth/*` files (redis, tokens, sessions, validation, ratelimit)
+3. Create API routes (`/api/auth/request`, `/verify`, `/logout`, `/test-session`)
+4. Create UI components (`AccessRequestModal`, `ProtectedProject`)
+5. Create admin page (`/admin`)
+6. Add Playwright test helpers
+
+### Documentation
+- **Analysis**: [docs/AUTH_ANALYSIS.md](docs/AUTH_ANALYSIS.md) - Database & email choice rationale
+- **Implementation**: [docs/AUTH_IMPLEMENTATION_PLAN.md](docs/AUTH_IMPLEMENTATION_PLAN.md) - Full plan with code
+
+### After Authentication: Deploy
+
+**Deploy to Vercel**
 ```bash
 npm i -g vercel
 vercel
 ```
 
-### 3. Configure Domain
+**Configure Domain**
 1. Add `designed.cloud` in Vercel dashboard
 2. Update GoDaddy DNS:
    - Type: CNAME
@@ -151,17 +188,18 @@ vercel
     ├── roblox.png              # Thumbnail
     ├── jarvis.png              # Thumbnail
     ├── xcode.png               # Thumbnail
-    ├── jarvis/                 # 18 case study images
-    ├── xcode/                  # 22 case study images (verified)
+    ├── humanics-calendar/      # 40 case study images (verified)
+    ├── humanics-swap/          # 21 case study images (verified)
     ├── roblox/                 # 12 case study images (verified)
-    └── humanics-swap/          # 21 case study images (verified)
+    ├── jarvis/                 # 18 case study images
+    └── xcode/                  # 22 case study images (verified)
 ```
 
 ## Projects in Portfolio
 
 | ID | Title | Year | Images |
 |----|-------|------|--------|
-| `humanics-calendar-sharing` | Humanics (Calendar Sharing) | July 2019 | ❌ Pending |
+| `humanics-calendar-sharing` | Humanics (Calendar Sharing) | July 2019 | ✅ Done (40 images) |
 | `humanics-swap-withdraw` | Humanics (Swap & Withdraw) | May 2019 | ✅ Done (21 images) |
 | `roblox-nux` | Roblox (NUX) | Aug 2018 | ✅ Done (12 images) |
 | `jarvis` | Jarvis (Connected Car App) | June 2017 | ✅ Done (18 images) |
@@ -213,6 +251,8 @@ All pages use consistent layout:
 - **Session 7 (2025-12-31)**: Verified all 22 Xcode images are correct via Playwright visual comparison and MD5 checksum verification against fresh CDN downloads. Found and fixed corrupted Next.js image cache causing wrong images to display (fix: `rm -rf .next && npm run dev`)
 - **Session 8 (2025-12-31)**: Fixed Xcode inline labels (removed incorrect **Analysis:**, added bold numbered goals). Completed Roblox case study: downloaded 12 images via Playwright, converted to blocks layout, matched max-widths, verified all 21 inline labels via Playwright comparison. Updated titles to "Apple Xcode (Touch Bar)" and "Roblox (NUX)"
 - **Session 9 (2025-12-31)**: Completed Humanics Swap & Withdraw case study: downloaded 21 images via Playwright URL extraction, converted to blocks layout with images interspersed, added inline label "Other Locations:", verified against original site. Updated title to "Humanics (Swap & Withdraw)". Fixed list rendering to support em dashes (`–`) with tighter spacing (`space-y-1`)
+- **Session 10 (2026-01-03)**: Completed Humanics Calendar Sharing case study (final case study): downloaded 40 images via Playwright URL extraction, converted to blocks layout with images interspersed, added inline labels (Exploration 1:, Exploration 2:, Exploration 3:), verified via Playwright. Updated title to "Humanics (Calendar Sharing)". **ALL 5 CASE STUDIES NOW COMPLETE** - Ready for deployment!
+- **Session 11 (2026-01-03)**: Added image zoom for flow diagrams (ZoomableImage component). Planned authentication system: researched Upstash Redis (500K free) vs Vercel KV (30K free), Resend (3K emails free) vs SendGrid (discontinued). Created `docs/AUTH_ANALYSIS.md` and `docs/AUTH_IMPLEMENTATION_PLAN.md`. Security review: added rate limiting, crypto-grade tokens, input validation, uniform responses, session invalidation. **Awaiting user Upstash/Resend credentials to begin walking skeleton.**
 
 ## Links
 - Live (current): https://designed.cloud (Adobe Portfolio)
