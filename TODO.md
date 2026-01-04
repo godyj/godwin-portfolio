@@ -97,6 +97,16 @@ Large images like "Interaction Flow" diagrams have zoom functionality.
 - [x] Double-tap zoom on mobile
 - [x] Zoom indicator pill showing zoom level
 
+## Phase 3: Home Page UI Refinements ✅ COMPLETE (2026-01-03)
+
+- [x] ProjectsSection fade-in animation on project cards
+- [x] Raised ProjectsSection by 10px when hero is fully visible
+- [x] "X more below" indicator when cards are hidden below fold
+  - [x] Only shows after top 2 cards are 40%+ visible
+  - [x] Styled with ProjectsSection fill color + outer ring (brand-yellow at 20%)
+  - [x] Interactive - clicking scrolls to reveal all hidden cards
+  - [x] Fixed "0 more below" flash using displayCount
+
 ## Phase 2: Project Authentication System ✅ COMPLETE
 
 Lock projects behind email-based magic link authentication.

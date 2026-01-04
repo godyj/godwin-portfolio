@@ -12,11 +12,11 @@ export default function HomeHero() {
   }, []);
 
   // Handle hash navigation (e.g., from /#projects link on other pages)
+  // Use instant scroll (no animation) when coming from another page
   useEffect(() => {
     if (window.location.hash === "#projects") {
-      setTimeout(() => {
-        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      // Instant scroll - skip animation when navigating from other pages
+      document.getElementById("projects")?.scrollIntoView({ behavior: "instant" });
     }
   }, []);
 

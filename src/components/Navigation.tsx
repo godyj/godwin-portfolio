@@ -6,11 +6,25 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const navLinks = [
-  { href: "/#projects", label: "Work" },
-  { href: "/about", label: "About" },
-  { href: "/resume", label: "Résumé" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#projects", label: "Work", locked: false },
+  { href: "/about", label: "About", locked: false },
+  { href: "/resume", label: "Résumé", locked: true },
+  { href: "/contact", label: "Contact", locked: false },
 ];
+
+// Small lock icon for nav
+function NavLockIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg className={`w-3.5 h-3.5 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+      />
+    </svg>
+  );
+}
 
 export default function Navigation() {
   const pathname = usePathname();
@@ -126,6 +140,8 @@ export default function Navigation() {
               // Work link needs special scroll handling
               const isWorkLink = link.href === "/#projects";
 
+              const isHovered = hoveredHref === link.href;
+
               return (
                 <Link
                   key={link.href}
@@ -142,7 +158,7 @@ export default function Navigation() {
                       document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
-                  className={`text-[17.5px] font-medium transition-colors ${
+                  className={`text-[17.5px] font-medium transition-colors flex items-center ${
                     showSolidBg
                       ? isActive
                         ? "text-gray-900 dark:text-white"
@@ -153,6 +169,12 @@ export default function Navigation() {
                   }`}
                 >
                   {link.label}
+                  {/* Lock icon for locked items - always takes up space, visible on hover */}
+                  {link.locked && (
+                    <span className={`ml-1.5 transition-opacity duration-150 ${isHovered ? 'opacity-70' : 'opacity-0'}`}>
+                      <NavLockIcon />
+                    </span>
+                  )}
                 </Link>
               );
             })}
@@ -212,13 +234,18 @@ export default function Navigation() {
                         document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
                       }
                     }}
-                    className={`text-[17.5px] font-medium transition-colors ${
+                    className={`text-[17.5px] font-medium transition-colors flex items-center ${
                       isActive
                         ? "text-gray-900 dark:text-white"
                         : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
                     }`}
                   >
                     {link.label}
+                    {link.locked && (
+                      <span className="ml-1.5 opacity-50">
+                        <NavLockIcon />
+                      </span>
+                    )}
                   </Link>
                 );
               })}

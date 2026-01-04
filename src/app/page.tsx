@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import ProjectGrid from "@/components/ProjectGrid";
 import HomeHero from "@/components/HomeHero";
+import ProjectsSection from "@/components/ProjectsSection";
 
 // Loading skeleton for project grid
 function ProjectGridSkeleton() {
@@ -22,14 +23,12 @@ export default function Home() {
       {/* Spacer for fixed hero */}
       <div className="h-screen" />
 
-      {/* Projects Grid - Slides over hero (server component with auth check) */}
-      <div id="projects" className="relative z-10 bg-white dark:bg-background-page rounded-t-3xl -mt-8 shadow-2xl scroll-mt-20">
-        <div className="max-w-6xl mx-auto px-6 py-16">
-          <Suspense fallback={<ProjectGridSkeleton />}>
-            <ProjectGrid />
-          </Suspense>
-        </div>
-      </div>
+      {/* Projects Grid - Slides over hero with fade-in animation */}
+      <ProjectsSection>
+        <Suspense fallback={<ProjectGridSkeleton />}>
+          <ProjectGrid />
+        </Suspense>
+      </ProjectsSection>
     </div>
   );
 }

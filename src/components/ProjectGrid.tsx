@@ -75,6 +75,7 @@ export default async function ProjectGrid() {
             key={project.id}
             href={`/projects/${project.id}`}
             className="group block"
+            data-project-card
           >
             <article>
               {/* Thumbnail with hover overlay */}

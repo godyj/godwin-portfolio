@@ -1,6 +1,6 @@
 # Godwin Portfolio - Quick Start
 
-> Last updated: 2026-01-03 23:30 PST
+> Last updated: 2026-01-03 21:38 PST
 
 ## TL;DR
 
@@ -38,6 +38,7 @@ npm run dev
 | **Humanics Calendar Sharing (40 images)** | ✅ Done (verified 2026-01-03) |
 | **Image zoom for flow diagrams** | ✅ Done (2026-01-03) |
 | **Auth walking skeleton** | ✅ Done (2026-01-03) |
+| **Home page UI refinements** | ✅ Done (2026-01-03) |
 | **Vercel deployment** | ❌ Pending |
 | **Domain config** | ❌ Pending |
 
@@ -247,6 +248,7 @@ All pages use consistent layout:
 - **Session 10 (2026-01-03)**: Completed Humanics Calendar Sharing case study (final case study): downloaded 40 images via Playwright URL extraction, converted to blocks layout with images interspersed, added inline labels (Exploration 1:, Exploration 2:, Exploration 3:), verified via Playwright. Updated title to "Humanics (Calendar Sharing)". **ALL 5 CASE STUDIES NOW COMPLETE** - Ready for deployment!
 - **Session 11 (2026-01-03)**: Added image zoom for flow diagrams (ZoomableImage component). Planned authentication system: researched Upstash Redis (500K free) vs Vercel KV (30K free), Resend (3K emails free) vs SendGrid (discontinued). Created `docs/AUTH_ANALYSIS.md` and `docs/AUTH_IMPLEMENTATION_PLAN.md`. Security review: added rate limiting, crypto-grade tokens, input validation, uniform responses, session invalidation.
 - **Session 12 (2026-01-03)**: **Completed authentication walking skeleton.** Full magic link auth implemented with Upstash Redis + Resend. Admin dashboard at `/admin` for viewer management. Verified domain `designed.cloud` in Resend with DNS records. Tested full flow: admin login → lock project → viewer request → admin approve → viewer access. Added lock/check badges on project cards (dark circle + lock for restricted, green circle + checkmark for access granted). Granular access control working - viewers can be limited to specific projects. Locked Xcode and Roblox projects for testing.
+- **Session 13 (2026-01-03)**: **Home page UI refinements.** Added fade-in animation on project cards when navigating to Work section. Raised ProjectsSection by 10px when hero is fully visible. Added "X more below" indicator (appears when cards are 90%+ hidden, only after top 2 cards 40% visible, interactive scroll-to-reveal, styled with outer ring brand-yellow at 20%). Fixed "0 more below" flash using displayCount.
 
 ## Links
 - Live (current): https://designed.cloud (Adobe Portfolio)

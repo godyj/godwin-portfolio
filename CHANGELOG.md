@@ -4,6 +4,25 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
+## [1.3.1] - 2026-01-03 (21:38 PST)
+
+### Added
+- **"X more below" indicator**: Shows when project cards are hidden below fold
+  - Appears only after top 2 cards are 40%+ visible
+  - Styled with ProjectsSection fill color, outer ring (brand-yellow at 20% opacity)
+  - Interactive: clicking scrolls to reveal all hidden cards
+  - Fixed "0 more below" flash by preserving last non-zero count during fade-out
+
+### Changed
+- **ProjectsSection positioning**: Raised by 10px when hero is fully visible (`-mt-[42px]`)
+- **Project grid animation**: Fade-in animation on project cards when navigating to Work section
+
+### Files Modified
+- `src/components/ProjectsSection.tsx` - Animation, hidden card detection, interactive indicator
+- `src/components/ProjectGrid.tsx` - Added `data-project-card` attribute for DOM selection
+
+---
+
 ## [1.3.0] - 2026-01-03 (23:30 PST)
 
 ### Added
