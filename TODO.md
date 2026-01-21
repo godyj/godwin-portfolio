@@ -188,3 +188,4 @@ Lock projects behind email-based magic link authentication.
 - [ ] Test on mobile devices
 - [ ] Verify dark mode works
 - [x] Test auth flow on production (magic link emails) ✅
+
