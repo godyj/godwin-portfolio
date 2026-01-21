@@ -4,6 +4,78 @@ All notable changes to the Godwin Portfolio migration project.
 
 ---
 
+## [1.5.0] - 2026-01-21 (00:37 PST)
+
+### Added
+- **Production deployment complete**: Portfolio now LIVE at two domains
+  - Primary: https://designed.cloud (GoDaddy DNS)
+  - Alternate: https://pixelworship.com (Dreamhost DNS)
+  - All 4 variants working (with/without www)
+  - SSL certificates active (Let's Encrypt, auto-renewing)
+
+### Changed
+- **Environment variables**: Migrated from local `.env` to Vercel production
+  - `UPSTASH_REDIS_REST_URL`
+  - `UPSTASH_REDIS_REST_TOKEN`
+  - `RESEND_API_KEY`
+  - `SUPER_ADMIN_EMAIL`
+  - `NEXT_PUBLIC_SITE_URL` → `https://designed.cloud`
+
+### Verified
+- All authentication flows working in production ✅
+- Magic link emails sending correctly via Resend ✅
+- Admin dashboard accessible at /admin ✅
+- Locked projects showing lock badges ✅
+- SSL certificates valid on all domain variants ✅
+
+### Technical Notes
+- Migrated Vercel project from `sk-godwin` account to `godyj` account
+- DNS propagation completed within 1 hour
+- SSL certificate provisioning caused brief "connection not private" warning during initial setup (resolved automatically)
+
+---
+
+## [1.4.0] - 2026-01-20 (22:00 PST)
+
+### Added
+- **Project Selection UI for admin approval**: Admins can now grant viewers access to specific locked projects
+  - New `ProjectSelectionModal.tsx` component (175 lines)
+  - New `/admin/api/locked-projects` endpoint returns list of locked projects
+  - Modal appears when approving pending viewers or editing approved viewer access
+  - Intelligent defaults: pre-selects the project user originally requested access from
+
+- **Requested project tracking**: System now remembers which project triggered access request
+  - Added `requestedProject` field to `ViewerAccess` type
+  - Flows through entire request chain (modal → API → Redis → admin dashboard)
+
+### Changed
+- **Admin dashboard**: Integrated project selection modal for Approve and Edit actions
+- **Access request flow**: Now sends `projectId` to track which project user requested
+- **Update access API**: Added validation to ensure at least one project is selected
+
+### Fixed
+- **UX bug**: Modal no longer defaults to "Select All" - now correctly defaults to requested project only
+
+### Files Modified
+- `src/lib/auth/types.ts` - Added `LockedProject` type, `requestedProject` to `ViewerAccess`
+- `src/components/ProjectSelectionModal.tsx` - NEW (175 lines)
+- `src/app/admin/api/locked-projects/route.ts` - NEW
+- `src/app/admin/api/update-access/route.ts` - Added validation
+- `src/app/admin/AdminDashboard.tsx` - Integrated modal
+- `src/components/ProtectedProject.tsx` - Added projectId prop
+- `src/components/AccessRequestModal.tsx` - Send projectId in request
+- `src/app/api/auth/request/route.ts` - Store requestedProject
+- `src/app/projects/[id]/page.tsx` - Pass projectId to ProtectedProject
+- `src/app/resume/page.tsx` - Pass projectId to ProtectedProject
+
+### Verified
+- Modal correctly defaults to requested project ✅
+- Admin can modify selection before confirming ✅
+- Edit flow works for already-approved viewers ✅
+- Access control properly enforces project-level permissions ✅
+
+---
+
 ## [1.3.1] - 2026-01-03 (21:38 PST)
 
 ### Added

@@ -134,6 +134,7 @@ Lock projects behind email-based magic link authentication.
 - [x] Create `/admin` page (list/approve/deny viewers)
 - [x] Create Playwright test helpers (`tests/helpers/auth.ts`)
 - [x] Add `locked: true` to Xcode and Roblox projects
+- [x] Add `locked: true` to all 5 projects (2026-01-21)
 - [x] Verify Resend domain (designed.cloud) with DNS records
 - [x] Test full flow: admin login → viewer request → approval → access
 - [x] Lock/check badges on project cards
@@ -152,7 +153,7 @@ Lock projects behind email-based magic link authentication.
 - [ ] Admin ability to delete/remove viewers from list
 - [ ] Approve from denied list should show project selection modal (not auto-approve)
 - [ ] Consider inline approval UI instead of modal (reduced clicks)
-- [ ] Admin UI to choose which projects are locked/unlocked globally
+- [ ] Admin UI to choose which projects are locked/unlocked globally (all 5 currently locked via code)
 - [ ] Expiration date picker for viewer access
 - [ ] React Email templates
 - [ ] Audit logging
@@ -186,4 +187,4 @@ Lock projects behind email-based magic link authentication.
 - [ ] Test all pages and navigation
 - [ ] Test on mobile devices
 - [ ] Verify dark mode works
-- [ ] Test auth flow on production (magic link emails)
+- [x] Test auth flow on production (magic link emails) ✅

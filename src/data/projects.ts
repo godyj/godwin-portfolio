@@ -50,6 +50,7 @@ export const projects: Project[] = [
     role: "Principal UI/UX Designer",
     skills: ["Feature Strategy", "UI", "UX", "IA", "Prototype", "Research"],
     confidential: true,
+    locked: true,
     sections: [
       {
         blocks: [
@@ -293,6 +294,7 @@ Lastly, my primary goal to maintain user data privacy along with the need to des
     skills: ["Feature Strategy", "UI", "UX", "Research"],
     results: "64% increase in swap feature usage",
     confidential: true,
+    locked: true,
     sections: [
       {
         blocks: [
@@ -569,6 +571,7 @@ The goal here is to suggest interesting usernames based on the choices they made
     role: "Product Designer",
     skills: ["Product Strategy", "UI", "UX", "IA", "Prototype", "Research"],
     confidential: true,
+    locked: true,
     sections: [
       {
         blocks: [

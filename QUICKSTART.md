@@ -1,6 +1,6 @@
 # Godwin Portfolio - Quick Start
 
-> Last updated: 2026-01-21 00:10 PST
+> Last updated: 2026-01-21 00:19 PST
 
 ## TL;DR
 
@@ -44,6 +44,7 @@ npm run dev
 | **Project Selection UI** | ✅ Done (2026-01-20) |
 | **Vercel deployment** | ✅ Done (2026-01-21) |
 | **Domain config** | ✅ Done (2026-01-21) |
+| **Auth flow on production** | ✅ Tested (2026-01-21) |
 
 ## Xcode Images: VERIFIED CORRECT
 
@@ -165,7 +166,7 @@ In `projects.ts`, Xcode uses:
 - [ ] Admin UI to choose which projects are locked/unlocked globally
 - [ ] Expiration date picker for viewer access
 - [ ] React Email templates for prettier emails
-- [ ] Test auth flow on production (magic link emails)
+- [x] Test auth flow on production (magic link emails) ✅
 
 ## Key Files
 
