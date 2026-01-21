@@ -1,6 +1,6 @@
 # Godwin Portfolio - Quick Start
 
-> Last updated: 2026-01-20 23:25 PST
+> Last updated: 2026-01-21 00:10 PST
 
 ## TL;DR
 
@@ -14,7 +14,7 @@ npm run dev
 # → http://localhost:3000 (or 3001 if 3000 is in use)
 ```
 
-## Current State: Project Selection UI Complete
+## Current State: DEPLOYED & LIVE
 
 | Component | Status |
 |-----------|--------|
@@ -42,8 +42,8 @@ npm run dev
 | **Auth walking skeleton** | ✅ Done (2026-01-03) |
 | **Home page UI refinements** | ✅ Done (2026-01-03) |
 | **Project Selection UI** | ✅ Done (2026-01-20) |
-| **Vercel deployment** | ❌ Pending |
-| **Domain config** | ❌ Pending |
+| **Vercel deployment** | ✅ Done (2026-01-21) |
+| **Domain config** | ✅ Done (2026-01-21) |
 
 ## Xcode Images: VERIFIED CORRECT
 
@@ -157,7 +157,7 @@ In `projects.ts`, Xcode uses:
 - **Implementation**: [docs/implementation/PROJECT_SELECTION_UI_PLAN.md](docs/implementation/PROJECT_SELECTION_UI_PLAN.md)
 - **Session log**: [docs/session-logs/2026-01-20-project-selection-ui-planning.md](docs/session-logs/2026-01-20-project-selection-ui-planning.md)
 
-## Next Session: Deploy or Refinements
+## Next Session: Refinements
 
 ### Remaining Refinements (see [TODO.md](TODO.md))
 - [ ] Admin ability to delete/remove viewers from list
@@ -165,21 +165,7 @@ In `projects.ts`, Xcode uses:
 - [ ] Admin UI to choose which projects are locked/unlocked globally
 - [ ] Expiration date picker for viewer access
 - [ ] React Email templates for prettier emails
-
-### Ready to Deploy
-
-**Deploy to Vercel**
-```bash
-npm i -g vercel
-vercel
-```
-
-**Configure Domain**
-1. Add `designed.cloud` in Vercel dashboard
-2. Update GoDaddy DNS:
-   - Type: CNAME
-   - Name: @
-   - Value: cname.vercel-dns.com
+- [ ] Test auth flow on production (magic link emails)
 
 ## Key Files
 
@@ -275,8 +261,11 @@ All pages use consistent layout:
 - **Session 12 (2026-01-03)**: **Completed authentication walking skeleton.** Full magic link auth implemented with Upstash Redis + Resend. Admin dashboard at `/admin` for viewer management. Verified domain `designed.cloud` in Resend with DNS records. Tested full flow: admin login → lock project → viewer request → admin approve → viewer access. Added lock/check badges on project cards (dark circle + lock for restricted, green circle + checkmark for access granted). Granular access control working - viewers can be limited to specific projects. Locked Xcode and Roblox projects for testing.
 - **Session 13 (2026-01-03)**: **Home page UI refinements.** Added fade-in animation on project cards when navigating to Work section. Raised ProjectsSection by 10px when hero is fully visible. Added "X more below" indicator (appears when cards are 90%+ hidden, only after top 2 cards 40% visible, interactive scroll-to-reveal, styled with outer ring brand-yellow at 20%). Fixed "0 more below" flash using displayCount.
 - **Session 14 (2026-01-20)**: **Project Selection UI complete.** Full implementation across 5 phases (21:20-23:20 PST): walking skeleton → modal component → API + validation → dashboard integration → UX bug fix → integration testing. Modal defaults to requested project (not "Select All"). Fixed 8 files to track `requestedProject` through request chain. All tests passed. Added 4 refinements to TODO.md.
+- **Session 15 (2026-01-21)**: **Vercel deployment complete.** Migrated from sk-godwin to godyj Vercel account. Fixed env var issue (echo adds newlines, use printf). Released domains from old account. Added all 4 domains (designed.cloud, www.designed.cloud, pixelworship.com, www.pixelworship.com). Updated NEXT_PUBLIC_SITE_URL to production. **PORTFOLIO IS LIVE!**
 
 ## Links
-- Live (current): https://designed.cloud (Adobe Portfolio)
-- Live (new): TBD after Vercel deployment
-- Domain registrar: GoDaddy
+- **Live site:** https://designed.cloud
+- **Alternate domain:** https://pixelworship.com
+- **Vercel Dashboard:** https://vercel.com/godwin-johnsons-projects-1dd01557/godwin-portfolio
+- **Domain registrar (designed.cloud):** GoDaddy
+- **Domain registrar (pixelworship.com):** Dreamhost

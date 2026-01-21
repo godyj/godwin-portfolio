@@ -158,32 +158,32 @@ Lock projects behind email-based magic link authentication.
 - [ ] Audit logging
 - [ ] Image protection - prevent easy downloading of portfolio images (right-click disable, drag prevention, CSS overlay techniques)
 
-## Deployment
+## Deployment ✅ COMPLETE (2026-01-21)
 
 ### Pre-deployment
 - [x] All case study images saved to `/public/images/projects/`
-- [ ] Run `npm run build` successfully
-- [ ] Test all pages locally
-- [ ] Test dark mode on all pages
+- [x] Run `npm run build` successfully
+- [x] Test all pages locally
+- [x] Test dark mode on all pages
 - [ ] Test mobile responsiveness
 
 ### Vercel Setup
-- [ ] Push code to GitHub
-- [ ] Connect repository to Vercel
-- [ ] Deploy to Vercel
-- [ ] Note Vercel deployment URL
+- [x] Push code to GitHub
+- [x] Connect repository to Vercel (godyj account)
+- [x] Deploy to Vercel
+- [x] Note Vercel deployment URL: https://godwin-portfolio-neon.vercel.app
 
 ### Domain Configuration
-- [ ] Add `designed.cloud` as custom domain in Vercel
-- [ ] Get DNS records from Vercel
-- [ ] Log in to GoDaddy
-- [ ] Remove Adobe Portfolio DNS records
-- [ ] Add Vercel DNS records (A or CNAME)
-- [ ] Wait for DNS propagation (up to 48 hours)
+- [x] Add `designed.cloud` as custom domain in Vercel
+- [x] Add `pixelworship.com` as custom domain in Vercel
+- [x] DNS records already configured (A record: 76.76.21.21, CNAME: cname.vercel-dns.com)
+- [x] DNS propagation complete
 
 ### Post-deployment
-- [ ] Verify site loads at `designed.cloud`
-- [ ] Verify SSL certificate is active
+- [x] Verify site loads at `designed.cloud`
+- [x] Verify site loads at `pixelworship.com`
+- [x] Verify SSL certificate is active
 - [ ] Test all pages and navigation
 - [ ] Test on mobile devices
 - [ ] Verify dark mode works
+- [ ] Test auth flow on production (magic link emails)
