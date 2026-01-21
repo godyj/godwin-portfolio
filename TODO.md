@@ -138,11 +138,25 @@ Lock projects behind email-based magic link authentication.
 - [x] Test full flow: admin login → viewer request → approval → access
 - [x] Lock/check badges on project cards
 
+### Project Selection UI ✅ COMPLETE (2026-01-20)
+- [x] Project selection modal for approve/edit flows
+- [x] "Select All" toggle with individual project checkboxes
+- [x] Track requested project in viewer record
+- [x] Modal defaults to requested project (not "Select All") when approving
+- [x] Edit flow shows current access and allows changes
+- [x] Project badges show which projects viewer has access to
+
 ### Refinements (After Skeleton)
-- [ ] Project selection UI in admin approval flow (checkboxes)
+- [ ] Design better admin login solution (currently requires magic link from locked project)
+- [x] Project selection UI in admin approval flow (checkboxes)
+- [ ] Admin ability to delete/remove viewers from list
+- [ ] Approve from denied list should show project selection modal (not auto-approve)
+- [ ] Consider inline approval UI instead of modal (reduced clicks)
+- [ ] Admin UI to choose which projects are locked/unlocked globally
 - [ ] Expiration date picker for viewer access
 - [ ] React Email templates
 - [ ] Audit logging
+- [ ] Image protection - prevent easy downloading of portfolio images (right-click disable, drag prevention, CSS overlay techniques)
 
 ## Deployment
 

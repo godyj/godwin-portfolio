@@ -3,11 +3,13 @@
 import { useState } from 'react';
 
 interface AccessRequestModalProps {
+  projectId: string;
   projectTitle: string;
   onClose: () => void;
 }
 
 export default function AccessRequestModal({
+  projectId,
   projectTitle,
   onClose,
 }: AccessRequestModalProps) {
@@ -26,7 +28,7 @@ export default function AccessRequestModal({
       const response = await fetch('/api/auth/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, projectId }),
       });
 
       const data = await response.json();

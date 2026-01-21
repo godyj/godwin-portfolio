@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import type { ViewerAccess } from '@/lib/auth';
+import type { LockedProject } from '@/lib/auth/types';
+import ProjectSelectionModal from '@/components/ProjectSelectionModal';
 
 interface AdminDashboardProps {
   adminEmail: string;
@@ -11,6 +13,10 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
   const [viewers, setViewers] = useState<ViewerAccess[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [showProjectModal, setShowProjectModal] = useState(false);
+  const [selectedViewer, setSelectedViewer] = useState<ViewerAccess | null>(null);
+  const [modalMode, setModalMode] = useState<'approve' | 'edit'>('approve');
+  const [lockedProjects, setLockedProjects] = useState<LockedProject[]>([]);
 
   const fetchViewers = useCallback(async () => {
     try {
@@ -27,6 +33,87 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
   useEffect(() => {
     fetchViewers();
   }, [fetchViewers]);
+
+  useEffect(() => {
+    fetchLockedProjects();
+  }, []);
+
+  const fetchLockedProjects = async () => {
+    try {
+      const response = await fetch('/admin/api/locked-projects');
+      if (response.ok) {
+        const data = await response.json();
+        setLockedProjects(data.projects);
+      }
+    } catch (error) {
+      console.error('Failed to fetch locked projects:', error);
+    }
+  };
+
+  const openApproveModal = (viewer: ViewerAccess) => {
+    setSelectedViewer(viewer);
+    setModalMode('approve');
+    setShowProjectModal(true);
+  };
+
+  const openEditModal = (viewer: ViewerAccess) => {
+    setSelectedViewer(viewer);
+    setModalMode('edit');
+    setShowProjectModal(true);
+  };
+
+  const handleApproveWithProjects = async (email: string, projects: string[]) => {
+    try {
+      // First approve the viewer
+      const approveResponse = await fetch('/admin/api/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!approveResponse.ok) {
+        throw new Error('Failed to approve viewer');
+      }
+
+      // Then set their project access
+      const updateResponse = await fetch('/admin/api/update-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, projects }),
+      });
+
+      if (!updateResponse.ok) {
+        throw new Error('Failed to update project access');
+      }
+
+      // Close modal and refresh
+      setShowProjectModal(false);
+      setSelectedViewer(null);
+      fetchViewers();
+    } catch (error) {
+      console.error('Failed to approve with projects:', error);
+    }
+  };
+
+  const handleEditProjects = async (email: string, projects: string[]) => {
+    try {
+      const response = await fetch('/admin/api/update-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, projects }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update project access');
+      }
+
+      setShowProjectModal(false);
+      setSelectedViewer(null);
+      fetchViewers();
+    } catch (error) {
+      console.error('Failed to update projects:', error);
+    }
+  };
 
   const handleApprove = async (email: string) => {
     setActionLoading(email);
@@ -160,7 +247,7 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                       </div>
                       <div className="flex gap-2">
                         <button
-                          onClick={() => handleApprove(viewer.email)}
+                          onClick={() => openApproveModal(viewer)}
                           disabled={actionLoading === viewer.email}
                           className="bg-green-600 text-white px-4 py-2 text-sm font-medium rounded hover:bg-green-700 disabled:opacity-50"
                         >
@@ -213,14 +300,33 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                             </span>
                           )}
                         </p>
+                        {viewer.status === 'approved' && (
+                          <p className="text-sm text-stone-500 dark:text-stone-500">
+                            Access: {viewer.projects.length === 0
+                              ? 'All projects'
+                              : viewer.projects.length === 1
+                                ? lockedProjects.find(p => p.id === viewer.projects[0])?.title || viewer.projects[0]
+                                : `${viewer.projects.length} projects`}
+                          </p>
+                        )}
                       </div>
-                      <button
-                        onClick={() => handleRevoke(viewer.email)}
-                        disabled={actionLoading === viewer.email}
-                        className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium disabled:opacity-50"
-                      >
-                        {actionLoading === viewer.email ? '...' : 'Revoke'}
-                      </button>
+                      <div className="flex gap-2 items-center">
+                        {viewer.status === 'approved' && (
+                          <button
+                            onClick={() => openEditModal(viewer)}
+                            className="px-3 py-1 text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100"
+                          >
+                            Edit Access
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleRevoke(viewer.email)}
+                          disabled={actionLoading === viewer.email}
+                          className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium disabled:opacity-50"
+                        >
+                          {actionLoading === viewer.email ? '...' : 'Revoke'}
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -265,6 +371,28 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
           </>
         )}
       </div>
+
+      {showProjectModal && selectedViewer && (
+        <ProjectSelectionModal
+          isOpen={showProjectModal}
+          onClose={() => {
+            setShowProjectModal(false);
+            setSelectedViewer(null);
+          }}
+          onConfirm={async (projects) => {
+            if (modalMode === 'approve') {
+              await handleApproveWithProjects(selectedViewer.email, projects);
+            } else {
+              await handleEditProjects(selectedViewer.email, projects);
+            }
+          }}
+          viewerEmail={selectedViewer.email}
+          currentProjects={selectedViewer.projects}
+          requestedProject={selectedViewer.requestedProject}
+          mode={modalMode}
+          lockedProjects={lockedProjects}
+        />
+      )}
     </div>
   );
 }

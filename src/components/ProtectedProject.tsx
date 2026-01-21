@@ -4,6 +4,7 @@ import { useState } from 'react';
 import AccessRequestModal from './AccessRequestModal';
 
 interface ProtectedProjectProps {
+  projectId: string;
   projectTitle: string;
   projectSubtitle?: string;
   hasAccess: boolean;
@@ -11,6 +12,7 @@ interface ProtectedProjectProps {
 }
 
 export default function ProtectedProject({
+  projectId,
   projectTitle,
   projectSubtitle,
   hasAccess,
@@ -71,6 +73,7 @@ export default function ProtectedProject({
 
       {showModal && (
         <AccessRequestModal
+          projectId={projectId}
           projectTitle={projectTitle}
           onClose={() => setShowModal(false)}
         />

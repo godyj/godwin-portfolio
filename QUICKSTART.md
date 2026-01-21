@@ -1,10 +1,12 @@
 # Godwin Portfolio - Quick Start
 
-> Last updated: 2026-01-03 21:38 PST
+> Last updated: 2026-01-20 23:25 PST
 
 ## TL;DR
 
 Portfolio site migration from Adobe Portfolio → Next.js + Vercel
+
+**Current Handoff:** See [COMMS.md](COMMS.md) for latest session status
 
 ```bash
 cd /Users/godwinjohnson/Development/godwin-portfolio
@@ -12,7 +14,7 @@ npm run dev
 # → http://localhost:3000 (or 3001 if 3000 is in use)
 ```
 
-## Current State: Auth Walking Skeleton Complete
+## Current State: Project Selection UI Complete
 
 | Component | Status |
 |-----------|--------|
@@ -39,6 +41,7 @@ npm run dev
 | **Image zoom for flow diagrams** | ✅ Done (2026-01-03) |
 | **Auth walking skeleton** | ✅ Done (2026-01-03) |
 | **Home page UI refinements** | ✅ Done (2026-01-03) |
+| **Project Selection UI** | ✅ Done (2026-01-20) |
 | **Vercel deployment** | ❌ Pending |
 | **Domain config** | ❌ Pending |
 
@@ -133,15 +136,37 @@ In `projects.ts`, Xcode uses:
 - **Implementation**: [docs/AUTH_IMPLEMENTATION_PLAN.md](docs/AUTH_IMPLEMENTATION_PLAN.md) - Full plan with code
 - **How Auth Works**: See CLAUDE.md → Authentication System section
 
-## Next Session: Refinements
+## Project Selection UI: COMPLETE (2026-01-20)
 
-### Potential Improvements
-- [ ] Project selection UI in admin approval flow (checkboxes)
+### What's Implemented
+- **Project Selection Modal** - Admin can choose which projects to grant when approving
+- **"Select All" toggle** - Grants access to all current and future locked projects
+- **Track requested project** - Modal defaults to the project user requested access from
+- **Edit flow** - Admin can modify viewer's project access after approval
+- **Project badges** - Dashboard shows which projects each viewer has access to
+
+### Key Files
+| File | Purpose |
+|------|---------|
+| `src/components/ProjectSelectionModal.tsx` | Modal with project checkboxes |
+| `src/app/admin/AdminDashboard.tsx` | Admin UI with approve/edit flows |
+| `src/app/admin/api/locked-projects/route.ts` | GET locked projects |
+| `src/app/admin/api/update-access/route.ts` | POST to update viewer's projects |
+
+### Documentation
+- **Implementation**: [docs/implementation/PROJECT_SELECTION_UI_PLAN.md](docs/implementation/PROJECT_SELECTION_UI_PLAN.md)
+- **Session log**: [docs/session-logs/2026-01-20-project-selection-ui-planning.md](docs/session-logs/2026-01-20-project-selection-ui-planning.md)
+
+## Next Session: Deploy or Refinements
+
+### Remaining Refinements (see [TODO.md](TODO.md))
+- [ ] Admin ability to delete/remove viewers from list
+- [ ] Approve from denied list should show project selection modal
+- [ ] Admin UI to choose which projects are locked/unlocked globally
 - [ ] Expiration date picker for viewer access
 - [ ] React Email templates for prettier emails
-- [ ] Audit logging
 
-### After Authentication: Deploy
+### Ready to Deploy
 
 **Deploy to Vercel**
 ```bash
@@ -249,6 +274,7 @@ All pages use consistent layout:
 - **Session 11 (2026-01-03)**: Added image zoom for flow diagrams (ZoomableImage component). Planned authentication system: researched Upstash Redis (500K free) vs Vercel KV (30K free), Resend (3K emails free) vs SendGrid (discontinued). Created `docs/AUTH_ANALYSIS.md` and `docs/AUTH_IMPLEMENTATION_PLAN.md`. Security review: added rate limiting, crypto-grade tokens, input validation, uniform responses, session invalidation.
 - **Session 12 (2026-01-03)**: **Completed authentication walking skeleton.** Full magic link auth implemented with Upstash Redis + Resend. Admin dashboard at `/admin` for viewer management. Verified domain `designed.cloud` in Resend with DNS records. Tested full flow: admin login → lock project → viewer request → admin approve → viewer access. Added lock/check badges on project cards (dark circle + lock for restricted, green circle + checkmark for access granted). Granular access control working - viewers can be limited to specific projects. Locked Xcode and Roblox projects for testing.
 - **Session 13 (2026-01-03)**: **Home page UI refinements.** Added fade-in animation on project cards when navigating to Work section. Raised ProjectsSection by 10px when hero is fully visible. Added "X more below" indicator (appears when cards are 90%+ hidden, only after top 2 cards 40% visible, interactive scroll-to-reveal, styled with outer ring brand-yellow at 20%). Fixed "0 more below" flash using displayCount.
+- **Session 14 (2026-01-20)**: **Project Selection UI complete.** Full implementation across 5 phases (21:20-23:20 PST): walking skeleton → modal component → API + validation → dashboard integration → UX bug fix → integration testing. Modal defaults to requested project (not "Select All"). Fixed 8 files to track `requestedProject` through request chain. All tests passed. Added 4 refinements to TODO.md.
 
 ## Links
 - Live (current): https://designed.cloud (Adobe Portfolio)

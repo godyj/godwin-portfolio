@@ -87,6 +87,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (project.locked && !hasAccess) {
     return (
       <ProtectedProject
+        projectId={project.id}
         projectTitle={project.title}
         projectSubtitle={project.subtitle}
         hasAccess={false}

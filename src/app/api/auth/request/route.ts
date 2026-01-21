@@ -24,12 +24,15 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { email?: unknown };
+  let body: { email?: unknown; projectId?: unknown };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
   }
+
+  // Extract projectId (optional, used to track which project viewer requested from)
+  const projectId = typeof body.projectId === 'string' ? body.projectId : undefined;
 
   // SECURITY: Input validation
   const validation = validateEmail(body.email);
@@ -76,6 +79,7 @@ export async function POST(request: Request) {
           email,
           status: 'pending',
           projects: [],
+          requestedProject: projectId,
           expiresAt: null,
           createdAt: Date.now(),
         };

@@ -30,6 +30,7 @@ export default async function ResumePage() {
   if (!hasAccess) {
     return (
       <ProtectedProject
+        projectId="resume"
         projectTitle="Résumé"
         hasAccess={false}
       >
