@@ -1,14 +1,14 @@
 # Session Log: Codebase Review & Changelog Update
 
 **Date:** 2026-01-21
-**Time:** 00:30 - 00:45 PST
-**Duration:** ~15 minutes
+**Time:** 00:30 - 01:00 PST
+**Duration:** ~30 minutes
 
 ---
 
 ## Objective
 
-Review the codebase structure, read session logs to understand recent work, update the changelog with completed features since v1.3.1, and lock all remaining projects.
+Review the codebase structure, read session logs to understand recent work, update the changelog with completed features since v1.3.1, lock all remaining projects, deploy to production, and fix GitHub integration.
 
 ---
 
@@ -120,15 +120,73 @@ Updated TODO.md to reflect:
 
 ---
 
-## Deployment Note
+### 6. Git Commit & Push
 
-**Action Required:** These changes (locked projects) require a Vercel redeploy to take effect in production.
+Committed all changes to GitHub:
 
 ```bash
-vercel --prod
+git commit -m "feat: Lock all 5 projects and update changelog"
+git push origin main
 ```
 
-Or push to GitHub to trigger automatic deployment.
+**Commit:** `b3e0b5b`
+
+**Files in commit:**
+- `CHANGELOG.md` - v1.4.0 and v1.5.0 entries
+- `QUICKSTART.md` - Updated status
+- `TODO.md` - All projects locked
+- `src/data/projects.ts` - 3 projects now locked
+- `docs/session-logs/2026-01-21-codebase-review-changelog-update.md` - This file
+
+---
+
+### 7. Production Deployment
+
+**Issue discovered:** GitHub integration was connected to wrong Vercel account (`sk-godwin` instead of `godyj`).
+
+**Manual deployment performed:**
+```bash
+vercel --prod --yes
+```
+
+**Result:**
+- Build successful (24s)
+- Production URL: https://designed.cloud
+- All 5 locked projects now require authentication
+
+---
+
+### 8. GitHub Integration Fix
+
+**Problem:** Automatic deployments from GitHub pushes were going to wrong account.
+
+**Solution:**
+```bash
+vercel git disconnect --yes    # Disconnected godyj/godwin-portfolio
+vercel git connect https://github.com/godyj/godwin-portfolio --yes
+```
+
+**Verified:** GitHub repo `godyj/godwin-portfolio` now connected to correct Vercel account (`godwin-johnsons-projects-1dd01557`).
+
+**Why this matters:** Future `git push` commands will now trigger automatic deployments under the correct account.
+
+---
+
+### 9. Deployment Cleanup
+
+Removed 5 old deployments to keep Vercel dashboard clean:
+
+| Deployment | Status | Action |
+|------------|--------|--------|
+| `godwin-portfolio-4dmmfjr0a...` | Error | Deleted |
+| `godwin-portfolio-8lnu3tf4d...` | Ready | Deleted |
+| `godwin-portfolio-fp0j0anlp...` | Ready | Deleted |
+| `godwin-portfolio-e8sv4t5bf...` | Ready | Deleted |
+| `godwin-portfolio-quc7q7y2s...` | Ready | Deleted |
+
+**Final state:** Single clean production deployment under `godyj` account.
+
+**No data loss:** Deployments are just build snapshots. Source code, env vars, domains, Redis data, and email records are all unaffected.
 
 ---
 
@@ -140,6 +198,10 @@ Or push to GitHub to trigger automatic deployment.
 
 3. **Sub-agents for exploration** - More efficient than sequential file reads for large codebase understanding
 
+4. **Fix GitHub integration immediately** - Prevents future confusion about which account receives deployments
+
+5. **Clean up old deployments** - Keeps Vercel dashboard organized; no data loss since deployments are just build snapshots
+
 ---
 
 ## Session Summary
@@ -150,4 +212,20 @@ Or push to GitHub to trigger automatic deployment.
 | Files modified | 4 |
 | Changelog versions added | 2 (v1.4.0, v1.5.0) |
 | Projects locked | 3 (total now 5) |
-| Time | ~15 minutes |
+| Git commit | `b3e0b5b` |
+| Deployments cleaned | 5 |
+| Time | ~30 minutes |
+
+---
+
+## Current Production State
+
+| Item | Value |
+|------|-------|
+| Production URL | https://designed.cloud |
+| Alternate URL | https://pixelworship.com |
+| Vercel Account | godyj (`godwin-johnsons-projects-1dd01557`) |
+| GitHub Repo | `godyj/godwin-portfolio` |
+| Git Integration | ✅ Connected |
+| Locked Projects | 5/5 |
+| Auth Required | Yes (all case studies) |
