@@ -5,6 +5,7 @@ import { projects } from "@/data/projects";
 import ProjectContent from "@/components/ProjectContent";
 import ProtectedProject from "@/components/ProtectedProject";
 import { getSession, redis } from "@/lib/auth";
+import { isProjectLocked } from "@/lib/auth/projects";
 import type { ViewerAccess } from "@/lib/auth";
 
 // Common style classes (single source of truth)
@@ -80,11 +81,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     ? `${project.title} (${project.subtitle})`
     : project.title;
 
+  // Check if project is locked (dynamic from Redis/static fallback)
+  const isLocked = await isProjectLocked(project.id);
+
   // Check if user has access to locked project
-  const hasAccess = await checkAccess(project.id, project.locked === true);
+  const hasAccess = await checkAccess(project.id, isLocked);
 
   // If project is locked and user doesn't have access, show protected view
-  if (project.locked && !hasAccess) {
+  if (isLocked && !hasAccess) {
     return (
       <ProtectedProject
         projectId={project.id}

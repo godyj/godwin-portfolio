@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { projects } from "@/data/projects";
 import { getSession, redis } from "@/lib/auth";
+import { isProjectLocked } from "@/lib/auth/projects";
 import type { ViewerAccess } from "@/lib/auth";
 
 // Lock icon in dark circle (restricted, no access)
@@ -54,21 +55,26 @@ async function checkProjectAccess(
 export default async function ProjectGrid() {
   const session = await getSession();
 
-  // Pre-compute access for all locked projects
+  // Pre-compute lock status and access for all projects
   const projectAccess = await Promise.all(
-    projects.map(async (project) => ({
-      id: project.id,
-      hasAccess: project.locked ? await checkProjectAccess(project.id, session) : true,
-    }))
+    projects.map(async (project) => {
+      const locked = await isProjectLocked(project.id);
+      return {
+        id: project.id,
+        locked,
+        hasAccess: locked ? await checkProjectAccess(project.id, session) : true,
+      };
+    })
   );
 
-  const accessMap = Object.fromEntries(projectAccess.map((p) => [p.id, p.hasAccess]));
+  const accessMap = Object.fromEntries(
+    projectAccess.map((p) => [p.id, { locked: p.locked, hasAccess: p.hasAccess }])
+  );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {projects.map((project) => {
-        const isLocked = project.locked === true;
-        const hasAccess = accessMap[project.id];
+        const { locked: isLocked, hasAccess } = accessMap[project.id];
 
         return (
           <Link

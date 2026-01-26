@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  let body: { email?: unknown };
+  let body: { email?: unknown; expiresAt?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -30,6 +30,15 @@ export async function POST(request: Request) {
 
   const email = validation.email;
 
+  // Validate expiresAt if provided (must be a number or null)
+  let expiresAt: number | null = null;
+  if (body.expiresAt !== undefined && body.expiresAt !== null) {
+    if (typeof body.expiresAt !== 'number') {
+      return NextResponse.json({ error: 'expiresAt must be a number or null' }, { status: 400 });
+    }
+    expiresAt = body.expiresAt;
+  }
+
   try {
     // Get existing viewer record
     const viewer = await redis.get<ViewerAccess>(`viewer:${email}`);
@@ -42,6 +51,7 @@ export async function POST(request: Request) {
       ...viewer,
       status: 'approved',
       approvedAt: Date.now(),
+      expiresAt,
     };
     await redis.set(`viewer:${email}`, updatedViewer);
 

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession, redis } from '@/lib/auth';
+import { getSession, redis, getLockedProjectIds } from '@/lib/auth';
 import type { ViewerAccess } from '@/lib/auth';
-import { projects as allProjects } from '@/data/projects';
 
 export async function POST(request: NextRequest) {
   const session = await getSession();
@@ -9,16 +8,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { email, projects } = await request.json();
+  const body = await request.json();
+  const { email, projects } = body;
 
   if (!email || !Array.isArray(projects)) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 
-  // Get valid locked project IDs
-  const validLockedProjectIds = allProjects
-    .filter((project) => project.locked === true)
-    .map((project) => project.id);
+  // Check if expiresAt was explicitly provided in the request body
+  const hasExpiresAt = 'expiresAt' in body;
+  const expiresAt: number | null | undefined = hasExpiresAt ? body.expiresAt : undefined;
+
+  // Get valid locked project IDs from Redis/static fallback
+  const validLockedProjectIds = await getLockedProjectIds();
 
   // Validate that all requested project IDs exist in locked projects
   const invalidIds = projects.filter(
@@ -45,10 +47,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Update the projects array
+  // Update the projects array and optionally expiresAt
   const updated: ViewerAccess = {
     ...viewer,
     projects,
+    // Only update expiresAt if it was explicitly provided in the request
+    ...(hasExpiresAt && { expiresAt }),
   };
 
   await redis.set(`viewer:${email}`, updated);

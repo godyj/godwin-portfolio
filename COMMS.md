@@ -5,117 +5,193 @@
 
 ---
 
-# Current Handoff: Admin Project Locking Plan - ⏳ REVIEW COMPLETE, AWAITING PLAN UPDATES
+# Current Handoff: Admin Project Locking - ✅ COMPLETE with Enhancements
 
-**Date:** 2026-01-21
-**From:** Expert Reviewer
-**To:** Planner
-**Status:** ⏳ Conditionally Approved - Plan needs updates before builder can start
-
----
-
-## What Happened This Session
-
-1. **Expert review completed** - Analyzed plan against existing codebase patterns
-2. **3 parallel agents** - Reviewed auth patterns, access control logic, and modal replacement
-3. **95% of plan validated** - Architecture sound, patterns consistent, security preserved
-4. **5 gaps identified** - 3 HIGH priority, 2 MEDIUM priority items need addressing
+**Date:** 2026-01-25 22:14 PST
+**From:** Builder
+**To:** Next session
+**Status:** ✅ COMPLETE - All features working, 46 tests passing
 
 ---
 
-## Review Summary
+## Quick Start (For Cold Start)
 
-**Plan reviewed:** `docs/implementation/ADMIN_PROJECT_LOCKING_PLAN.md`
+**Goal:** Admin Project Locking feature with full enhancements.
 
-**Review output:** `docs/review/ADMIN_PROJECT_LOCKING_REVIEW.md`
+**Commands:**
+```bash
+npm run dev          # Start dev server at http://localhost:3000
+npm run test:run     # Run tests once (46 pass)
+npm run test         # Watch mode
+```
 
-### What Passed ✅
-
-| Area | Status |
-|------|--------|
-| Redis key naming (`project-lock:{id}`) | Consistent with existing patterns |
-| API route structure | Matches admin API conventions |
-| TypeScript types | Properly integrated |
-| Security checks | All preserved (admin auth, validation, server-side) |
-| InlineProjectSelector design | Complete coverage of modal functionality |
-
-### What Needs Updating ⚠️
-
-| # | Issue | Priority | Action Required |
-|---|-------|----------|-----------------|
-| 1 | Missing helper function implementations | **HIGH** | Add full code for `updatePendingSelection`, `hasChanges`, `toggleExpanded`, etc. |
-| 2 | Edit mode cancellation behavior undefined | **HIGH** | Document: collapse = discard changes |
-| 3 | Humanics lock status unclear | **HIGH** | Clarify: `confidential: true` but NOT `locked: true` - intentional? |
-| 4 | Approve button missing disabled state | MEDIUM | Add `disabled` when nothing selected |
-| 5 | `actionLoading` state not defined | MEDIUM | Add loading state for viewer operations |
+**Test Admin Dashboard:**
+1. Go to http://localhost:3000/admin
+2. Login as admin (godwinjohnson@me.com)
+3. Test all features (lock/unlock, approve, archive, expiration)
 
 ---
 
-## Files Created This Session
+## What Was Completed Today (2026-01-25)
+
+### Bug Fixes
+| Issue | Fix |
+|-------|-----|
+| Approve button disabled bug | Fixed state management for inline project selector |
+| Individual project selection bug | Fixed selection logic when toggling individual projects |
+
+### UI Enhancements
+| Enhancement | Description |
+|-------------|-------------|
+| Toggle switches | Converted checkboxes to modern toggle switches |
+| Project chips with X | Quick removal of projects via chip close button |
+| Archive functionality | New section for archived viewers with archive/restore actions |
+| Auto-revoke expiration | Dropdown presets (7d, 30d, 90d, never) + custom date picker + badges |
+
+### Tests
+- **46 tests passing** across 5 test files
+- Added test for new InlineProjectSelector component
+
+---
+
+## Pending Enhancements (Nice-to-Have)
+
+| Priority | Enhancement | Description |
+|----------|-------------|-------------|
+| P3 | Empty sections visible | Keep Approved/Denied sections visible when empty |
+| P3 | Expiration chip position | Move expiration chip to right of approved date |
+| P3 | Assistant UI | Investigate Vercel AI SDK for conversational admin |
+
+---
+
+## Key Files to Review
 
 | File | Purpose |
 |------|---------|
-| `docs/implementation/ADMIN_PROJECT_LOCKING_PLAN.md` | Full implementation plan (from planner) |
-| `docs/review/ADMIN_PROJECT_LOCKING_REVIEW.md` | Expert review with required updates |
-| `docs/session-logs/2026-01-21-admin-project-locking-planning.md` | Planning + review session log |
+| `src/app/admin/AdminDashboard.tsx` | Main admin UI with all features |
+| `src/components/InlineProjectSelector.tsx` | Toggle selector component |
+| `src/app/admin/api/archive/route.ts` | Archive/restore API endpoint |
+| `src/app/admin/api/toggle-lock/route.ts` | Project lock toggle API |
+| `src/app/admin/api/projects/route.ts` | Projects list API |
+| `src/lib/auth/projects.ts` | Core project lock helpers |
 
 ---
 
-## What Planner Needs To Do
+## Architecture Overview
 
-### HIGH Priority (Must fix before builder starts)
+```
+Admin Dashboard
+├── Project Settings (lock/unlock toggle switches)
+├── Pending Section (inline project selector, approve/deny)
+├── Approved Section (edit access, set expiration, archive)
+├── Denied Section (approve with project selection)
+└── Archived Section (restore functionality)
+```
 
-1. **Add helper function implementations to plan**
-   - Review doc has full code for all 7 functions
-   - Copy to Phase 5 section of plan
-
-2. **Document edit mode cancellation behavior**
-   - Add note: "Collapsing card discards unsaved changes"
-   - Matches modal backdrop-click behavior
-
-3. **Clarify humanics lock status**
-   - Current state: `confidential: true` but `locked` NOT set
-   - These projects are publicly viewable - is this intentional?
-   - Either confirm this is expected OR add `locked: true` to projects.ts
-
-### MEDIUM Priority (Can be addressed during build)
-
-4. Add `disabled` state to Approve button JSX
-5. Add `actionLoading` state definition
+**Data flow:** Redis override + static fallback for lock state
 
 ---
 
-## Key Documents
+## Manual Test Checklist
 
+- [ ] Project Settings shows all 5 projects with toggle switches
+- [ ] Toggling lock/unlock updates UI immediately
+- [ ] Pending viewer cards show inline toggle selector
+- [ ] Approve button enables when projects selected
+- [ ] Project chips show X for quick removal
+- [ ] Expiration dropdown works (7d, 30d, 90d, Never, Custom)
+- [ ] Custom date picker appears when "Custom" selected
+- [ ] Expiration badge shows on approved viewers
+- [ ] Archive moves viewer to Archived section
+- [ ] Restore moves viewer back to Approved section
+- [ ] Home grid shows correct lock/check badges
+
+---
+
+---
+
+# Previous Handoff: Unit Testing - ✅ COMPLETE
+
+**Date:** 2026-01-25 20:40 PST
+**Status:** ✅ COMPLETE - 45 tests passing across 5 test files
+
+<details>
+<summary>Click to expand details</summary>
+
+## Quick Start
+
+**Commands:**
+```bash
+npm run test:run     # Run tests once
+npm run test         # Watch mode
+npm run test:coverage # Coverage report
+```
+
+## Infrastructure
+| File | Purpose |
+|------|---------|
+| `vitest.config.ts` | Test configuration with path aliases |
+| `vitest.setup.ts` | Global test setup with jest-dom |
+| `package.json` | Added test scripts |
+
+## Tests Written
+| File | Tests | Coverage |
+|------|-------|----------|
+| `src/lib/auth/hasAccessToProject.test.ts` | 10 | All edge cases for `hasAccessToProject()` |
+| `src/lib/auth/projects.test.ts` | 8 | `isProjectLocked()`, `getLockedProjectIds()`, `setProjectLockState()` |
+| `src/app/admin/api/toggle-lock/route.test.ts` | 9 | Auth, validation, success cases |
+| `src/app/admin/api/projects/route.test.ts` | 5 | Auth and project list with lock status |
+| `src/components/InlineProjectSelector.test.tsx` | 13 | Rendering, selection, disabled state |
+
+## Key Files
 | Document | Location |
 |----------|----------|
-| Implementation Plan | `docs/implementation/ADMIN_PROJECT_LOCKING_PLAN.md` |
-| Expert Review | `docs/review/ADMIN_PROJECT_LOCKING_REVIEW.md` |
-| Session Log | `docs/session-logs/2026-01-21-admin-project-locking-planning.md` |
+| **Unit Testing Plan** | `docs/implementation/UNIT_TESTING_PLAN.md` |
+| Test config | `vitest.config.ts` |
+| Auth tests | `src/lib/auth/*.test.ts` |
+| API tests | `src/app/admin/api/**/route.test.ts` |
+| Component tests | `src/components/*.test.tsx` |
+
+</details>
 
 ---
 
-## Current Status
+# Previous Handoff: Admin Project Locking (Initial) - ✅ COMPLETE
 
-| Phase | Status | Owner |
-|-------|--------|-------|
-| 1. Planning | ✅ Complete | Planner |
-| 2. Enhancement | ✅ Complete | Planner |
-| 3. Documentation | ✅ Complete | Planner |
-| 4. Expert Review | ✅ Complete | Reviewer |
-| 5. Plan Updates | ⏳ **PENDING** | **Planner** |
-| 6. Implementation | ⏳ Blocked | Builder |
+**Date:** 2026-01-25 19:55 PST
+**Status:** ✅ COMPLETE - All 10 steps done
 
----
+<details>
+<summary>Click to expand details</summary>
 
-## After Plan Updates
+## Feature Overview
 
-Once planner addresses HIGH priority items:
-- Builder can proceed with Phases 1-4 immediately
-- Phase 5 proceeds after MEDIUM items also addressed
-- Final review not needed - plan will be approved
+**Goal:** Two admin dashboard improvements:
+1. **Project Lock/Unlock UI** - Admin can toggle which projects require authentication
+2. **Inline Project Selection** - Replace modal with inline checkboxes for viewer access
 
----
+**Architecture:** Redis override + static fallback for lock state.
+
+## Files Changed
+
+**Created:**
+- `src/lib/auth/projects.ts` - Core helpers
+- `src/app/admin/api/toggle-lock/route.ts` - Toggle endpoint
+- `src/app/admin/api/projects/route.ts` - Projects list endpoint
+- `src/components/InlineProjectSelector.tsx` - Checkbox component
+
+**Modified:**
+- `src/lib/auth/types.ts`, `src/lib/auth/index.ts`
+- `src/app/admin/api/locked-projects/route.ts`, `src/app/admin/api/update-access/route.ts`
+- `src/components/ProjectGrid.tsx`, `src/app/projects/[id]/page.tsx`
+- `src/app/admin/AdminDashboard.tsx`
+
+**Deleted:**
+- `src/components/ProjectSelectionModal.tsx`
+
+**Full plan:** `docs/implementation/ADMIN_PROJECT_LOCKING_PLAN.md`
+
+</details>
 
 ---
 
@@ -233,7 +309,13 @@ Identified during testing, added to [TODO.md](TODO.md):
 
 | Date | Topic | Status |
 |------|-------|--------|
-| 2026-01-20 23:20 | Project Selection UI - All Tests Passed | **✅ COMPLETE** |
+| 2026-01-25 22:14 | Admin Project Locking - Full Enhancements (46 tests) | **✅ COMPLETE** |
+| 2026-01-25 20:40 | Unit Testing - 45 tests across 5 files | ✅ Complete |
+| 2026-01-25 19:55 | Admin Project Locking - All Steps Complete | ✅ Complete |
+| 2026-01-25 19:45 | Admin Project Locking - Steps 1-6 Complete | ✅ Done |
+| 2026-01-25 19:37 | Admin Project Locking - Plan Updates Complete | ✅ Ready for Builder |
+| 2026-01-21 | Admin Project Locking - Expert Review | Conditionally Approved |
+| 2026-01-20 23:20 | Project Selection UI - All Tests Passed | ✅ Complete |
 | 2026-01-20 23:01 | Project Selection UI - UX Bug Fixed | Ready for Testing |
 | 2026-01-20 22:35 | Project Selection UI - Phases 0-3 Complete | Testing Started |
 | 2026-01-20 22:17 | Project Selection UI - Phase 0 Complete | Phase 1 Ready |

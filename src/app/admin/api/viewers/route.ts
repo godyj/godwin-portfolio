@@ -48,9 +48,9 @@ export async function GET() {
       }
     } while (cursor !== 0);
 
-    // Sort by status (pending first), then by createdAt (newest first)
+    // Sort by status (pending first, archived last), then by createdAt (newest first)
     viewers.sort((a, b) => {
-      const statusOrder = { pending: 0, approved: 1, denied: 2 };
+      const statusOrder = { pending: 0, approved: 1, denied: 2, archived: 3 };
       const statusDiff = statusOrder[a.status] - statusOrder[b.status];
       if (statusDiff !== 0) return statusDiff;
       return b.createdAt - a.createdAt;

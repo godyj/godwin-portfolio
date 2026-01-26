@@ -1,12 +1,13 @@
 // Viewer access record
 export type ViewerAccess = {
   email: string;
-  status: 'pending' | 'approved' | 'denied';
+  status: 'pending' | 'approved' | 'denied' | 'archived';
   projects: string[]; // Project IDs they can access (empty = all locked projects)
   requestedProject?: string; // Project ID they originally requested access from
   expiresAt: number | null; // Unix timestamp or null for permanent
   createdAt: number;
   approvedAt?: number;
+  archivedAt?: number;
 };
 
 // Magic link token
@@ -33,4 +34,12 @@ export type LockedProject = {
   id: string;
   title: string;
   subtitle: string;
+};
+
+// Project with lock status for admin UI
+export type ProjectWithStatus = {
+  id: string;
+  title: string;
+  subtitle: string;
+  locked: boolean;
 };

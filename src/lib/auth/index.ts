@@ -19,4 +19,12 @@ export type {
   MagicLinkToken,
   Session,
   SessionWithId,
+  LockedProject,
+  ProjectWithStatus,
 } from './types';
+export {
+  isProjectLocked,
+  getLockedProjectIds,
+  setProjectLockState,
+  hasAccessToProject,
+} from './projects';

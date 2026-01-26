@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth';
+import { getSession, getLockedProjectIds } from '@/lib/auth';
 import { projects } from '@/data/projects';
 
 export async function GET() {
@@ -9,14 +9,11 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  // Filter locked projects and return only id, title, subtitle
+  // Get dynamically locked project IDs from Redis/static fallback
+  const lockedIds = await getLockedProjectIds();
   const lockedProjects = projects
-    .filter((project) => project.locked === true)
-    .map((project) => ({
-      id: project.id,
-      title: project.title,
-      subtitle: project.subtitle || '',
-    }));
+    .filter(p => lockedIds.includes(p.id))
+    .map(p => ({ id: p.id, title: p.title, subtitle: p.subtitle || '' }));
 
   return NextResponse.json({ projects: lockedProjects });
 }

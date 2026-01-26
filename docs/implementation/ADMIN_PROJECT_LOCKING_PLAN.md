@@ -2,7 +2,8 @@
 
 **Created:** 2026-01-21
 **Author:** Claude (Expert Developer)
-**Status:** 📋 PLANNED
+**Status:** ✅ COMPLETE (All Steps 1-10 Done)
+**Last Updated:** 2026-01-25 19:55 PST
 
 **Related:** [PROJECT_SELECTION_UI_PLAN.md](./PROJECT_SELECTION_UI_PLAN.md) - Completed feature for granting viewers access to specific locked projects (used modal approach)
 
@@ -61,10 +62,15 @@ Both refinements were identified during the Project Selection UI implementation 
 
 ### Current Locked Projects
 
+> **Note (2026-01-25):** All 5 projects now have `locked: true` in `projects.ts`. This was updated after the initial planning phase.
+
 ```typescript
-// In projects.ts, these have locked: true
-'roblox-nux'        // Roblox (NUX)
-'xcode-touch-bar'   // Apple Xcode (Touch Bar)
+// In projects.ts, ALL have locked: true
+'humanics-calendar-sharing'  // Humanics (Calendar Sharing)
+'humanics-swap-withdraw'     // Humanics (Swap & Withdraw)
+'roblox-nux'                 // Roblox (NUX)
+'jarvis'                     // Jarvis (Connected Car App)
+'xcode-touch-bar'            // Apple Xcode (Touch Bar)
 ```
 
 ---
@@ -129,6 +135,21 @@ export async function getLockedProjectIds(): Promise<string[]> {
 export async function setProjectLockState(projectId: string, locked: boolean): Promise<void> {
   await redis.set(`project-lock:${projectId}`, locked);
 }
+
+/**
+ * Check if a viewer has access to a specific project
+ * Consolidates expiration + project-specific checks
+ */
+export function hasAccessToProject(
+  viewer: { status: string; expiresAt?: number; projects: string[] } | null,
+  projectId: string
+): boolean {
+  if (!viewer) return false;
+  if (viewer.status !== 'approved') return false;
+  if (viewer.expiresAt && viewer.expiresAt < Date.now()) return false;
+  if (viewer.projects.length === 0) return true; // All projects
+  return viewer.projects.includes(projectId);
+}
 ```
 
 **Modify:** `src/lib/auth/types.ts`
@@ -142,7 +163,7 @@ export type ProjectWithStatus = {
 ```
 
 **Modify:** `src/lib/auth/index.ts`
-- Export `isProjectLocked`, `getLockedProjectIds`, `setProjectLockState`
+- Export `isProjectLocked`, `getLockedProjectIds`, `setProjectLockState`, `hasAccessToProject`
 - Export `ProjectWithStatus` type
 
 ---
@@ -447,12 +468,162 @@ const [modalMode, setModalMode] = useState<'approve' | 'edit'>('approve');
 // Track which viewer cards are expanded for editing
 const [expandedViewer, setExpandedViewer] = useState<string | null>(null);
 
+// Track loading state for viewer operations (approve/save)
+const [actionLoading, setActionLoading] = useState<string | null>(null);
+
 // Track pending project selections per viewer (before save)
 const [pendingSelections, setPendingSelections] = useState<Record<string, {
   selectAll: boolean;
   projects: Set<string>;
 }>>({});
 ```
+
+#### Helper Functions for AdminDashboard.tsx
+
+```typescript
+const updatePendingSelection = (email: string, projects: string[]) => {
+  setPendingSelections(prev => ({
+    ...prev,
+    [email]: {
+      selectAll: projects.length === 0,
+      projects: new Set(projects)
+    }
+  }));
+};
+
+const handleApproveWithSelection = async (email: string) => {
+  setActionLoading(email);
+  try {
+    const selection = pendingSelections[email];
+    const projects = selection?.selectAll ? [] : Array.from(selection?.projects || []);
+
+    // Sequential: approve first, then set projects
+    await fetch('/admin/api/approve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+
+    await fetch('/admin/api/update-access', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, projects }),
+    });
+
+    await fetchViewers();
+    setPendingSelections(prev => {
+      const { [email]: _, ...rest } = prev;
+      return rest;
+    });
+  } finally {
+    setActionLoading(null);
+  }
+};
+
+const saveProjectChanges = async (email: string) => {
+  setActionLoading(email);
+  try {
+    const selection = pendingSelections[email];
+    const projects = selection?.selectAll ? [] : Array.from(selection?.projects || []);
+
+    await fetch('/admin/api/update-access', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, projects }),
+    });
+
+    await fetchViewers();
+    setExpandedViewer(null);
+    setPendingSelections(prev => {
+      const { [email]: _, ...rest } = prev;
+      return rest;
+    });
+  } finally {
+    setActionLoading(null);
+  }
+};
+
+const hasChanges = (email: string): boolean => {
+  const selection = pendingSelections[email];
+  if (!selection) return false;
+
+  const viewer = approvedViewers.find(v => v.email === email);
+  if (!viewer) return false;
+
+  const currentIsAll = viewer.projects.length === 0;
+  if (currentIsAll !== selection.selectAll) return true;
+
+  if (selection.selectAll) return false;
+
+  const currentSet = new Set(viewer.projects);
+  if (currentSet.size !== selection.projects.size) return true;
+
+  for (const id of selection.projects) {
+    if (!currentSet.has(id)) return true;
+  }
+  return false;
+};
+
+const toggleExpanded = (email: string) => {
+  if (expandedViewer === email) {
+    // Collapsing - discard pending changes
+    setExpandedViewer(null);
+    setPendingSelections(prev => {
+      const { [email]: _, ...rest } = prev;
+      return rest;
+    });
+  } else {
+    // Expanding - initialize with current values
+    const viewer = approvedViewers.find(v => v.email === email);
+    if (viewer) {
+      setPendingSelections(prev => ({
+        ...prev,
+        [email]: {
+          selectAll: viewer.projects.length === 0,
+          projects: new Set(viewer.projects)
+        }
+      }));
+    }
+    setExpandedViewer(email);
+  }
+};
+
+const getProjectTitle = (projectId: string): string => {
+  const project = lockedProjects.find(p => p.id === projectId);
+  if (!project) return projectId;
+  return project.subtitle ? `${project.title} (${project.subtitle})` : project.title;
+};
+
+const formatAccess = (projects: string[]): string => {
+  if (projects.length === 0) return 'All projects';
+  if (projects.length === 1) return getProjectTitle(projects[0]);
+  return `${projects.length} projects`;
+};
+```
+
+**Tooltip Enhancement:** When displaying access for viewers with 2+ projects, wrap in a span with title attribute:
+
+```tsx
+{viewer.projects.length > 1 ? (
+  <span title={viewer.projects.map(getProjectTitle).join(', ')}>
+    {formatAccess(viewer.projects)}
+  </span>
+) : (
+  <span>{formatAccess(viewer.projects)}</span>
+)}
+```
+
+#### Edit Mode Cancellation Behavior
+
+> **Important:** Collapsing a viewer card discards any unsaved changes. This matches modal behavior where clicking outside discards changes.
+
+| Scenario | Behavior |
+|----------|----------|
+| Click "Edit ▼" on another viewer | Collapse current card, discard unsaved changes, expand new card |
+| Click "Revoke" while expanded | Show confirmation, if confirmed revoke proceeds (discards unsaved changes) |
+| Click "Edit ▲" (collapse) | Discard unsaved changes, collapse card |
+
+The `toggleExpanded` function handles this by clearing `pendingSelections[email]` when collapsing.
 
 #### Inline Checkbox Component (Full Implementation)
 
@@ -613,9 +784,14 @@ export default function InlineProjectSelector({
       </button>
       <button
         onClick={() => handleApproveWithSelection(viewer.email)}
-        className="bg-green-600 ..."
+        disabled={
+          actionLoading === viewer.email ||
+          (!pendingSelections[viewer.email]?.selectAll &&
+           (pendingSelections[viewer.email]?.projects.size ?? 0) === 0)
+        }
+        className="bg-green-600 ... disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Approve
+        {actionLoading === viewer.email ? 'Approving...' : 'Approve'}
       </button>
     </div>
   </div>
@@ -729,7 +905,7 @@ export default function InlineProjectSelector({
 │  │ Roblox (NUX)                         Locked   [●━] │ │
 │  ├────────────────────────────────────────────────────┤ │
 │  │ Jarvis (Connected Car App)           Public   [○ ] │ │
-│  ├────────────────────────────────────────────────────┤ │
+│  ├───────────────���────────────────────────────────────┤ │
 │  │ Apple Xcode (Touch Bar)              Locked   [●━] │ │
 │  └────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────┘
@@ -861,17 +1037,17 @@ From `src/data/projects.ts`:
 
 | Project ID | Title | Static `locked` |
 |------------|-------|-----------------|
-| humanics-calendar-sharing | Humanics (Calendar Sharing) | false |
-| humanics-swap-withdraw | Humanics (Swap & Withdraw) | false |
+| humanics-calendar-sharing | Humanics (Calendar Sharing) | **true** |
+| humanics-swap-withdraw | Humanics (Swap & Withdraw) | **true** |
 | roblox-nux | Roblox (NUX) | **true** |
-| jarvis | Jarvis (Connected Car App) | false |
+| jarvis | Jarvis (Connected Car App) | **true** |
 | xcode-touch-bar | Apple Xcode (Touch Bar) | **true** |
 
 ---
 
 ## Implementation Sequence (Step-by-Step)
 
-### Step 1: Create Core Helper (Phase 1)
+### Step 1: Create Core Helper (Phase 1) ✅ COMPLETE
 ```bash
 # Create file
 touch src/lib/auth/projects.ts
@@ -879,7 +1055,7 @@ touch src/lib/auth/projects.ts
 ```
 **Verify:** `npx tsc --noEmit` passes
 
-### Step 2: Update Types and Exports (Phase 1)
+### Step 2: Update Types and Exports (Phase 1) ✅ COMPLETE
 1. Add `ProjectWithStatus` type to `src/lib/auth/types.ts`
 2. Add exports to `src/lib/auth/index.ts`:
    ```typescript
@@ -888,7 +1064,7 @@ touch src/lib/auth/projects.ts
    ```
 **Verify:** `npx tsc --noEmit` passes
 
-### Step 3: Create Toggle Lock API (Phase 2)
+### Step 3: Create Toggle Lock API (Phase 2) ✅ COMPLETE
 ```bash
 mkdir -p src/app/admin/api/toggle-lock
 touch src/app/admin/api/toggle-lock/route.ts
@@ -906,7 +1082,7 @@ touch src/app/admin/api/toggle-lock/route.ts
   // Should return: { success: true, projectId: 'jarvis', locked: true }
   ```
 
-### Step 4: Create Projects API (Phase 2)
+### Step 4: Create Projects API (Phase 2) ✅ COMPLETE
 ```bash
 mkdir -p src/app/admin/api/projects
 touch src/app/admin/api/projects/route.ts
@@ -916,13 +1092,13 @@ touch src/app/admin/api/projects/route.ts
 - Test in browser console: `fetch('/admin/api/projects').then(r => r.json()).then(console.log);`
 - Should return all 5 projects with `locked` status
 
-### Step 5: Update Existing APIs (Phase 2)
+### Step 5: Update Existing APIs (Phase 2) ✅ COMPLETE
 1. Update `src/app/admin/api/locked-projects/route.ts` to use `getLockedProjectIds()`
 2. Update `src/app/admin/api/update-access/route.ts` to use `getLockedProjectIds()`
 
 **Verify:** `npx tsc --noEmit` passes
 
-### Step 6: Update Access Control (Phase 3)
+### Step 6: Update Access Control (Phase 3) ✅ COMPLETE
 1. Update `src/components/ProjectGrid.tsx` to use `isProjectLocked()`
 2. Update `src/app/projects/[id]/page.tsx` to use `isProjectLocked()`
 
@@ -931,14 +1107,14 @@ touch src/app/admin/api/projects/route.ts
 - Toggle Jarvis to locked via API
 - Visit `/projects/jarvis` in incognito - should show access request
 
-### Step 7: Create InlineProjectSelector (Phase 5)
+### Step 7: Create InlineProjectSelector (Phase 5) ✅ COMPLETE
 ```bash
 touch src/components/InlineProjectSelector.tsx
 # Add the full code from Phase 5 section
 ```
 **Verify:** `npx tsc --noEmit` passes
 
-### Step 8: Update AdminDashboard (Phase 4 + 5)
+### Step 8: Update AdminDashboard (Phase 4 + 5) ✅ COMPLETE
 1. Add Project Settings section (Phase 4 code)
 2. Replace modal with inline selectors (Phase 5 code)
 3. Remove modal state and imports
@@ -952,14 +1128,22 @@ touch src/components/InlineProjectSelector.tsx
 - Approve works with inline selection
 - Edit expands/collapses for approved viewers
 
-### Step 9: Delete Modal Component
+### Step 9: Delete Modal Component ✅ COMPLETE
 ```bash
 rm src/components/ProjectSelectionModal.tsx
 ```
 **Verify:** `npx tsc --noEmit` passes (no import errors)
 
-### Step 10: Full Integration Test
+### Step 10: Full Integration Test ✅ COMPLETE
 Run through testing checklist (see Testing Checklist section)
+
+### All Steps Complete ✅
+
+**Completed:** 2026-01-25 20:50 PST
+**Verification:**
+- TypeScript: `npx tsc --noEmit` passes
+- Tests: 45 unit tests passing
+- Modal deleted: `ProjectSelectionModal.tsx` removed
 
 ---
 
