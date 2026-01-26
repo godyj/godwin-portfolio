@@ -43,6 +43,12 @@ Claude acts as the **expert web developer** and **web security expert** on this 
    - No sensitive data in URLs or localStorage
    - Test bypass mechanisms must be gated by environment variables
 
+### Sub-Agent Usage
+
+9. **When to use sub-agents vs direct tools** - Prefer sub-agents for: codebase exploration, research tasks, complex multi-step operations, and parallel searches. Use direct tools for: specific file reads, targeted edits, and simple single-step operations.
+
+10. **Delegation pattern for coding tasks** - Use general-purpose sub-agents for implementing features, writing code, and documentation tasks. Provide detailed self-contained instructions and monitor outputs. Use Explore agents for read-only research.
+
 ## Design System
 
 **Source of truth:** [`src/app/globals.css`](src/app/globals.css)
