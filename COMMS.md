@@ -64,6 +64,44 @@ npm run test         # Watch mode
 
 ---
 
+## Next Investigation: Assistant UI with Vercel AI SDK
+
+**Goal:** Explore whether Vercel AI SDK could enhance the admin dashboard with conversational UI.
+
+### What to Investigate
+
+1. **Vercel AI SDK** (https://sdk.vercel.ai/)
+   - What is the AI SDK and its capabilities?
+   - How does it integrate with Next.js?
+   - What UI components does it provide?
+
+2. **Assistant UI Pattern**
+   - Chat-based interface for admin actions
+   - Natural language commands (e.g., "approve john@example.com for Jarvis")
+   - AI-assisted viewer management
+
+3. **Potential Use Cases**
+   - Conversational viewer approval/denial
+   - Natural language queries ("who has access to Jarvis?")
+   - Bulk operations via chat ("archive all denied viewers")
+
+### Investigation Output
+
+Produce a findings document at `docs/research/VERCEL_AI_SDK_INVESTIGATION.md` with:
+- SDK capabilities overview
+- Feasibility assessment for this project
+- Recommended approach (if feasible)
+- Code examples or proof of concept
+- Decision: implement or defer
+
+### Resources
+
+- Vercel AI SDK Docs: https://sdk.vercel.ai/docs
+- AI SDK UI Components: https://sdk.vercel.ai/docs/ai-sdk-ui
+- GitHub: https://github.com/vercel/ai
+
+---
+
 ## Key Files to Review
 
 | File | Purpose |
