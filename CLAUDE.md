@@ -186,82 +186,21 @@ All content verified against Adobe Portfolio on 2025-12-30:
 
 ## Authentication System
 
-### How It Works (Non-Technical)
+**Full documentation:** [`docs/architecture/AUTH_SYSTEM.md`](docs/architecture/AUTH_SYSTEM.md) | [`docs/architecture/API_REFERENCE.md`](docs/architecture/API_REFERENCE.md)
 
-1. **User enters email** → we send them a one-time magic link
-2. **They click the link** → we create a "session" stored in their browser as a cookie
-3. **When they visit** → we check their cookie against our database records
+### Quick Reference
 
-### Security Properties
-
-- **Sessions expire** after 7 days automatically
-- **Magic links expire** after 15 minutes and can only be used once
-- **HTTP-only cookies** - JavaScript can't read them, preventing XSS attacks
-- **Admin can revoke access** anytime - instantly invalidates sessions
-- **Rate limiting** on login endpoints prevents brute force
-
-### Can Cookies Be Shared?
-
-Technically yes, but with limitations:
-- Requires technical knowledge to extract and inject cookies
-- Sessions expire in 7 days
-- Admin can revoke access anytime
-- Risk level: Low for portfolio NDA content
-
-### Architecture
-
-```
-Database: Upstash Redis (500K requests/month free)
-Email: Resend (3K emails/month free, domain: designed.cloud)
-Tokens: crypto.randomBytes(32) - crypto-grade random
-Sessions: HTTP-only, Secure, SameSite cookies
-```
-
-### Redis Key Structure
-
-```
-viewer:{email}     → { email, status, projects[], expiresAt, createdAt, approvedAt }
-token:{token}      → { email, type, expiresAt }
-session:{sessionId} → { email, role, createdAt }
-sessions:{email}   → Set of session IDs (for bulk revocation)
-```
-
-### Access Control
-
-- **Admins** → access to ALL locked projects
-- **Approved viewers** → depends on their `projects` array:
-  - `projects: []` (empty) → access to ALL locked projects
-  - `projects: ['xcode-touch-bar']` → only access to specified projects
+- **Magic link auth** - Passwordless, one-time use tokens (15 min expiry)
+- **Sessions** - HTTP-only cookies, 7-day expiry, stored in Redis
+- **Access control** - Admin approves viewers, can grant per-project or all-project access
+- **Security** - Rate limiting, input validation, session revocation
 
 ### Key Files
 
 ```
-src/lib/auth/          # Auth library
-  types.ts             # TypeScript types
-  redis.ts             # Upstash Redis client
-  tokens.ts            # Magic link token generation
-  sessions.ts          # Session management
-  email.ts             # Resend email sending
-  validation.ts        # Zod input validation
-  ratelimit.ts         # Rate limiting
-  index.ts             # Public exports
-
-src/app/api/auth/      # API routes
-  request/route.ts     # Request magic link
-  verify/route.ts      # Verify token, create session
-  logout/route.ts      # Destroy session
-
-src/app/admin/         # Admin dashboard
-  page.tsx             # Admin UI
-  api/viewers/         # List viewers
-  api/approve/         # Approve viewer
-  api/revoke/          # Revoke access
-  api/update-access/   # Update project access
-
-src/components/
-  AccessRequestModal.tsx  # Email request modal
-  ProtectedProject.tsx    # Access gate wrapper
-  ProjectGrid.tsx         # Shows lock/check badges
+src/lib/auth/          # Auth library (types, redis, tokens, sessions, email)
+src/app/api/auth/      # Public auth routes (request, verify, logout)
+src/app/admin/api/     # Admin routes (viewers, approve, revoke, etc.)
 ```
 
 ### Environment Variables
