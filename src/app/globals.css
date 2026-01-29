@@ -537,3 +537,195 @@ button,
   font-size: var(--text-sm);
   padding: 0 1rem;
 }
+
+/* =============================================================================
+   iOS-STYLE MENU COMPONENTS
+   Frosted glass menus with smooth animations for mobile navigation
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   iOS Design Tokens
+   ----------------------------------------------------------------------------- */
+:root {
+  --ios-blur: 20px;
+  --ios-saturation: 180%;
+  --ios-bg-light: rgba(255, 255, 255, 0.72);
+  --ios-bg-dark: rgba(30, 30, 30, 0.72);
+  --ios-border-radius: 14px;
+  --ios-touch-target: 44px;
+  --ios-text-primary: #000;
+  --ios-text-secondary: #6e6e73;
+  --ios-text-destructive: #ff3b30;
+  --ios-separator: rgba(60, 60, 67, 0.12);
+  --ios-hover: rgba(0, 0, 0, 0.04);
+  --ios-active-scale: 0.97;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ios-bg-light: rgba(30, 30, 30, 0.72);
+    --ios-text-primary: #fff;
+    --ios-text-secondary: #8e8e93;
+    --ios-separator: rgba(84, 84, 88, 0.36);
+    --ios-hover: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Action Sheet (Drawer) Styles
+   ----------------------------------------------------------------------------- */
+.ios-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 50;
+}
+
+.ios-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--ios-bg-light);
+  backdrop-filter: blur(var(--ios-blur)) saturate(var(--ios-saturation));
+  -webkit-backdrop-filter: blur(var(--ios-blur)) saturate(var(--ios-saturation));
+  border-radius: var(--ios-border-radius) var(--ios-border-radius) 0 0;
+  padding: 8px 8px calc(env(safe-area-inset-bottom) + 8px);
+  max-height: 85vh;
+  outline: none;
+}
+
+.ios-drawer-handle {
+  width: 36px;
+  height: 5px;
+  background: rgba(60, 60, 67, 0.3);
+  border-radius: 2.5px;
+  margin: 8px auto 16px;
+}
+
+.ios-drawer-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ios-text-secondary);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+
+.ios-drawer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ios-action-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--ios-touch-target);
+  padding: 12px 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #007aff;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ios-action-item:hover {
+  background: var(--ios-hover);
+}
+
+.ios-action-item:active {
+  transform: scale(var(--ios-active-scale));
+  background: var(--ios-hover);
+}
+
+.ios-action-item--destructive {
+  color: var(--ios-text-destructive);
+}
+
+/* -----------------------------------------------------------------------------
+   Context Menu (Dropdown) Styles
+   ----------------------------------------------------------------------------- */
+.ios-menu {
+  min-width: 250px;
+  background: var(--ios-bg-light);
+  backdrop-filter: blur(var(--ios-blur)) saturate(var(--ios-saturation));
+  -webkit-backdrop-filter: blur(var(--ios-blur)) saturate(var(--ios-saturation));
+  border-radius: var(--ios-border-radius);
+  padding: 6px;
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.08),
+    0 10px 40px rgba(0, 0, 0, 0.15),
+    0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.ios-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--ios-touch-target);
+  padding: 10px 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ios-text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.1s ease, background 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ios-menu-item:hover,
+.ios-menu-item:focus {
+  background: var(--ios-hover);
+}
+
+.ios-menu-item:active {
+  transform: scale(var(--ios-active-scale));
+}
+
+.ios-menu-item[data-highlighted] {
+  background: var(--ios-hover);
+}
+
+.ios-menu-item--destructive {
+  color: var(--ios-text-destructive);
+}
+
+.ios-menu-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: inherit;
+}
+
+.ios-menu-separator {
+  height: 1px;
+  background: var(--ios-separator);
+  margin: 6px 0;
+}
+
+/* -----------------------------------------------------------------------------
+   Safari-Specific Fixes
+   ----------------------------------------------------------------------------- */
+@supports (-webkit-touch-callout: none) {
+  .ios-drawer,
+  .ios-menu {
+    /* Fix for older Safari backdrop-filter */
+    transform: translateZ(0);
+  }
+}

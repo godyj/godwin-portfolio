@@ -5,7 +5,68 @@
 
 ---
 
-# Current Handoff: shadcn/ui Migration - SHIPPED
+# Current Handoff: iOS Mobile Menu - VERIFIED
+
+**Date:** 2026-01-28 23:45 PST
+**From:** Builder
+**To:** Next Session
+**Status:** ✅ VERIFIED - Working on iOS Safari
+
+---
+
+## Summary
+
+**What was done:** Implemented iOS-style contextual menu for mobile navigation using Radix UI + Framer Motion.
+
+**Verified on:** iPhone Safari (real device testing via local network)
+
+**Session Log:** [2026-01-28-ios-mobile-menu.md](docs/session-logs/2026-01-28-ios-mobile-menu.md)
+
+---
+
+## Components Created
+
+| File | Purpose |
+|------|---------|
+| `src/components/ios-menu/IOSContextMenu.tsx` | Context menu with iOS spring animations |
+| `src/components/ios-menu/IOSActionSheet.tsx` | Bottom drawer (for future use) |
+| `src/components/ios-menu/index.ts` | Clean exports |
+
+## Files Modified
+
+| File | Change |
+|------|--------|
+| `src/app/globals.css` | Added iOS design tokens + menu styles |
+| `src/components/Navigation.tsx` | Replaced DropdownMenu with IOSContextMenu |
+
+## Key Features
+
+- **iOS spring animation** - `ease: [0.32, 0.72, 0, 1]` curve via Framer Motion
+- **Frosted glass effect** - `backdrop-filter: blur(20px) saturate(180%)`
+- **44px touch targets** - Apple HIG compliant
+- **Safe area insets** - `env(safe-area-inset-bottom)` for notched iPhones
+- **Dark mode** - Automatic via `prefers-color-scheme`
+- **Safari fixes** - `transform: translateZ(0)` for GPU acceleration
+
+## Dependencies Added
+
+- `framer-motion` - For iOS-like spring animations
+
+## Test on iPhone
+
+```bash
+npm run dev -- -H 0.0.0.0
+# Access via http://<your-mac-ip>:3000 on iPhone
+```
+
+## Notes
+
+- `navigator.vibrate()` included but doesn't work on iOS Safari (Apple limitation)
+- Visual scale animation (`transform: scale(0.97)`) compensates for lack of haptic
+
+---
+
+# Previous Handoff: shadcn/ui Migration - SHIPPED
 
 **Date:** 2026-01-28 22:25 PST
 **From:** Verifier
@@ -743,7 +804,8 @@ Identified during testing, added to [TODO.md](TODO.md):
 
 | Date | Topic | Status |
 |------|-------|--------|
-| 2026-01-28 | shadcn/ui Migration - Visual & Functional Verification | **✅ COMPLETE** |
+| 2026-01-28 | iOS Mobile Menu - Verified on iPhone Safari | **✅ VERIFIED** |
+| 2026-01-28 | shadcn/ui Migration - Visual & Functional Verification | ✅ COMPLETE |
 | 2026-01-26 00:00 | shadcn/ui Migration - Ready for Cold Start Builder | ✅ BUILD COMPLETE |
 | 2026-01-25 23:35 | shadcn/ui Migration - Plan refinements (Collapsible, Tooltip, animations) | ✅ Complete |
 | 2026-01-25 23:20 | shadcn/ui Migration - Expert Review Complete | ✅ Plan Updates Applied |

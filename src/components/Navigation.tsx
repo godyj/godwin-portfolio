@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { IOSContextMenu, IOSMenuItem } from "@/components/ios-menu";
 
 const navLinks = [
   { href: "/#projects", label: "Work", locked: false },
@@ -195,71 +196,65 @@ export default function Navigation() {
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className={`md:hidden p-2 ${showSolidBg ? "text-gray-900 dark:text-white" : heroTextColor}`}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
+          {/* Mobile Menu */}
+          <IOSContextMenu
+            open={mobileMenuOpen}
+            onOpenChange={setMobileMenuOpen}
+            trigger={
+              <button
+                className={`md:hidden p-2 ${showSolidBg ? "text-gray-900 dark:text-white" : heroTextColor}`}
+                aria-label="Toggle menu"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            }
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {mobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
+            {navLinks.map((link) => {
+              const isActive = link.href === "/#projects"
+                ? pathname === "/" && scrolled
+                : pathname === link.href;
+              const isWorkLink = link.href === "/#projects";
 
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-100 dark:border-gray-800 pt-4">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => {
-                // Work link is only active when on home page AND scrolled past hero
-                const isActive = link.href === "/#projects"
-                  ? pathname === "/" && scrolled
-                  : pathname === link.href;
-                const isWorkLink = link.href === "/#projects";
-
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    scroll={!isWorkLink}
-                    onClick={(e) => {
+              return (
+                <IOSMenuItem
+                  key={link.href}
+                  asChild
+                  onSelect={() => {
+                    if (isWorkLink && pathname === "/") {
                       setMobileMenuOpen(false);
-                      if (isWorkLink && pathname === "/") {
-                        e.preventDefault();
-                        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-                      }
-                    }}
-                    className={`text-[17.5px] font-medium transition-colors flex items-center ${
-                      isActive
-                        ? "text-gray-900 dark:text-white"
-                        : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                >
+                  <Link
+                    href={isWorkLink && pathname === "/" ? "#" : link.href}
+                    scroll={!isWorkLink}
+                    className={`flex items-center justify-between w-full ${
+                      isActive ? "font-semibold" : ""
                     }`}
                   >
                     {link.label}
                     {link.locked && (
-                      <span className="ml-1.5 opacity-50">
-                        <NavLockIcon />
-                      </span>
+                      <NavLockIcon className="opacity-40" />
                     )}
                   </Link>
-                );
-              })}
+                </IOSMenuItem>
+              );
+            })}
+            <IOSMenuItem asChild>
               <a
                 href="https://www.linkedin.com/in/godwinjohnson/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[17.5px] font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+                className="flex items-center w-full"
               >
                 LinkedIn
               </a>
-            </div>
-          </div>
-        )}
+            </IOSMenuItem>
+          </IOSContextMenu>
+        </div>
       </nav>
     </header>
   );
