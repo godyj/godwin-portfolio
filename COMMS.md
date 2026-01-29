@@ -5,7 +5,401 @@
 
 ---
 
-# Current Handoff: Admin Project Locking - ✅ COMPLETE with Enhancements
+# Current Handoff: shadcn/ui Migration - Verification COMPLETE
+
+**Date:** 2026-01-28 22:16 PST
+**From:** Verifier
+**To:** Next Session
+**Status:** ✅ COMPLETE - All sections verified, bug fixed
+
+---
+
+## Summary
+
+**What was done:** Full visual & functional verification completed. Bug fixes applied during verification including Denied Viewers approve flow fix.
+
+**Build Status:** ✅ Passing | **Tests:** ✅ 46/46 passing
+
+**Session Log:** [2026-01-28-shadcn-ui-migration.md](docs/session-logs/2026-01-28-shadcn-ui-migration.md)
+
+---
+
+## Quick Start
+
+```bash
+npm run dev          # Start dev server at http://localhost:3000
+npm run build        # Verify build passes
+npm run test:run     # Run tests (46 must pass)
+```
+
+**To test:** Go to http://localhost:3000/admin and login as admin.
+
+---
+
+## Visual & Functional Checklist
+
+### Project Settings Section ✅ COMPLETE
+
+| Item | Expected Behavior | Status |
+|------|-------------------|--------|
+| Project toggle switches | Modern Switch component (not checkboxes) | ✅ |
+| Switch ON state | Brand yellow color (`--color-brand-yellow`) | ✅ |
+| Switch OFF state | Stone gray (light/dark mode appropriate) | ✅ |
+| Toggle functionality | Clicking toggles lock state | ✅ |
+| Dark mode | Colors correct in both modes | ✅ |
+
+### Viewer Cards - General ✅ COMPLETE
+
+| Item | Expected Behavior | Status |
+|------|-------------------|--------|
+| Skeleton loading | Skeleton placeholders while loading (not "Loading..." text) | ✅ |
+| Status badges | Pill-shaped badges (Pending=yellow, Approved=green, Denied=red) | ✅ |
+| Card layout | Proper spacing and alignment | ✅ |
+
+### Pending Viewers ✅ COMPLETE
+
+| Item | Expected Behavior | Status |
+|------|-------------------|--------|
+| Inline project selector | Switch toggles for each project | ✅ |
+| "All projects" toggle | First toggle in list, enables/disables all | ✅ |
+| Approve button | Styled Button component | ✅ |
+| Deny button | Styled Button variant (secondary/destructive) | ✅ |
+| Warning message | Shows when no projects selected | ✅ |
+
+### Approved Viewers ✅ COMPLETE
+
+| Item | Expected Behavior | Status |
+|------|-------------------|--------|
+| Edit button | Opens inline editor (Collapsible) | ✅ |
+| Inline editor | Smooth expand/collapse animation | ✅ |
+| Expiration dropdown | Select component with options (7d, 30d, 90d, Never, Custom) | ✅ |
+| Custom date input | Input component appears when "Custom" selected | ✅ |
+| Expiration badge | Shows "Expires in X days" or "Expiring soon" | ✅ |
+| Revoke button | AlertDialog confirmation (not browser confirm) | ✅ |
+| Archive button | AlertDialog confirmation (not browser confirm) | ✅ |
+
+### Denied Viewers ✅ COMPLETE
+
+| Item | Expected Behavior | Status |
+|------|-------------------|--------|
+| Approve button | Opens inline project selector | ✅ (Fixed) |
+| Archive button | AlertDialog confirmation | ✅ |
+
+### Archived Viewers ✅ COMPLETE
+
+| Item | Expected Behavior | Status |
+|------|-------------------|--------|
+| Archived badge | Gray/muted styling (Badge variant="archived") | ✅ |
+| Restore button | Returns viewer to previous status | ✅ |
+
+### AlertDialog Confirmations ✅ COMPLETE
+
+| Item | Expected Behavior | Status |
+|------|-------------------|--------|
+| Revoke confirmation | Modal dialog with Cancel/Confirm buttons | ✅ |
+| Archive confirmation | Modal dialog with Cancel/Confirm buttons | ✅ |
+| Dialog styling | Consistent with design system | ✅ |
+| Escape to close | Dialog closes on Escape key | ✅ |
+| Click outside | Dialog closes on backdrop click | ⚠️ By design (AlertDialog requires explicit action) |
+
+### Accessibility ✅ COMPLETE
+
+| Item | Expected Behavior | Status |
+|------|-------------------|--------|
+| Switch components | Proper `role="switch"` ARIA | ✅ (Radix UI) |
+| Keyboard navigation | Tab through interactive elements | ✅ |
+| Focus indicators | Visible focus rings (`focus-visible:ring-2`) | ✅ |
+| Screen reader | Labels announced correctly | ✅ (Radix primitives)
+
+---
+
+## Known Issues Fixed During Migration
+
+| Issue | Fix Applied |
+|-------|-------------|
+| Badge hydration error (`<div>` in `<p>`) | Changed Badge to use `<span>` element |
+| Switch ON state not visible | Used `bg-[var(--color-brand-yellow)]` for brand color |
+| Tests failing after Switch migration | Updated role queries from `button` to `switch` |
+| Toggle state detection | Changed from class-based to `data-state` attribute |
+
+## Issues Fixed During Verification (2026-01-28)
+
+| Issue | Fix Applied |
+|-------|-------------|
+| Skeleton loading not visible | Added `--color-muted` to @theme block in globals.css |
+| Toggle couldn't be turned off | Fixed useEffect dependency - used JSON.stringify for array comparison |
+| Approve button enabled when no projects | Extended onChange signature to pass `selectAll` flag |
+| Buttons missing cursor feedback | Added `cursor-pointer` and `disabled:cursor-not-allowed` to Button |
+| Select dropdown transparent | Added `--color-popover` and `--color-accent` to @theme block |
+| Select missing cursor feedback | Added `cursor-pointer` to SelectTrigger and SelectItem |
+| **Denied Viewers approve without project selection** | Added inline project selector with Collapsible for denied viewers approve flow |
+| **Deny button without confirmation** | Added AlertDialog confirmation for Deny action in Pending Viewers |
+
+---
+
+## Files Changed
+
+### UI Components Created
+- [src/components/ui/button.tsx](src/components/ui/button.tsx)
+- [src/components/ui/badge.tsx](src/components/ui/badge.tsx)
+- [src/components/ui/switch.tsx](src/components/ui/switch.tsx)
+- [src/components/ui/select.tsx](src/components/ui/select.tsx)
+- [src/components/ui/input.tsx](src/components/ui/input.tsx)
+- [src/components/ui/card.tsx](src/components/ui/card.tsx)
+- [src/components/ui/skeleton.tsx](src/components/ui/skeleton.tsx)
+- [src/components/ui/alert-dialog.tsx](src/components/ui/alert-dialog.tsx)
+- [src/components/ui/collapsible.tsx](src/components/ui/collapsible.tsx)
+- [src/components/ui/tooltip.tsx](src/components/ui/tooltip.tsx)
+- [src/components/ui/index.ts](src/components/ui/index.ts)
+
+### Core Files Modified
+- [src/lib/utils.ts](src/lib/utils.ts) - Created cn() utility
+- [src/app/globals.css](src/app/globals.css) - Added shadcn CSS variables + verification fixes (muted, popover, accent colors)
+- [src/app/admin/AdminDashboard.tsx](src/app/admin/AdminDashboard.tsx) - Full migration + verification fix (onChange signature)
+- [src/components/InlineProjectSelector.tsx](src/components/InlineProjectSelector.tsx) - Switch migration + verification fixes (toggle state, onChange signature)
+- [src/components/ui/button.tsx](src/components/ui/button.tsx) - Verification fix (cursor feedback)
+- [src/components/ui/select.tsx](src/components/ui/select.tsx) - Verification fix (cursor feedback)
+
+### Tests Updated
+- [src/components/InlineProjectSelector.test.tsx](src/components/InlineProjectSelector.test.tsx) - Role query updates + verification fix (onChange signature)
+
+### Documentation
+- [docs/session-logs/2026-01-28-shadcn-ui-migration.md](docs/session-logs/2026-01-28-shadcn-ui-migration.md) - Full session log
+- [CLAUDE.md](CLAUDE.md) - Updated with UI component library section
+
+---
+
+## Collaboration Notes
+
+**When checking items:**
+- Mark ✅ when verified working
+- Mark ❌ if issue found (add note below)
+- Mark ⚠️ if partially working (add note below)
+
+**If issues found:**
+Add notes here:
+```
+| Issue | Location | Notes |
+|-------|----------|-------|
+| (add issues here) | | |
+```
+
+---
+
+# Previous Handoff: shadcn/ui Migration - Ready for Cold Start Builder
+
+**Date:** 2026-01-26 00:00 PST
+**From:** Planner
+**To:** Builder (Cold Start)
+**Status:** ✅ BUILD COMPLETE
+
+<details>
+<summary>Click to expand original builder handoff</summary>
+
+## Quick Start for Builder
+
+**Goal:** Migrate admin dashboard from inline Tailwind to shadcn/ui components.
+
+**Key Documents:**
+| Document | Purpose |
+|----------|---------|
+| [SHADCN_UI_MIGRATION_PLAN.md](docs/implementation/SHADCN_UI_MIGRATION_PLAN.md) | Step-by-step implementation guide |
+| [MIGRATION_CHECKLIST.md](docs/research/MIGRATION_CHECKLIST.md) | Complete code samples to copy |
+| [SHADCN_UI_MIGRATION_REVIEW.md](docs/review/SHADCN_UI_MIGRATION_REVIEW.md) | Review notes (for reference only) |
+
+**Commands:**
+```bash
+npm run dev          # Start dev server
+npm run build        # Verify build passes
+npm run test:run     # Run tests (46 must pass)
+```
+
+## Component Summary (11 Components)
+
+| Component | Purpose | Used For |
+|-----------|---------|----------|
+| **Button** | Action buttons | Logout, Approve, Deny, Revoke, Archive, etc. |
+| **Badge** | Status indicators | Pending/Approved/Denied/Archived counts, expiration |
+| **Switch** | Toggle controls | Project locks, project access toggles |
+| **Select** | Dropdown menus | Expiration options (7d, 30d, 90d, custom) |
+| **AlertDialog** | Confirmation dialogs | Revoke/Archive confirmations (replaces `window.confirm`) |
+| **Input** | Form inputs | Date picker for custom expiration |
+| **Card** | Section containers | Viewer cards, settings sections |
+| **Skeleton** | Loading states | Replace "Loading..." text |
+| **Collapsible** | Expand/collapse | Inline editor animation |
+| **Tooltip** | Hover hints | Explain why Approve/Save buttons are disabled |
+| **index.ts** | Barrel exports | Clean imports |
+
+## Implementation Phases
+
+| Phase | Description | Verification |
+|-------|-------------|--------------|
+| **0** | Walking Skeleton - install deps, create 1 button | Build + tests pass |
+| **1** | Foundation - remaining deps, CSS variables, animations | Build + tests pass |
+| **2** | Component Creation - create all 11 component files | Build + tests pass |
+| **3** | AdminDashboard Migration - replace all inline UI | Build + tests pass |
+| **4** | InlineProjectSelector Migration - replace toggles | Tests may fail |
+| **4.5** | Test Updates - fix test queries | **46 tests must pass** |
+| **5** | Final Verification - manual testing | All features work |
+
+## Critical Test Changes (Phase 4.5)
+
+When you migrate to Switch component, tests will break. Update these:
+
+**Toggle state detection:**
+```typescript
+// Before (class-based)
+const isToggleOn = (button: HTMLElement) => button.className.includes('bg-brand-yellow');
+
+// After (data-state attribute)
+const isToggleOn = (element: HTMLElement) => element.getAttribute('data-state') === 'checked';
+```
+
+**Role queries (12+ instances):**
+```typescript
+// Before
+screen.getByRole('button', { name: /select all/i })
+
+// After
+screen.getByRole('switch', { name: /select all/i })
+```
+
+## Dependencies to Install
+
+```bash
+# Phase 0 (minimal)
+npm install class-variance-authority clsx tailwind-merge @radix-ui/react-slot
+
+# Phase 1 (remaining)
+npm install @radix-ui/react-dialog @radix-ui/react-alert-dialog @radix-ui/react-select @radix-ui/react-switch @radix-ui/react-collapsible @radix-ui/react-tooltip lucide-react tailwindcss-animate
+```
+
+## What's Approved
+
+- ✅ 11 shadcn/ui components (Button, Badge, Switch, Select, AlertDialog, Input, Card, Skeleton, Collapsible, Tooltip, index)
+- ✅ CSS variable mapping (HSL format for Tailwind v4)
+- ✅ Walking skeleton approach (prove it works before full migration)
+- ✅ `tailwindcss-animate` plugin for animations (fallback: strip animation classes)
+- ✅ Test migration strategy (Phase 4.5)
+- ✅ AlertDialog replacing `window.confirm()`
+- ✅ Tooltip on disabled Approve/Save buttons
+- ✅ Collapsible for inline editor expand/collapse
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| CSS variables not working | Use HSL format with spaces: `--background: 0 0% 100%;` (no `hsl()` wrapper) |
+| Switch colors wrong | Use `data-[state=checked]:bg-primary` |
+| Tests fail after Switch | Change `getByRole('button')` to `getByRole('switch')` |
+| Animations not working | Check `@plugin "tailwindcss-animate";` in globals.css, or strip animation classes as fallback |
+
+</details>
+
+---
+
+# Previous Handoff: shadcn/ui Migration - Expert Review Complete
+
+**Date:** 2026-01-25 23:20 PST
+**From:** Expert Reviewer
+**To:** Planner
+**Status:** ✅ Plan Updates Applied
+
+<details>
+<summary>Click to expand review details</summary>
+
+## Review Summary
+
+The shadcn/ui migration plan was conditionally approved. A critical test coverage gap was identified and addressed in plan updates.
+
+**Review document:** [SHADCN_UI_MIGRATION_REVIEW.md](docs/review/SHADCN_UI_MIGRATION_REVIEW.md)
+
+## Required Plan Updates (Now Complete)
+
+### P0 - Blockers
+
+| Item | Description |
+|------|-------------|
+| Add Phase 4.5 | New section for Test Updates between Phase 4 and 5 |
+| Test helper updates | Document changes to `isToggleOn`/`isToggleOff` (class → data-state) |
+| Role query updates | Document changes from `getByRole('button')` to `getByRole('switch')` |
+| Test execution strategy | Add test checkpoints to each phase, not just end |
+
+### P1 - Important
+
+| Item | Description |
+|------|-------------|
+| Animation keyframes | Move from Troubleshooting to Phase 1 (proactive setup) |
+| Collapsible component | Document usage or remove from scope |
+
+### P2 - Nice to have
+
+| Item | Description |
+|------|-------------|
+| React 19 verification | Add explicit check for React 19 warnings in Phase 0 |
+
+</details>
+
+---
+
+# Previous Handoff: shadcn/ui Migration - Ready for Expert Review
+
+**Date:** 2026-01-25 22:59 PST
+**From:** Planner
+**To:** Expert Reviewer
+**Status:** ✅ Review Complete
+
+<details>
+<summary>Click to expand details</summary>
+
+## Quick Summary
+
+Migration plan to convert the admin dashboard from inline Tailwind CSS to shadcn/ui component library.
+
+**Scope:**
+- AdminDashboard.tsx (920 lines) - 15+ buttons, 4 selects, 5 switches, 6 badges, 2 confirm dialogs
+- InlineProjectSelector.tsx (162 lines) - custom toggle switches
+
+**Approach:** Walking skeleton -> foundation -> components -> incremental migration
+
+## Review Request
+
+Please review the implementation plan for:
+
+1. **Component Selection** - Are the 10 shadcn/ui components appropriate?
+2. **CSS Variable Mapping** - Will HSL format work with Tailwind v4?
+3. **Migration Order** - Is the phased approach (walking skeleton first) sound?
+4. **Test Strategy** - Is updating toggle detection from class-based to `data-state` correct?
+5. **Risk Areas** - Any concerns with Radix UI + React 19.2.3 compatibility?
+
+## Key Documents
+
+| Document | Purpose |
+|----------|---------|
+| [SHADCN_UI_MIGRATION_PLAN.md](docs/implementation/SHADCN_UI_MIGRATION_PLAN.md) | Full implementation plan |
+| [MIGRATION_CHECKLIST.md](docs/research/MIGRATION_CHECKLIST.md) | Complete code samples for all components |
+
+## Constraints
+
+- Tailwind v4 (no tailwind.config.ts - config in globals.css via `@theme`)
+- React 19.2.3
+- 46 existing tests must continue passing
+- Dark mode via `prefers-color-scheme` preserved
+
+## Expected Outcomes
+
+After approval and implementation:
+- Modern component library infrastructure
+- Consistent UI patterns across admin dashboard
+- Native AlertDialog replacing `window.confirm()`
+- Accessible switches with proper ARIA support
+- Foundation for future UI component reuse
+
+</details>
+
+---
+
+# Previous Handoff: Admin Project Locking - ✅ COMPLETE with Enhancements
 
 **Date:** 2026-01-25 22:14 PST
 **From:** Builder
@@ -335,8 +729,8 @@ Identified during testing, added to [TODO.md](TODO.md):
 | Refinement | Description |
 |------------|-------------|
 | Delete viewers | Admin ability to remove old viewers from list |
-| Approve from denied | Should show project selection modal (not auto-approve) |
-| Inline approval UI | Consider inline checkboxes instead of modal |
+| ~~Approve from denied~~ | ~~Should show project selection modal (not auto-approve)~~ ✅ Fixed 2026-01-28 |
+| ~~Inline approval UI~~ | ~~Consider inline checkboxes instead of modal~~ ✅ Implemented with shadcn/ui migration |
 | Global lock/unlock | Admin UI to choose which projects are locked globally |
 
 </details>
@@ -347,6 +741,11 @@ Identified during testing, added to [TODO.md](TODO.md):
 
 | Date | Topic | Status |
 |------|-------|--------|
+| 2026-01-28 | shadcn/ui Migration - Visual & Functional Verification | **✅ COMPLETE** |
+| 2026-01-26 00:00 | shadcn/ui Migration - Ready for Cold Start Builder | ✅ BUILD COMPLETE |
+| 2026-01-25 23:35 | shadcn/ui Migration - Plan refinements (Collapsible, Tooltip, animations) | ✅ Complete |
+| 2026-01-25 23:20 | shadcn/ui Migration - Expert Review Complete | ✅ Plan Updates Applied |
+| 2026-01-25 22:59 | shadcn/ui Migration - Ready for Expert Review | ✅ Review Complete |
 | 2026-01-25 22:14 | Admin Project Locking - Full Enhancements (46 tests) | **✅ COMPLETE** |
 | 2026-01-25 20:40 | Unit Testing - 45 tests across 5 files | ✅ Complete |
 | 2026-01-25 19:55 | Admin Project Locking - All Steps Complete | ✅ Complete |

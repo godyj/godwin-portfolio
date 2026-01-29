@@ -85,6 +85,13 @@ Content in `projects.ts` supports markdown-style formatting:
 - **Underline**: `_text_` - renders with underline style
 - Used for labels like `**Goals:**`, `**Who:**`, `**Why:**`
 
+### UI Component Library
+- **shadcn/ui** components in `src/components/ui/` (Button, Badge, Switch, Select, AlertDialog, etc.)
+- Built on **Radix UI** primitives for accessibility
+- Uses **class-variance-authority** for variant styling
+- Integrated with design system via CSS variables in `globals.css`
+- See [SHADCN_UI_MIGRATION_PLAN.md](docs/implementation/SHADCN_UI_MIGRATION_PLAN.md) for implementation details
+
 ## Project Overview
 
 - **Goal**: Migrate from Adobe Portfolio (designed.cloud) to self-hosted Next.js site
@@ -104,9 +111,10 @@ Content in `projects.ts` supports markdown-style formatting:
     /contact/page.tsx   # Contact form
     /projects/[id]/page.tsx  # Dynamic project pages with hero image
     /layout.tsx         # Root layout with Navigation
-    /globals.css        # Global styles
+    /globals.css        # Global styles + shadcn/ui CSS variables
   /components
     /Navigation.tsx     # Header nav with helmet logo (transparent on hero)
+    /ui/                # shadcn/ui component library (Button, Badge, Switch, etc.)
   /data
     /projects.ts        # All project content data (full verbatim)
 /public

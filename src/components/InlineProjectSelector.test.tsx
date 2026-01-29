@@ -9,12 +9,12 @@ const mockProjects: LockedProject[] = [
   { id: 'roblox-nux', title: 'Roblox', subtitle: 'New User Experience' },
 ];
 
-// Helper to check if a toggle button is ON (checked)
-const isToggleOn = (button: HTMLElement) => button.className.includes('bg-brand-yellow');
-const isToggleOff = (button: HTMLElement) => button.className.includes('bg-stone-300');
+// Helper to check if a toggle switch is ON (checked)
+const isToggleOn = (element: HTMLElement) => element.getAttribute('data-state') === 'checked';
+const isToggleOff = (element: HTMLElement) => element.getAttribute('data-state') === 'unchecked';
 
 describe('InlineProjectSelector', () => {
-  let mockOnChange: (projects: string[]) => void;
+  let mockOnChange: (projects: string[], selectAll: boolean) => void;
 
   beforeEach(() => {
     mockOnChange = vi.fn();
@@ -71,7 +71,7 @@ describe('InlineProjectSelector', () => {
         />
       );
 
-      const allProjectsButton = screen.getByRole('button', { name: /select all projects/i });
+      const allProjectsButton = screen.getByRole('switch', { name: /select all projects/i });
       expect(isToggleOn(allProjectsButton)).toBe(true);
     });
 
@@ -84,7 +84,7 @@ describe('InlineProjectSelector', () => {
         />
       );
 
-      const buttons = screen.getAllByRole('button');
+      const buttons = screen.getAllByRole('switch');
       // First is "All projects", rest are individual projects - all should be enabled
       expect(buttons[1]).not.toBeDisabled();
       expect(buttons[2]).not.toBeDisabled();
@@ -101,20 +101,18 @@ describe('InlineProjectSelector', () => {
       );
 
       // "All projects" should be checked initially
-      const allProjectsButton = screen.getByRole('button', { name: /select all projects/i });
+      const allProjectsButton = screen.getByRole('switch', { name: /select all projects/i });
       expect(isToggleOn(allProjectsButton)).toBe(true);
 
       // Click an individual project (Jarvis)
-      const jarvisButton = screen.getByRole('button', { name: /toggle access for jarvis/i });
+      const jarvisButton = screen.getByRole('switch', { name: /toggle access for jarvis/i });
       fireEvent.click(jarvisButton);
 
       // Should switch to individual selection mode with all projects EXCEPT the clicked one
       // (clicking jarvis turns it OFF, keeps all other projects ON)
       expect(mockOnChange).toHaveBeenCalledWith(
-        expect.arrayContaining(['xcode-touch-bar', 'roblox-nux'])
-      );
-      expect(mockOnChange).toHaveBeenCalledWith(
-        expect.not.arrayContaining(['jarvis'])
+        expect.arrayContaining(['xcode-touch-bar', 'roblox-nux']),
+        false
       );
     });
 
@@ -127,10 +125,10 @@ describe('InlineProjectSelector', () => {
         />
       );
 
-      const allProjectsButton = screen.getByRole('button', { name: /select all projects/i });
+      const allProjectsButton = screen.getByRole('switch', { name: /select all projects/i });
       fireEvent.click(allProjectsButton);
 
-      expect(mockOnChange).toHaveBeenCalledWith([]);
+      expect(mockOnChange).toHaveBeenCalledWith([], true);
     });
   });
 
@@ -144,10 +142,10 @@ describe('InlineProjectSelector', () => {
         />
       );
 
-      const allProjectsButton = screen.getByRole('button', { name: /select all projects/i });
-      const jarvisButton = screen.getByRole('button', { name: /toggle access for jarvis/i });
-      const xcodeButton = screen.getByRole('button', { name: /toggle access for apple xcode/i });
-      const robloxButton = screen.getByRole('button', { name: /toggle access for roblox/i });
+      const allProjectsButton = screen.getByRole('switch', { name: /select all projects/i });
+      const jarvisButton = screen.getByRole('switch', { name: /toggle access for jarvis/i });
+      const xcodeButton = screen.getByRole('switch', { name: /toggle access for apple xcode/i });
+      const robloxButton = screen.getByRole('switch', { name: /toggle access for roblox/i });
 
       // "All projects" should NOT be checked
       expect(isToggleOff(allProjectsButton)).toBe(true);
@@ -166,11 +164,12 @@ describe('InlineProjectSelector', () => {
         />
       );
 
-      const xcodeButton = screen.getByRole('button', { name: /toggle access for apple xcode/i });
+      const xcodeButton = screen.getByRole('switch', { name: /toggle access for apple xcode/i });
       fireEvent.click(xcodeButton);
 
       expect(mockOnChange).toHaveBeenCalledWith(
-        expect.arrayContaining(['jarvis', 'xcode-touch-bar'])
+        expect.arrayContaining(['jarvis', 'xcode-touch-bar']),
+        false
       );
     });
 
@@ -183,10 +182,10 @@ describe('InlineProjectSelector', () => {
         />
       );
 
-      const jarvisButton = screen.getByRole('button', { name: /toggle access for jarvis/i });
+      const jarvisButton = screen.getByRole('switch', { name: /toggle access for jarvis/i });
       fireEvent.click(jarvisButton);
 
-      expect(mockOnChange).toHaveBeenCalledWith(['xcode-touch-bar']);
+      expect(mockOnChange).toHaveBeenCalledWith(['xcode-touch-bar'], false);
     });
   });
 
@@ -201,10 +200,10 @@ describe('InlineProjectSelector', () => {
         />
       );
 
-      const allProjectsButton = screen.getByRole('button', { name: /select all projects/i });
-      const jarvisButton = screen.getByRole('button', { name: /toggle access for jarvis/i });
-      const xcodeButton = screen.getByRole('button', { name: /toggle access for apple xcode/i });
-      const robloxButton = screen.getByRole('button', { name: /toggle access for roblox/i });
+      const allProjectsButton = screen.getByRole('switch', { name: /select all projects/i });
+      const jarvisButton = screen.getByRole('switch', { name: /toggle access for jarvis/i });
+      const xcodeButton = screen.getByRole('switch', { name: /toggle access for apple xcode/i });
+      const robloxButton = screen.getByRole('switch', { name: /toggle access for roblox/i });
 
       // "All projects" should NOT be checked when requestedProject is set
       expect(isToggleOff(allProjectsButton)).toBe(true);
@@ -226,7 +225,7 @@ describe('InlineProjectSelector', () => {
         />
       );
 
-      const buttons = screen.getAllByRole('button');
+      const buttons = screen.getAllByRole('switch');
       buttons.forEach((button) => {
         expect(button).toBeDisabled();
       });
@@ -244,7 +243,7 @@ describe('InlineProjectSelector', () => {
       );
 
       // Uncheck the only selected project
-      const jarvisButton = screen.getByRole('button', { name: /toggle access for jarvis/i });
+      const jarvisButton = screen.getByRole('switch', { name: /toggle access for jarvis/i });
       fireEvent.click(jarvisButton);
 
       expect(screen.getByText(/Select at least one project/)).toBeInTheDocument();

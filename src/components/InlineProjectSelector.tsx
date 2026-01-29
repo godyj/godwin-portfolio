@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import type { LockedProject } from '@/lib/auth/types';
+import { Switch } from '@/components/ui/switch';
 
 interface InlineProjectSelectorProps {
   lockedProjects: LockedProject[];
   selectedProjects: string[];  // Empty = all projects
   requestedProject?: string;   // Pre-check for pending viewers
-  onChange: (projects: string[]) => void;
+  onChange: (projects: string[], selectAll: boolean) => void;
   disabled?: boolean;
 }
 
@@ -33,6 +34,8 @@ export default function InlineProjectSelector({
   });
 
   // Sync with parent when selectedProjects changes (for edit mode)
+  // Use JSON.stringify to compare array contents, not reference
+  const selectedProjectsKey = JSON.stringify(selectedProjects.slice().sort());
   useEffect(() => {
     if (selectedProjects.length === 0 && !requestedProject) {
       setSelectAll(true);
@@ -41,14 +44,15 @@ export default function InlineProjectSelector({
       setSelectAll(false);
       setSelected(new Set(selectedProjects));
     }
-  }, [selectedProjects, requestedProject]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProjectsKey, requestedProject]);
 
   // Notify parent of initial selection on mount
   useEffect(() => {
     if (selectedProjects.length > 0) {
-      onChange(selectedProjects);
+      onChange(selectedProjects, false);
     } else if (requestedProject) {
-      onChange([requestedProject]);
+      onChange([requestedProject], false);
     }
     // Only run on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,7 +62,7 @@ export default function InlineProjectSelector({
     setSelectAll(checked);
     if (checked) {
       setSelected(new Set());
-      onChange([]); // Empty = all projects
+      onChange([], true); // Empty + selectAll=true means all projects
     }
   };
 
@@ -73,7 +77,7 @@ export default function InlineProjectSelector({
       const newSelected = new Set(allExceptClicked);
       setSelected(newSelected);
       setSelectAll(false);
-      onChange(Array.from(newSelected));
+      onChange(Array.from(newSelected), false);
       return;
     }
 
@@ -84,7 +88,7 @@ export default function InlineProjectSelector({
       newSelected.delete(projectId);
     }
     setSelected(newSelected);
-    onChange(Array.from(newSelected));
+    onChange(Array.from(newSelected), false);
   };
 
   return (
@@ -97,23 +101,12 @@ export default function InlineProjectSelector({
             (includes future locked projects)
           </span>
         </span>
-        <button
-          type="button"
-          onClick={() => handleSelectAllChange(!selectAll)}
+        <Switch
+          checked={selectAll}
+          onCheckedChange={handleSelectAllChange}
           disabled={disabled}
-          className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${
-            selectAll
-              ? 'bg-brand-yellow'
-              : 'bg-stone-300 dark:bg-stone-600'
-          } disabled:opacity-50`}
           aria-label="Select all projects"
-        >
-          <span
-            className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
-              selectAll ? 'left-6' : 'left-1'
-            }`}
-          />
-        </button>
+        />
       </div>
 
       {/* Divider */}
@@ -130,23 +123,12 @@ export default function InlineProjectSelector({
                 <span className="text-stone-500 dark:text-stone-400"> ({project.subtitle})</span>
               )}
             </span>
-            <button
-              type="button"
-              onClick={() => handleProjectChange(project.id, !isChecked)}
+            <Switch
+              checked={isChecked}
+              onCheckedChange={(checked) => handleProjectChange(project.id, checked)}
               disabled={disabled}
-              className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${
-                isChecked
-                  ? 'bg-brand-yellow'
-                  : 'bg-stone-300 dark:bg-stone-600'
-              } disabled:opacity-50`}
               aria-label={`Toggle access for ${project.title}`}
-            >
-              <span
-                className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                  isChecked ? 'left-6' : 'left-1'
-                }`}
-              />
-            </button>
+            />
           </div>
         );
       })}

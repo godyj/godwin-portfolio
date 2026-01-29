@@ -1,379 +1,499 @@
-# Vercel AI SDK Investigation
+# Vercel AI SDK + shadcn/ui Investigation
 
 **Date:** January 25, 2026  
-**Purpose:** Evaluate feasibility of adding a conversational UI to the portfolio admin dashboard  
+**Purpose:** Evaluate feasibility of adding a conversational UI to the portfolio admin dashboard, plus adopting shadcn/ui as the design system  
 **Status:** Research Complete
 
 ---
 
 ## Executive Summary
 
-The Vercel AI SDK is a mature, production-ready toolkit that would integrate seamlessly with the existing portfolio stack. The combination of AI SDK Core (for tool calling), AI SDK UI (for chat hooks), and AI Elements (for pre-built components) makes implementing a conversational admin interface highly feasible with relatively low effort.
+The Vercel AI SDK is a mature, production-ready toolkit that would integrate seamlessly with the existing portfolio stack. The combination of AI SDK Core (for tool calling), AI SDK UI (for chat hooks), and AI Elements (for pre-built components) makes implementing a conversational admin interface highly feasible.
 
-**Recommendation:** Implement as a Phase 2 enhancement after core admin functionality is stable.
+**Key Insight:** AI Elements is built on shadcn/ui. Adopting shadcn/ui as the portfolio's design system provides both the foundation for AI features AND a consistent component library for all UI.
+
+**Updated Recommendation:** 
+1. **Phase 1:** Adopt shadcn/ui as the design system (migrate existing admin components)
+2. **Phase 2:** Add AI SDK + AI Elements for conversational UI
 
 ---
 
-## SDK Capabilities Overview
+## shadcn/ui Overview
 
-### Architecture
+### What It Is
 
-The AI SDK consists of three main modules:
+shadcn/ui is not a component library you install as a dependency. It's a collection of re-usable components that you copy into your project and own completely. Built on:
 
-| Module | Purpose | Status |
-|--------|---------|--------|
-| **AI SDK Core** | Unified API for text generation, structured data, tool calling, agents | Stable (v6) |
-| **AI SDK UI** | Framework-agnostic hooks (`useChat`, `useCompletion`, `useObject`) | Stable |
-| **AI SDK RSC** | React Server Components streaming | Paused Development |
+- **Radix UI** - Unstyled, accessible primitives
+- **Tailwind CSS** - Styling (already in your stack)
+- **TypeScript** - Full type safety
+- **CSS Variables** - Theming support
 
-### Key Features (AI SDK 6)
+### Why This Approach Works
 
-1. **ToolLoopAgent**: Production-ready agent implementation with automatic tool execution loops
-2. **Tool Execution Approval**: Human-in-the-loop with `needsApproval` flag
-3. **DevTools**: Built-in debugging and telemetry
-4. **MCP Support**: Model Context Protocol for external service integration
-5. **Multi-Provider Support**: OpenAI, Anthropic, Google, Azure, AWS Bedrock, and 15+ others
+| Traditional Libraries | shadcn/ui |
+|-----------------------|-----------|
+| Import from `node_modules` | Copy to `src/components/ui` |
+| Limited customization | Full source code ownership |
+| Version lock-in | No version dependencies |
+| Bundle entire library | Only include what you use |
+| Style overrides via hacks | Direct Tailwind edits |
 
-### AI Elements (UI Components)
+### Available Components (40+)
 
-A new component library built on shadcn/ui specifically for AI interfaces:
+**Form & Input:**
+- Button, Input, Textarea, Checkbox, Radio, Switch
+- Select, Combobox, DatePicker, Slider
+- Form (react-hook-form + zod validation)
 
-- **20+ components**: Message, Conversation, Response, PromptInput, CodeBlock, Reasoning, etc.
-- **Streaming-optimized**: Handles incremental updates efficiently
-- **Accessible**: Built on Radix UI primitives
-- **Customizable**: Full source code ownership via shadcn/ui pattern
+**Layout & Container:**
+- Card, Dialog, Sheet, Drawer, Popover
+- Tabs, Accordion, Collapsible
+- Table, DataTable (with TanStack Table)
 
-Installation:
+**Feedback:**
+- Alert, AlertDialog, Toast, Sonner
+- Progress, Skeleton, Badge
+- Tooltip, HoverCard
+
+**Navigation:**
+- Dropdown Menu, Context Menu, Menubar
+- Navigation Menu, Breadcrumb, Pagination
+- Command (⌘K style search)
+
+---
+
+## Current Admin Dashboard Analysis
+
+### Components to Migrate
+
+Looking at `AdminDashboard.tsx`, here's what would map to shadcn/ui:
+
+| Current Implementation | shadcn/ui Component |
+|------------------------|---------------------|
+| Custom `<button>` with Tailwind | `Button` (variants: default, destructive, outline, ghost) |
+| Custom toggle switch | `Switch` |
+| Custom `<select>` | `Select` |
+| Custom date `<input>` | `DatePicker` (uses Calendar + Popover) |
+| Section dividers | `Card` with `CardHeader`, `CardContent` |
+| Confirm dialogs (`confirm()`) | `AlertDialog` |
+| Loading states | `Skeleton` or spinner |
+| Status badges | `Badge` (variants for pending/approved/denied) |
+| Expandable sections | `Collapsible` or `Accordion` |
+
+### Migration Effort Estimate
+
+| Component | Instances | Effort |
+|-----------|-----------|--------|
+| Buttons | ~15 | Low |
+| Switches | ~4 | Low |
+| Selects | ~4 | Low |
+| Confirm dialogs | ~3 | Medium |
+| Section cards | ~5 | Low |
+| Status badges | ~6 | Low |
+| Date inputs | ~2 | Medium |
+
+**Total estimate:** 3-4 hours for full admin dashboard migration
+
+---
+
+## shadcn/ui Setup
+
+### Installation
+
 ```bash
-npx ai-elements@latest add message conversation prompt-input response
+# Initialize shadcn/ui (one-time setup)
+npx shadcn@latest init
+
+# You'll be prompted for:
+# - Style: Default or New York
+# - Base color: Slate, Gray, Zinc, Neutral, Stone
+# - CSS variables: Yes (recommended)
+# - tailwind.config location
+# - components.json location
 ```
 
----
-
-## Integration with Current Stack
-
-### Compatibility Matrix
-
-| Requirement | Portfolio Stack | AI SDK Requirement | Status |
-|-------------|-----------------|-------------------|--------|
-| Framework | Next.js 16.1.1 | Next.js 13+ | ✅ |
-| React | 19.2.3 | React 18+ | ✅ |
-| TypeScript | 5.x | TypeScript 4.9+ | ✅ |
-| Zod | 4.3.4 | Zod 3+ | ✅ |
-| Tailwind | v4 | Any | ✅ |
-
-### Required New Dependencies
+### Configuration (components.json)
 
 ```json
 {
-  "ai": "^4.x",
-  "@ai-sdk/react": "^1.x",
-  "@ai-sdk/openai": "^1.x"  // or another provider
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/app/globals.css",
+    "baseColor": "stone",
+    "cssVariables": true
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils"
+  }
 }
 ```
 
-### Integration Pattern
+### Adding Components
 
-**Backend (API Route):**
-```typescript
-// src/app/admin/api/chat/route.ts
-import { streamText, tool } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { z } from 'zod';
+```bash
+# Add individual components as needed
+npx shadcn@latest add button
+npx shadcn@latest add card
+npx shadcn@latest add dialog
+npx shadcn@latest add select
+npx shadcn@latest add switch
+npx shadcn@latest add badge
+npx shadcn@latest add alert-dialog
+npx shadcn@latest add skeleton
 
-export async function POST(req: Request) {
-  const { messages } = await req.json();
-  
-  const result = streamText({
-    model: openai('gpt-4o-mini'),
-    system: 'You are an admin assistant for a portfolio website...',
-    messages,
-    tools: {
-      approveViewer: tool({
-        description: 'Approve a viewer for access to projects',
-        parameters: z.object({
-          email: z.string().email(),
-          projects: z.array(z.string()).optional(),
-        }),
-        execute: async ({ email, projects }) => {
-          // Call existing admin API
-          const res = await fetch('/admin/api/approve', {
-            method: 'POST',
-            body: JSON.stringify({ email, projects }),
-          });
-          return { success: res.ok };
-        },
-      }),
-      // ... more tools
-    },
-  });
-  
-  return result.toUIMessageStreamResponse();
-}
+# Or add multiple at once
+npx shadcn@latest add button card dialog select switch badge alert-dialog skeleton
 ```
 
-**Frontend (Chat Component):**
-```typescript
-// src/app/admin/components/AdminChat.tsx
-'use client';
+Components are installed to `src/components/ui/` and can be customized directly.
 
-import { useChat } from '@ai-sdk/react';
-import { 
-  Conversation, 
-  ConversationContent,
-  Message, 
-  MessageContent,
-  Response,
-  PromptInput 
-} from '@/components/ai-elements';
+### Required Dependencies
 
-export function AdminChat() {
-  const { messages, sendMessage, status } = useChat({
-    api: '/admin/api/chat',
-  });
+shadcn/ui will add these as needed:
 
-  return (
-    <Conversation>
-      <ConversationContent>
-        {messages.map((message) => (
-          <Message key={message.id} from={message.role}>
-            <MessageContent>
-              <Response>{message.content}</Response>
-            </MessageContent>
-          </Message>
-        ))}
-      </ConversationContent>
-      <PromptInput 
-        onSubmit={sendMessage} 
-        disabled={status !== 'ready'}
-      />
-    </Conversation>
-  );
+```json
+{
+  "@radix-ui/react-dialog": "^1.x",
+  "@radix-ui/react-select": "^2.x",
+  "@radix-ui/react-switch": "^1.x",
+  "@radix-ui/react-alert-dialog": "^1.x",
+  "class-variance-authority": "^0.7.x",
+  "clsx": "^2.x",
+  "tailwind-merge": "^2.x",
+  "lucide-react": "^0.x"
 }
 ```
 
 ---
 
-## Use Cases for Admin Dashboard
+## Migration Example: Buttons
 
-### 1. Conversational Viewer Management
+### Before (Current)
 
-| Natural Language Command | Tool Execution |
-|--------------------------|----------------|
-| "approve john@example.com for Jarvis" | `approveViewer({ email, projects: ['jarvis'] })` |
-| "deny the pending request from spam@test.com" | `denyViewer({ email })` |
-| "give sarah@company.com access to all projects" | `approveViewer({ email, projects: [] })` |
-| "revoke access for john@example.com" | `revokeViewer({ email })` |
-| "set expiration for john@example.com to 30 days" | `setExpiration({ email, days: 30 })` |
+```tsx
+<button
+  onClick={() => handleDeny(viewer.email)}
+  disabled={actionLoading === viewer.email}
+  className="bg-red-600 text-white px-4 py-2 text-sm font-medium rounded hover:bg-red-700 disabled:opacity-50"
+>
+  {actionLoading === viewer.email ? '...' : 'Deny'}
+</button>
+```
 
-### 2. Natural Language Queries
+### After (shadcn/ui)
 
-| Query | Tool Execution | Response |
-|-------|---------------|----------|
-| "who has access to Jarvis?" | `queryViewers({ project: 'jarvis' })` | "3 viewers have access: john@..., sarah@..., mike@..." |
-| "show me pending requests" | `queryViewers({ status: 'pending' })` | "You have 2 pending requests from..." |
-| "how many viewers are approved?" | `queryViewers({ status: 'approved' })` | "Currently 5 approved viewers" |
-| "which viewers expire this week?" | `queryViewers({ expiringWithin: 7 })` | "2 viewers expire soon: ..." |
+```tsx
+import { Button } from "@/components/ui/button"
 
-### 3. Bulk Operations
+<Button
+  variant="destructive"
+  size="sm"
+  onClick={() => handleDeny(viewer.email)}
+  disabled={actionLoading === viewer.email}
+>
+  {actionLoading === viewer.email ? '...' : 'Deny'}
+</Button>
+```
 
-| Command | Tool Execution |
-|---------|---------------|
-| "archive all denied viewers" | `bulkArchive({ status: 'denied' })` |
-| "extend all expiring viewers by 30 days" | `bulkExtend({ expiringWithin: 7, days: 30 })` |
-| "lock the Sacred Knot project" | `toggleProjectLock({ projectId: 'sacred-knot', locked: true })` |
+### Button Variants Available
 
-### 4. Project Management
-
-| Command | Tool Execution |
-|---------|---------------|
-| "show me all locked projects" | `queryProjects({ locked: true })` |
-| "make Jarvis public" | `toggleProjectLock({ projectId: 'jarvis', locked: false })` |
+```tsx
+<Button variant="default">Default</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="link">Link</Button>
+```
 
 ---
 
-## Tool Definitions (Proof of Concept)
+## Migration Example: Confirm Dialogs
 
-```typescript
-// src/app/admin/api/chat/tools.ts
-import { tool } from 'ai';
-import { z } from 'zod';
+### Before (Current)
 
-export const adminTools = {
-  approveViewer: tool({
-    description: 'Approve a viewer for access to specific projects or all projects',
-    parameters: z.object({
-      email: z.string().email().describe('The email address of the viewer to approve'),
-      projects: z.array(z.string()).optional().describe('Project IDs to grant access to. Empty array = all projects'),
-      expirationDays: z.number().optional().describe('Number of days until access expires'),
-    }),
-    execute: async ({ email, projects, expirationDays }) => {
-      // Implementation connects to existing API
-    },
-  }),
-
-  denyViewer: tool({
-    description: 'Deny a pending viewer request',
-    parameters: z.object({
-      email: z.string().email(),
-    }),
-    execute: async ({ email }) => {
-      // Implementation
-    },
-  }),
-
-  revokeViewer: tool({
-    description: 'Revoke an approved viewer\'s access',
-    parameters: z.object({
-      email: z.string().email(),
-    }),
-    needsApproval: true, // Requires confirmation
-    execute: async ({ email }) => {
-      // Implementation
-    },
-  }),
-
-  queryViewers: tool({
-    description: 'Query viewers by status, project access, or expiration',
-    parameters: z.object({
-      status: z.enum(['pending', 'approved', 'denied', 'archived']).optional(),
-      project: z.string().optional(),
-      expiringWithin: z.number().optional().describe('Days until expiration'),
-    }),
-    execute: async (params) => {
-      // Implementation
-    },
-  }),
-
-  toggleProjectLock: tool({
-    description: 'Lock or unlock a project',
-    parameters: z.object({
-      projectId: z.string(),
-      locked: z.boolean(),
-    }),
-    execute: async ({ projectId, locked }) => {
-      // Implementation
-    },
-  }),
-
-  bulkArchive: tool({
-    description: 'Archive multiple viewers based on criteria',
-    parameters: z.object({
-      status: z.enum(['denied', 'expired']).optional(),
-      olderThan: z.number().optional().describe('Days since last activity'),
-    }),
-    needsApproval: true,
-    execute: async (params) => {
-      // Implementation
-    },
-  }),
+```tsx
+const handleRevoke = async (email: string) => {
+  if (!confirm(`Revoke access for ${email}?`)) return;
+  // ... action
 };
 ```
 
----
+### After (shadcn/ui AlertDialog)
 
-## Implementation Approach
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
-### Recommended: Phased Implementation
-
-**Phase 1: Foundation (2-3 hours)**
-1. Install dependencies (`ai`, `@ai-sdk/react`, provider package)
-2. Set up API route at `/admin/api/chat`
-3. Create basic chat component with `useChat`
-4. Add 2-3 core tools (approveViewer, queryViewers, denyViewer)
-
-**Phase 2: UI Polish (1-2 hours)**
-1. Install AI Elements components
-2. Integrate with existing admin dashboard layout
-3. Add loading states and error handling
-
-**Phase 3: Advanced Features (2-3 hours)**
-1. Add remaining tools (bulk operations, project management)
-2. Implement `needsApproval` for destructive actions
-3. Add conversation history persistence (optional)
-
-### UI Integration Options
-
-**Option A: Sliding Panel**
-Chat panel slides in from right side of admin dashboard. Keeps current UI intact.
-
-**Option B: Tab-based**
-Add "Assistant" tab alongside existing admin sections.
-
-**Option C: Floating Widget**
-Persistent chat bubble in corner of admin area.
-
-**Recommendation:** Option A (Sliding Panel) - Non-intrusive, maintains current workflow, easy to toggle.
-
----
-
-## Cost Considerations
-
-| Provider | Model | Estimated Cost/1000 requests |
-|----------|-------|------------------------------|
-| OpenAI | gpt-4o-mini | ~$0.30 |
-| OpenAI | gpt-4o | ~$7.50 |
-| Anthropic | claude-3-haiku | ~$0.50 |
-| Anthropic | claude-3-sonnet | ~$6.00 |
-
-**Recommendation:** Start with `gpt-4o-mini` or `claude-3-haiku` - sufficient for admin commands, cost-effective.
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="destructive" size="sm">Revoke</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Revoke access?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This will log {email} out of all sessions immediately.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction onClick={() => handleRevoke(email)}>
+        Revoke
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
 
 ---
 
-## Security Considerations
+## Migration Example: Status Badges
 
-1. **Authentication**: Chat API must verify admin session before processing
-2. **Rate Limiting**: Apply rate limits to chat endpoint (reuse existing Upstash setup)
-3. **Audit Logging**: Log all tool executions for accountability
-4. **Input Validation**: Zod schemas provide type-safe input validation
-5. **Tool Approval**: Use `needsApproval` for destructive operations
+### Before (Current)
+
+```tsx
+<span className="ml-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-sm px-2 py-0.5 rounded-full">
+  {pendingViewers.length}
+</span>
+```
+
+### After (shadcn/ui Badge)
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+
+// Add custom variants to badge.tsx for status colors
+<Badge variant="pending">{pendingViewers.length}</Badge>
+<Badge variant="approved">{approvedViewers.length}</Badge>
+<Badge variant="denied">{deniedViewers.length}</Badge>
+```
+
+Custom variants in `components/ui/badge.tsx`:
+
+```tsx
+const badgeVariants = cva(
+  "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground",
+        secondary: "bg-secondary text-secondary-foreground",
+        destructive: "bg-destructive text-destructive-foreground",
+        outline: "text-foreground border",
+        // Custom status variants
+        pending: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200",
+        approved: "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200",
+        denied: "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200",
+        archived: "bg-stone-100 dark:bg-stone-800 text-stone-500",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+```
 
 ---
 
-## Pros and Cons
+## Theming & Dark Mode
 
-### Advantages
-- Faster admin workflows via natural language
-- Reduced cognitive load - no need to navigate complex UI
-- Bulk operations become trivial
-- Consistent with modern admin interfaces (see: Linear, Notion)
-- Low implementation effort due to AI SDK abstractions
-- Future extensibility for other AI features
+### CSS Variables Approach
 
-### Disadvantages
-- Requires API key management
-- Ongoing API costs (though minimal for admin use)
-- Another dependency to maintain
-- Potential learning curve for non-technical admins (though minimal)
-- AI SDK RSC is paused (not using this module anyway)
+shadcn/ui uses CSS variables for theming, which works seamlessly with Tailwind's dark mode:
+
+```css
+/* globals.css */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 20 14.3% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    --primary: 24 9.8% 10%;
+    --primary-foreground: 60 9.1% 97.8%;
+    /* ... more variables */
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 60 9.1% 97.8%;
+    /* ... dark mode overrides */
+  }
+}
+```
+
+### Mapping to Portfolio Brand Colors
+
+Your current brand colors can be integrated:
+
+```css
+:root {
+  /* Map brand-yellow to primary or create custom */
+  --brand-yellow: 45 93% 58%;
+  --brand-brown-dark: 30 20% 20%;
+}
+```
+
+---
+
+## Updated Implementation Plan
+
+### Phase 1: shadcn/ui Foundation (2-3 hours)
+
+1. **Initialize shadcn/ui**
+   ```bash
+   npx shadcn@latest init
+   ```
+
+2. **Add core components**
+   ```bash
+   npx shadcn@latest add button card badge switch select alert-dialog skeleton collapsible
+   ```
+
+3. **Create utility file** (`src/lib/utils.ts`)
+   ```typescript
+   import { type ClassValue, clsx } from "clsx"
+   import { twMerge } from "tailwind-merge"
+
+   export function cn(...inputs: ClassValue[]) {
+     return twMerge(clsx(inputs))
+   }
+   ```
+
+4. **Update globals.css** with CSS variables
+
+### Phase 2: Admin Dashboard Migration (3-4 hours)
+
+1. **Replace buttons** - All button instances → `<Button>`
+2. **Replace switches** - Toggle switches → `<Switch>`
+3. **Replace selects** - Dropdown selects → `<Select>`
+4. **Replace confirm()** - Native confirms → `<AlertDialog>`
+5. **Add Cards** - Section wrappers → `<Card>`
+6. **Add Badges** - Status indicators → `<Badge>`
+7. **Add Skeletons** - Loading states → `<Skeleton>`
+
+### Phase 3: AI SDK + AI Elements (3-4 hours)
+
+1. **Install AI SDK**
+   ```bash
+   npm install ai @ai-sdk/react @ai-sdk/openai
+   ```
+
+2. **Install AI Elements**
+   ```bash
+   npx ai-elements@latest add message conversation prompt-input response
+   ```
+
+3. **Create chat API route** (`/admin/api/chat`)
+
+4. **Create AdminChat component** with sliding panel
+
+5. **Wire up tools** to existing admin APIs
+
+### Phase 4: Polish & Refinement (2-3 hours)
+
+1. Fine-tune theming for brand consistency
+2. Add remaining tools for bulk operations
+3. Implement `needsApproval` for destructive actions
+4. Add toast notifications for actions (using Sonner)
+
+---
+
+## File Structure After Migration
+
+```
+src/
+├── components/
+│   ├── ui/                    # shadcn/ui components
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── badge.tsx
+│   │   ├── switch.tsx
+│   │   ├── select.tsx
+│   │   ├── alert-dialog.tsx
+│   │   ├── skeleton.tsx
+│   │   └── ...
+│   ├── ai-elements/           # AI Elements components
+│   │   ├── message.tsx
+│   │   ├── conversation.tsx
+│   │   ├── prompt-input.tsx
+│   │   └── response.tsx
+│   └── InlineProjectSelector.tsx
+├── lib/
+│   └── utils.ts               # cn() helper
+├── app/
+│   └── admin/
+│       ├── AdminDashboard.tsx # Migrated to shadcn/ui
+│       ├── AdminChat.tsx      # New chat component
+│       ├── api/
+│       │   ├── chat/
+│       │   │   ├── route.ts   # AI chat endpoint
+│       │   │   └── tools.ts   # Tool definitions
+│       │   └── ... existing APIs
+│       └── page.tsx
+```
 
 ---
 
 ## Decision
 
-**Recommendation: IMPLEMENT (Deferred to Phase 2)**
+**Recommendation: IMPLEMENT IN PHASES**
 
-The Vercel AI SDK is well-suited for this use case. However, I recommend completing and stabilizing the current admin dashboard first, then adding the conversational UI as an enhancement.
+| Phase | Focus | Effort | Priority |
+|-------|-------|--------|----------|
+| 1 | shadcn/ui setup | 2-3 hrs | High |
+| 2 | Admin migration | 3-4 hrs | High |
+| 3 | AI SDK + Elements | 3-4 hrs | Medium |
+| 4 | Polish | 2-3 hrs | Low |
+
+**Total estimated effort:** 10-14 hours
 
 ### Rationale
-1. Core admin functionality should be solid before adding AI layer
-2. Tools will directly wrap existing API endpoints - clean separation
-3. Low risk addition that can be removed if not useful
-4. Aligns with modern UX patterns for admin interfaces
 
-### Next Steps (When Ready)
-1. Review this document and confirm approach
-2. Choose AI provider and obtain API key
-3. Implement Phase 1 foundation
-4. Evaluate usefulness before proceeding to Phase 2-3
+1. **shadcn/ui first** - Establishes design foundation, improves current UI immediately
+2. **Owned components** - No version lock-in, full customization control
+3. **AI Elements compatibility** - Built on same foundation, seamless integration
+4. **Progressive enhancement** - Each phase delivers standalone value
+5. **Project is small** - Perfect time to adopt before complexity grows
+
+### Next Steps
+
+1. Confirm you want to proceed with Phase 1
+2. Choose base color theme (recommend: Stone to match current palette)
+3. I can generate a detailed migration checklist for AdminDashboard.tsx
 
 ---
 
 ## Resources
 
+**shadcn/ui:**
+- [shadcn/ui Docs](https://ui.shadcn.com)
+- [Component Examples](https://ui.shadcn.com/examples)
+- [Themes](https://ui.shadcn.com/themes)
+- [GitHub](https://github.com/shadcn-ui/ui)
+
+**AI SDK:**
 - [Vercel AI SDK Docs](https://sdk.vercel.ai/docs)
 - [AI SDK UI - Chatbot](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot)
 - [AI SDK Tool Calling](https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling)
+
+**AI Elements:**
 - [AI Elements GitHub](https://github.com/vercel/ai-elements)
 - [AI SDK 6 Announcement](https://vercel.com/blog/ai-sdk-6)
-- [Chat SDK Template](https://vercel.com/templates/next.js/nextjs-ai-chatbot)

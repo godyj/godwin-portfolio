@@ -4,6 +4,31 @@ import { useState, useEffect, useCallback } from 'react';
 import type { ViewerAccess } from '@/lib/auth';
 import type { LockedProject, ProjectWithStatus } from '@/lib/auth/types';
 import InlineProjectSelector from '@/components/InlineProjectSelector';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
+import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 // Expiration option type
 type ExpirationOption = 'none' | '7days' | '30days' | '90days' | 'custom';
@@ -24,7 +49,12 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
 
   // Inline selection state
   const [expandedViewer, setExpandedViewer] = useState<string | null>(null);
+  const [expandedDeniedViewer, setExpandedDeniedViewer] = useState<string | null>(null);
   const [pendingSelections, setPendingSelections] = useState<Record<string, {
+    selectAll: boolean;
+    projects: Set<string>;
+  }>>({});
+  const [deniedSelections, setDeniedSelections] = useState<Record<string, {
     selectAll: boolean;
     projects: Set<string>;
   }>>({});
@@ -98,11 +128,11 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
     }
   };
 
-  const updatePendingSelection = (email: string, projects: string[]) => {
+  const updatePendingSelection = (email: string, projects: string[], selectAll: boolean) => {
     setPendingSelections(prev => ({
       ...prev,
       [email]: {
-        selectAll: projects.length === 0,
+        selectAll,
         projects: new Set(projects)
       }
     }));
@@ -285,9 +315,6 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
   };
 
   const handleRevoke = async (email: string) => {
-    if (!confirm(`Revoke access for ${email}? This will log them out of all sessions.`)) {
-      return;
-    }
     setActionLoading(email);
     try {
       const res = await fetch('/admin/api/revoke', {
@@ -305,19 +332,64 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
     }
   };
 
-  const handleApproveFromDenied = async (email: string) => {
+  const updateDeniedSelection = (email: string, projects: string[], selectAll: boolean) => {
+    setDeniedSelections(prev => ({
+      ...prev,
+      [email]: {
+        selectAll,
+        projects: new Set(projects)
+      }
+    }));
+  };
+
+  const toggleDeniedExpanded = (email: string) => {
+    if (expandedDeniedViewer === email) {
+      // Collapsing - discard pending changes
+      setExpandedDeniedViewer(null);
+      setDeniedSelections(prev => {
+        const { [email]: _, ...rest } = prev;
+        return rest;
+      });
+    } else {
+      // Expanding - initialize with empty selection
+      setDeniedSelections(prev => ({
+        ...prev,
+        [email]: {
+          selectAll: false,
+          projects: new Set<string>()
+        }
+      }));
+      setExpandedDeniedViewer(email);
+    }
+  };
+
+  const handleApproveFromDeniedWithSelection = async (email: string) => {
     setActionLoading(email);
     try {
-      const res = await fetch('/admin/api/approve', {
+      const selection = deniedSelections[email];
+      const projects = selection?.selectAll ? [] : Array.from(selection?.projects || []);
+
+      // Sequential: approve first, then set projects
+      await fetch('/admin/api/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-      if (res.ok) {
-        await fetchViewers();
-      }
+
+      await fetch('/admin/api/update-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, projects }),
+      });
+
+      await fetchViewers();
+      setExpandedDeniedViewer(null);
+      setDeniedSelections(prev => {
+        const { [email]: _, ...rest } = prev;
+        return rest;
+      });
     } catch (error) {
-      console.error('Failed to approve:', error);
+      console.error('Failed to approve from denied with selection:', error);
     } finally {
       setActionLoading(null);
     }
@@ -353,9 +425,6 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
 
   // Archive handler
   const handleArchive = async (email: string) => {
-    if (!confirm(`Archive ${email}? They will be moved to the archived list.`)) {
-      return;
-    }
     setActionLoading(email);
     try {
       const res = await fetch('/admin/api/archive', {
@@ -470,8 +539,9 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-background-page pt-[70px]">
-      <div className="max-w-4xl mx-auto px-6 py-8">
+    <TooltipProvider>
+      <div className="min-h-screen bg-white dark:bg-background-page pt-[70px]">
+        <div className="max-w-4xl mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -482,16 +552,18 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
               Logged in as {adminEmail}
             </p>
           </div>
-          <button
-            onClick={handleLogout}
-            className="text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
-          >
+          <Button variant="ghost" onClick={handleLogout}>
             Logout
-          </button>
+          </Button>
         </div>
 
         {loading ? (
-          <div className="text-center py-20 text-stone-400">Loading...</div>
+          <div className="space-y-4 py-8">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-48 w-full" />
+          </div>
         ) : (
           <>
             {/* Project Settings */}
@@ -520,21 +592,11 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                       <span className="text-sm text-stone-500">
                         {project.locked ? 'Locked' : 'Public'}
                       </span>
-                      <button
-                        onClick={() => handleToggleLock(project.id, !project.locked)}
+                      <Switch
+                        checked={project.locked}
+                        onCheckedChange={(checked) => handleToggleLock(project.id, checked)}
                         disabled={lockLoading === project.id}
-                        className={`relative w-11 h-6 rounded-full transition-colors ${
-                          project.locked
-                            ? 'bg-green-600'
-                            : 'bg-stone-300 dark:bg-stone-600'
-                        } disabled:opacity-50`}
-                      >
-                        <span
-                          className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                            project.locked ? 'left-6' : 'left-1'
-                          }`}
-                        />
-                      </button>
+                      />
                     </div>
                   </div>
                 ))}
@@ -546,9 +608,7 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
               <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-4">
                 Pending Requests
                 {pendingViewers.length > 0 && (
-                  <span className="ml-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-sm px-2 py-0.5 rounded-full">
-                    {pendingViewers.length}
-                  </span>
+                  <Badge variant="pending" className="ml-2">{pendingViewers.length}</Badge>
                 )}
               </h2>
               {pendingViewers.length === 0 ? (
@@ -582,7 +642,7 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                           lockedProjects={lockedProjects}
                           selectedProjects={viewer.requestedProject ? [viewer.requestedProject] : []}
                           requestedProject={viewer.requestedProject}
-                          onChange={(projects) => updatePendingSelection(viewer.email, projects)}
+                          onChange={(projects, selectAll) => updatePendingSelection(viewer.email, projects, selectAll)}
                         />
                       </div>
 
@@ -592,25 +652,29 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                           Access expiration:
                         </p>
                         <div className="flex flex-wrap gap-3 items-center">
-                          <select
+                          <Select
                             value={pendingExpirations[viewer.email]?.option || 'none'}
-                            onChange={(e) => setPendingExpirations(prev => ({
+                            onValueChange={(value) => setPendingExpirations(prev => ({
                               ...prev,
                               [viewer.email]: {
-                                option: e.target.value as ExpirationOption,
+                                option: value as ExpirationOption,
                                 customDate: prev[viewer.email]?.customDate || ''
                               }
                             }))}
-                            className="px-3 py-1.5 text-sm rounded border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
                           >
-                            <option value="none">No expiration</option>
-                            <option value="7days">7 days</option>
-                            <option value="30days">30 days</option>
-                            <option value="90days">90 days</option>
-                            <option value="custom">Custom date</option>
-                          </select>
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="Select expiration" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="none">No expiration</SelectItem>
+                              <SelectItem value="7days">7 days</SelectItem>
+                              <SelectItem value="30days">30 days</SelectItem>
+                              <SelectItem value="90days">90 days</SelectItem>
+                              <SelectItem value="custom">Custom date</SelectItem>
+                            </SelectContent>
+                          </Select>
                           {pendingExpirations[viewer.email]?.option === 'custom' && (
-                            <input
+                            <Input
                               type="date"
                               value={pendingExpirations[viewer.email]?.customDate || ''}
                               min={new Date().toISOString().split('T')[0]}
@@ -621,7 +685,7 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                                   customDate: e.target.value
                                 }
                               }))}
-                              className="px-3 py-1.5 text-sm rounded border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                              className="w-[180px]"
                             />
                           )}
                         </div>
@@ -629,24 +693,57 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
 
                       {/* Action buttons */}
                       <div className="flex justify-end gap-2">
-                        <button
-                          onClick={() => handleDeny(viewer.email)}
-                          disabled={actionLoading === viewer.email}
-                          className="bg-red-600 text-white px-4 py-2 text-sm font-medium rounded hover:bg-red-700 disabled:opacity-50"
-                        >
-                          {actionLoading === viewer.email ? '...' : 'Deny'}
-                        </button>
-                        <button
-                          onClick={() => handleApproveWithSelection(viewer.email)}
-                          disabled={
-                            actionLoading === viewer.email ||
-                            (!pendingSelections[viewer.email]?.selectAll &&
-                             (pendingSelections[viewer.email]?.projects.size ?? 0) === 0)
-                          }
-                          className="bg-green-600 text-white px-4 py-2 text-sm font-medium rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {actionLoading === viewer.email ? 'Approving...' : 'Approve'}
-                        </button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              disabled={actionLoading === viewer.email}
+                            >
+                              {actionLoading === viewer.email ? '...' : 'Deny'}
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Deny access request?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This will deny the access request from {viewer.email}. They will need to submit a new request if they want access in the future.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDeny(viewer.email)}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              >
+                                Deny
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span tabIndex={(!pendingSelections[viewer.email]?.selectAll && (pendingSelections[viewer.email]?.projects.size ?? 0) === 0) ? 0 : -1}>
+                              <Button
+                                size="sm"
+                                onClick={() => handleApproveWithSelection(viewer.email)}
+                                disabled={
+                                  actionLoading === viewer.email ||
+                                  (!pendingSelections[viewer.email]?.selectAll &&
+                                   (pendingSelections[viewer.email]?.projects.size ?? 0) === 0)
+                                }
+                                className="bg-green-600 hover:bg-green-700"
+                              >
+                                {actionLoading === viewer.email ? 'Approving...' : 'Approve'}
+                              </Button>
+                            </span>
+                          </TooltipTrigger>
+                          {(!pendingSelections[viewer.email]?.selectAll && (pendingSelections[viewer.email]?.projects.size ?? 0) === 0) && (
+                            <TooltipContent>
+                              Select at least one project
+                            </TooltipContent>
+                          )}
+                        </Tooltip>
                       </div>
                     </div>
                   ))}
@@ -659,9 +756,7 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
               <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-4">
                 Approved Viewers
                 {approvedViewers.length > 0 && (
-                  <span className="ml-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 text-sm px-2 py-0.5 rounded-full">
-                    {approvedViewers.length}
-                  </span>
+                  <Badge variant="approved" className="ml-2">{approvedViewers.length}</Badge>
                 )}
               </h2>
               {approvedViewers.length === 0 ? (
@@ -682,34 +777,75 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                             {getExpirationDisplay(viewer.expiresAt) && expandedViewer !== viewer.email && (
                               <>
                                 {' · '}
-                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs ${getExpirationDisplay(viewer.expiresAt)!.color}`}>
-                                  {getExpirationDisplay(viewer.expiresAt)!.text}
-                                </span>
+                                <Badge variant="expiring">{getExpirationDisplay(viewer.expiresAt)!.text}</Badge>
                               </>
                             )}
                           </p>
                         </div>
                         <div className="flex gap-2 items-center">
-                          <button
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => toggleExpanded(viewer.email)}
-                            className="px-3 py-1 text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100"
                           >
                             Edit {expandedViewer === viewer.email ? '▲' : '▼'}
-                          </button>
-                          <button
-                            onClick={() => handleArchive(viewer.email)}
-                            disabled={actionLoading === viewer.email}
-                            className="text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200 text-sm font-medium disabled:opacity-50"
-                          >
-                            Archive
-                          </button>
-                          <button
-                            onClick={() => handleRevoke(viewer.email)}
-                            disabled={actionLoading === viewer.email}
-                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium disabled:opacity-50"
-                          >
-                            {actionLoading === viewer.email ? '...' : 'Revoke'}
-                          </button>
+                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                disabled={actionLoading === viewer.email}
+                              >
+                                Archive
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Archive viewer?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This will move {viewer.email} to the archived list.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleArchive(viewer.email)}
+                                >
+                                  Archive
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                disabled={actionLoading === viewer.email}
+                                className="text-red-600 hover:text-red-700"
+                              >
+                                {actionLoading === viewer.email ? '...' : 'Revoke'}
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Revoke access?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This will revoke access for {viewer.email} and log them out of all sessions immediately.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleRevoke(viewer.email)}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  Revoke
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </div>
 
@@ -746,15 +882,15 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                       )}
 
                       {/* Expandable inline editor */}
-                      {expandedViewer === viewer.email && (
-                        <div className="mt-4 pt-4 border-t border-stone-200 dark:border-stone-700">
+                      <Collapsible open={expandedViewer === viewer.email}>
+                        <CollapsibleContent className="mt-4 pt-4 border-t border-stone-200 dark:border-stone-700">
                           <p className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">
                             Access:
                           </p>
                           <InlineProjectSelector
                             lockedProjects={lockedProjects}
                             selectedProjects={viewer.projects}
-                            onChange={(projects) => updatePendingSelection(viewer.email, projects)}
+                            onChange={(projects, selectAll) => updatePendingSelection(viewer.email, projects, selectAll)}
                           />
 
                           {/* Expiration editor */}
@@ -769,25 +905,29 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                               </div>
                             )}
                             <div className="flex flex-wrap gap-3 items-center">
-                              <select
+                              <Select
                                 value={editExpirations[viewer.email]?.option || 'none'}
-                                onChange={(e) => setEditExpirations(prev => ({
+                                onValueChange={(value) => setEditExpirations(prev => ({
                                   ...prev,
                                   [viewer.email]: {
-                                    option: e.target.value as ExpirationOption,
+                                    option: value as ExpirationOption,
                                     customDate: prev[viewer.email]?.customDate || ''
                                   }
                                 }))}
-                                className="px-3 py-1.5 text-sm rounded border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
                               >
-                                <option value="none">No expiration</option>
-                                <option value="7days">7 days from now</option>
-                                <option value="30days">30 days from now</option>
-                                <option value="90days">90 days from now</option>
-                                <option value="custom">Custom date</option>
-                              </select>
+                                <SelectTrigger className="w-[180px]">
+                                  <SelectValue placeholder="Select expiration" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="none">No expiration</SelectItem>
+                                  <SelectItem value="7days">7 days from now</SelectItem>
+                                  <SelectItem value="30days">30 days from now</SelectItem>
+                                  <SelectItem value="90days">90 days from now</SelectItem>
+                                  <SelectItem value="custom">Custom date</SelectItem>
+                                </SelectContent>
+                              </Select>
                               {editExpirations[viewer.email]?.option === 'custom' && (
-                                <input
+                                <Input
                                   type="date"
                                   value={editExpirations[viewer.email]?.customDate || ''}
                                   min={new Date().toISOString().split('T')[0]}
@@ -798,7 +938,7 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                                       customDate: e.target.value
                                     }
                                   }))}
-                                  className="px-3 py-1.5 text-sm rounded border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100"
+                                  className="w-[180px]"
                                 />
                               )}
                               {viewer.expiresAt && (
@@ -810,16 +950,28 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                           </div>
 
                           <div className="flex justify-end mt-4">
-                            <button
-                              onClick={() => saveProjectChanges(viewer.email)}
-                              disabled={!hasChanges(viewer.email) || actionLoading === viewer.email}
-                              className="bg-brand-yellow text-brand-brown-dark px-4 py-2 text-sm font-medium rounded disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              {actionLoading === viewer.email ? 'Saving...' : 'Save Changes'}
-                            </button>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span tabIndex={!hasChanges(viewer.email) ? 0 : -1}>
+                                  <Button
+                                    size="sm"
+                                    onClick={() => saveProjectChanges(viewer.email)}
+                                    disabled={!hasChanges(viewer.email) || actionLoading === viewer.email}
+                                    className="bg-brand-yellow text-brand-brown-dark hover:bg-brand-yellow/90"
+                                  >
+                                    {actionLoading === viewer.email ? 'Saving...' : 'Save Changes'}
+                                  </Button>
+                                </span>
+                              </TooltipTrigger>
+                              {!hasChanges(viewer.email) && (
+                                <TooltipContent>
+                                  No changes to save
+                                </TooltipContent>
+                              )}
+                            </Tooltip>
                           </div>
-                        </div>
-                      )}
+                        </CollapsibleContent>
+                      </Collapsible>
                     </div>
                   ))}
                 </div>
@@ -831,9 +983,7 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
               <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-4">
                 Denied
                 {deniedViewers.length > 0 && (
-                  <span className="ml-2 bg-stone-200 dark:bg-stone-700 text-stone-600 dark:text-stone-300 text-sm px-2 py-0.5 rounded-full">
-                    {deniedViewers.length}
-                  </span>
+                  <Badge variant="denied" className="ml-2">{deniedViewers.length}</Badge>
                 )}
               </h2>
               {deniedViewers.length === 0 ? (
@@ -845,32 +995,103 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                   {deniedViewers.map((viewer) => (
                     <div
                       key={viewer.email}
-                      className="flex items-center justify-between p-4 opacity-60"
+                      className="p-4 opacity-60"
                     >
-                      <div>
-                        <p className="font-medium text-stone-900 dark:text-stone-100">
-                          {viewer.email}
-                        </p>
-                        <p className="text-sm text-stone-500 dark:text-stone-400">
-                          Requested {formatDate(viewer.createdAt)}
-                        </p>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium text-stone-900 dark:text-stone-100">
+                            {viewer.email}
+                          </p>
+                          <p className="text-sm text-stone-500 dark:text-stone-400">
+                            Requested {formatDate(viewer.createdAt)}
+                          </p>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                disabled={actionLoading === viewer.email}
+                              >
+                                Archive
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Archive viewer?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This will move {viewer.email} to the archived list.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleArchive(viewer.email)}
+                                >
+                                  Archive
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => toggleDeniedExpanded(viewer.email)}
+                            disabled={actionLoading === viewer.email}
+                            className="text-green-600 hover:text-green-700"
+                          >
+                            Approve {expandedDeniedViewer === viewer.email ? '▲' : '▼'}
+                          </Button>
+                        </div>
                       </div>
-                      <div className="flex gap-2 items-center">
-                        <button
-                          onClick={() => handleArchive(viewer.email)}
-                          disabled={actionLoading === viewer.email}
-                          className="text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200 text-sm font-medium disabled:opacity-50"
-                        >
-                          Archive
-                        </button>
-                        <button
-                          onClick={() => handleApproveFromDenied(viewer.email)}
-                          disabled={actionLoading === viewer.email}
-                          className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium disabled:opacity-50"
-                        >
-                          {actionLoading === viewer.email ? '...' : 'Approve'}
-                        </button>
-                      </div>
+
+                      {/* Expandable inline project selector */}
+                      <Collapsible open={expandedDeniedViewer === viewer.email}>
+                        <CollapsibleContent className="mt-4 pt-4 border-t border-stone-200 dark:border-stone-700">
+                          <p className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">
+                            Grant access to:
+                          </p>
+                          <InlineProjectSelector
+                            lockedProjects={lockedProjects}
+                            selectedProjects={[]}
+                            onChange={(projects, selectAll) => updateDeniedSelection(viewer.email, projects, selectAll)}
+                          />
+
+                          <div className="flex justify-end gap-2 mt-4">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => toggleDeniedExpanded(viewer.email)}
+                            >
+                              Cancel
+                            </Button>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span tabIndex={(!deniedSelections[viewer.email]?.selectAll && (deniedSelections[viewer.email]?.projects.size ?? 0) === 0) ? 0 : -1}>
+                                  <Button
+                                    size="sm"
+                                    onClick={() => handleApproveFromDeniedWithSelection(viewer.email)}
+                                    disabled={
+                                      actionLoading === viewer.email ||
+                                      (!deniedSelections[viewer.email]?.selectAll &&
+                                       (deniedSelections[viewer.email]?.projects.size ?? 0) === 0)
+                                    }
+                                    className="bg-green-600 hover:bg-green-700"
+                                  >
+                                    {actionLoading === viewer.email ? 'Approving...' : 'Approve'}
+                                  </Button>
+                                </span>
+                              </TooltipTrigger>
+                              {(!deniedSelections[viewer.email]?.selectAll && (deniedSelections[viewer.email]?.projects.size ?? 0) === 0) && (
+                                <TooltipContent>
+                                  Select at least one project
+                                </TooltipContent>
+                              )}
+                            </Tooltip>
+                          </div>
+                        </CollapsibleContent>
+                      </Collapsible>
                     </div>
                   ))}
                 </div>
@@ -882,9 +1103,7 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
               <section>
                 <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-4">
                   Archived
-                  <span className="ml-2 bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-500 text-sm px-2 py-0.5 rounded-full">
-                    {archivedViewers.length}
-                  </span>
+                  <Badge variant="archived" className="ml-2">{archivedViewers.length}</Badge>
                 </h2>
                 <div className="bg-stone-50 dark:bg-stone-800/30 rounded-lg divide-y divide-stone-200 dark:divide-stone-700">
                   {archivedViewers.map((viewer) => (
@@ -900,13 +1119,14 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
                           Archived {viewer.archivedAt ? formatDate(viewer.archivedAt) : 'N/A'}
                         </p>
                       </div>
-                      <button
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => handleRestore(viewer.email)}
                         disabled={actionLoading === viewer.email}
-                        className="text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200 text-sm font-medium disabled:opacity-50"
                       >
                         {actionLoading === viewer.email ? '...' : 'Restore'}
-                      </button>
+                      </Button>
                     </div>
                   ))}
                 </div>
@@ -914,7 +1134,8 @@ export default function AdminDashboard({ adminEmail }: AdminDashboardProps) {
             )}
           </>
         )}
+        </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 }
