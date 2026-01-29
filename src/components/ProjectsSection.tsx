@@ -26,20 +26,12 @@ export default function ProjectsSection({ children }: ProjectsSectionProps) {
     const viewportHeight = window.innerHeight;
     const cardsArray = Array.from(cards);
 
-    // Check if top 2 cards are at least 40% visible
-    const topTwoCards = cardsArray.slice(0, 2);
-    const topCardsVisible = topTwoCards.every((card) => {
-      const rect = card.getBoundingClientRect();
-      const cardHeight = rect.height;
-      const visibleTop = Math.max(0, rect.top);
-      const visibleBottom = Math.min(viewportHeight, rect.bottom);
-      const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-      const visiblePercentage = visibleHeight / cardHeight;
-      return visiblePercentage >= 0.4;
-    });
+    // Check if we're meaningfully within the projects section (not just peeking)
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const inProjectsSection = containerRect.bottom > 0 && containerRect.top < viewportHeight * 0.8;
 
-    // Only count hidden cards if top 2 are sufficiently visible
-    if (!topCardsVisible) {
+    // Only show indicator when in projects section
+    if (!inProjectsSection) {
       setHiddenCount(0);
       return;
     }
@@ -47,14 +39,8 @@ export default function ProjectsSection({ children }: ProjectsSectionProps) {
     let hidden = 0;
     cardsArray.forEach((card) => {
       const rect = card.getBoundingClientRect();
-      const cardHeight = rect.height;
-      const visibleTop = Math.max(0, rect.top);
-      const visibleBottom = Math.min(viewportHeight, rect.bottom);
-      const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-      const visiblePercentage = visibleHeight / cardHeight;
-
-      // Card is 90%+ hidden below fold if less than 10% visible AND it's below viewport
-      if (visiblePercentage < 0.1 && rect.top > viewportHeight * 0.5) {
+      // Card is "below" if its top is near the bottom of viewport or beyond
+      if (rect.top > viewportHeight * 0.85) {
         hidden++;
       }
     });
